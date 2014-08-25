@@ -9,12 +9,13 @@
 #' @aliases hemaClass-package HEMACLASS hemaclass
 #' @useDynLib hemaClass
 #' @importFrom Rcpp evalCpp
+#' @importFrom RcppArmadillo armadillo_set_seed
 #' @examples
 #' # See the following for all exported functions
 #' ls("package:hemaClass")
 NULL
 
-# About "importFrom Rcpp evalCpp":
+# About "importFrom Rcpp evalCpp": and RcppArmadillo
 #
 # http://adv-r.had.co.nz/Rcpp.html#adding-rcpp-to-an-existing-package-rcpp-0.10.7
 # “We need to import something (anything) from Rcpp so that 

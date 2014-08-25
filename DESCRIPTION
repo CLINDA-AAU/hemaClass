@@ -12,8 +12,12 @@ License: file LICENSE
 Depends:
     affy
 Imports:
-    Matrix,
-    Rcpp (>= 0.10.6)
+    matrixStats,
+    preprocessCore,
+    affyio,
+    Rcpp (>= 0.10.6),
+    RcppArmadillo
 LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 Suggests:
-    testthat (>= 0.3)
+    testthat (>= 0.3),
+    MATT

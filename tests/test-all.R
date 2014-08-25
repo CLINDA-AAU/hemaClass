@@ -1,4 +1,4 @@
 library("testthat")
-library("MATT")
+library("hemaClass")
 
-test_package("MATT")
+test_package("hemaClass")
