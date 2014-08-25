@@ -1,6 +1,5 @@
 hemaClass: Classification tool for haematological diseases. 
 =================================
-[![Build Status](https://magnum.travis-ci.com/AEBilgrau/MATT.svg?token=xP7pSz5HhZ7DDZ6ySCYk&branch=master)](https://magnum.travis-ci.com/AEBilgrau/MATT)
 
 The R-package `hemaClass` is a set of tools used for classification of hematological cancers using DNA microarrays.
 
