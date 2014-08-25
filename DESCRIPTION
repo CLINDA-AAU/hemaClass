@@ -12,6 +12,7 @@ License: file LICENSE
 Depends:
     affy
 Imports:
+    shiny,
     matrixStats,
     preprocessCore,
     affyio,

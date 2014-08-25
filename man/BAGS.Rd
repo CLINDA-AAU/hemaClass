@@ -36,7 +36,7 @@ BAGS(u133)
 huex <- exprs(readRDS(system.file("extdata/GEPexon.full.rda",
                                   package = "MATT")))
 
-u133.conv  <- huex10st_to_u133(huex, method = "weighted", type = "Complex")
+u133.conv  <- huex10st_to_u133(huex, method = "weighted", type = "Complex", min.pct = 0.8)
 BAGS(u133.conv)
 }
 \author{
