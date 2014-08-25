@@ -1,0 +1,19 @@
+Package: hemaClass
+Type: Package
+Title: Classification tools for hematological diseases
+Version: 0.1
+Date: 2014-08-22
+Author: Steffen Falgreen, Anders Ellern Bilgrau
+Maintainer: Steffen Falgreen <sfl@rn.dk>
+URL: http://github.com/Falgreen/hemaClass
+BugReports: https://github.com/Falgreen/hemaClass/issues
+Description: DNA microarray based classification of hematological diseases.
+License: file LICENSE
+Depends:
+    affy
+Imports:
+    Matrix,
+    Rcpp (>= 0.10.6)
+LinkingTo: Rcpp, RcppArmadillo, RcppEigen
+Suggests:
+    testthat (>= 0.3)

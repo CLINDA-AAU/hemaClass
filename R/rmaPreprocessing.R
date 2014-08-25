@@ -1,0 +1,79 @@
+#' RMA pre-process cel files read into R using readCelfiles
+#' 
+#' Pre-process cel files according to the RMA method and create a reference for later use.
+#' 
+#' @param affy.batch An object created by readCelfiles.
+#' @param test Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.
+#' @return Expression matrix consisting of normalised array.
+#' @details Load cel files into a matrix.
+#' @references Reference to the hemaClass.com paper
+#' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
+#' (at) math.aau.dk>
+#' @examples
+#' 2+2
+#' @import preprocessCore
+#' @import matrixStats
+#' @export
+rmaPreprocessing <- function(affy.batch, test = FALSE){
+  
+  # Get the probeset information
+  probesets <- affy.batch$probesets
+  
+  #Get the pm probes
+  ref.pm   <- affy.batch$exprs
+  
+  # background correction  
+  ref.pm <- preprocessCore::rma.background.correct(ref.pm, copy = TRUE)
+  colnames(ref.pm) <- colnames(affy.batch$exprs)
+  rownames(ref.pm) <- rownames(affy.batch$exprs)
+  
+  contin = TRUE
+  if(test == TRUE){
+    wh <- apply(!is.finite(ref.pm), 2, any)
+    wh2 <- apply(is.na(ref.pm), 2, any)
+    
+    bad <- colnames(affy.batch$exprs)[wh|wh2]
+    good <- setdiff(colnames(affy.batch$exprs), bad)
+    if(length(good) > 0){
+      ref.pm <- ref.pm[, good]
+    }else{
+      warning("None of the supplied microarrays passed the quality control")
+      contin <- FALSE
+    }
+    if(length(bad) > 0)
+      warning("The following arrays were discarded: ", paste(bad, collapse = ", "))
+  }else{
+    bad <- NULL
+  }
+  if(contin){
+    # quantile normalisation
+    affy.batch <- RMA_norm(ref.pm)
+    
+    # log2 transformation of the data
+    ref.pm.log <- log2(affy.batch$exprs)
+    
+    # sort the data according the probesets
+    #ref.pm.log <- ref.pm.log[paste(unlist(probesets)),]
+    
+    # Use the Rcpp based median polish to estimate exprs levels and 
+    tmp <- RMA_sum(ref.pm.log, 
+                   probesets, rownames(ref.pm.log), 
+                   colnames(ref.pm.log))
+    
+    # estimate median for later centralisation
+    ref.median <- rowMedians(as.matrix(tmp$exprs))
+    names(ref.median) <- rownames(tmp$exprs)
+    
+    # estimate standard deviations for later normalisation
+    ref.sd <- matrixStats::rowSds(as.matrix(tmp$exprs))
+    
+    exprs.sc <- (tmp$exprs - ref.median) / ref.sd
+    
+    return(list(exprs = tmp$exprs, exprs.sc = exprs.sc,
+                quantile = affy.batch$quantile, alpha = tmp$alpha, 
+                sd = ref.sd, median = ref.median, bad = bad))
+  }else{
+    return(bad)
+  }
+}
+
