@@ -6,16 +6,72 @@ shinyUI(
     headerPanel("Hematological GEP Classification Systems"),
     
     sidebarPanel(
-      h4("Upload .CEL files"),
       
-      fileInput("refFiles", "Please choose your .CEL files to build a reference:", 
-                accept = "", multiple = TRUE),
-      actionButton("buildreferenceButton", "Build the reference"),
-      
-      fileInput("usrFiles", "Please choose your .CEL files to classify:", 
-                accept = "", multiple = TRUE),
-      actionButton("normalizeButton", "Normalize files"),
-      
+      conditionalPanel(
+        condition = "input.conditionedPanels == 'Start'",
+        h4("Upload .CEL files"),
+        
+        fileInput("usrFiles", "Please choose your .CEL files to classify:", 
+                  accept = "", multiple = TRUE),
+        
+        tags$hr() ,
+        h5("RMA Pre-processing"),
+        selectInput(
+          "ChooseMethod", "Choose method",
+          list("Please select" = "blah",
+            "Use build in reference" = "standardReference",  
+               "Build a new reference" = "build", 
+               "Upload a reference" = "upload",
+                "Cohort based RMA" = "RMA"
+          )),
+        
+        
+        conditionalPanel(
+          condition = "input.ChooseMethod == 'build'",
+          #helpText("In order to build a laboratory specific reference you need to upload .CEL files"),
+          
+          fileInput("refFiles", "In order to build a laboratory specific reference you need to upload .CEL files:", 
+                    accept = "", multiple = TRUE),
+          
+          actionButton("buildreferenceButton", "Build the reference"),
+          
+           tags$hr()  
+        ),
+        
+        conditionalPanel(
+          condition = "input.ChooseMethod == 'upload'",
+          #helpText("Upload the file containing the reference"),
+          
+          fileInput("refUpload", "Upload the file containing the reference:", 
+                    accept = "", multiple = FALSE),
+          
+          tags$hr()  
+        ),
+        
+        conditionalPanel(
+          condition = "input.ChooseMethod == 'standardReference'",
+        selectInput(
+          "ChooseReference", "Choose a reference",
+          list("LLMPP CHOP" = "LLMPPCHOP",  
+               "LLMPP R-CHOP" = "LLMPPRCHOP", 
+               "IDRC" = "IDRC", 
+               "MDFCI" = "MDFCI"
+          )),
+        tags$hr() 
+        ),
+        conditionalPanel(
+          condition = "input.ChooseMethod != 'blah'",
+          helpText("Normalise the files according to the chosen reference"),
+          actionButton("normalizeButton", "Normalize files", icon = icon("refresh"))
+        ),
+        
+        conditionalPanel(
+          condition = "input.ChooseMethod == 'build'",
+          tags$hr() ,
+          helpText("Download reference to save time"),
+          downloadButton('downloadReference', 'Download reference for later use')      
+        )
+      ),
       conditionalPanel(
         condition = "input.conditionedPanels == 'Cross tabulation'",
       
@@ -44,7 +100,7 @@ shinyUI(
       
       conditionalPanel(
         condition = "input.conditionedPanels == 'Classification results'",
-        br(),br(),h4("Classification systems:"),
+        h4("Classification systems:"),
         checkboxGroupInput("getClassifications", 
                            label = "Perform classifications:", 
                            choices = c("BAGS", "ABCGCB", "Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined"),
@@ -104,7 +160,7 @@ shinyUI(
     
     mainPanel(
       tabsetPanel(
-        tabPanel("Start", verbatimTextOutput("start")),
+        tabPanel("Start", helpText("The instructions below will aid you through the normalization process"), verbatimTextOutput("start")),
         tabPanel("Classification results",  dataTableOutput("results")),
         tabPanel("Cross tabulation",  tableOutput("xtabs")),
         tabPanel("Density plot", plotOutput("plot")),

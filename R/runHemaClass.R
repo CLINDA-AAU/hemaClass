@@ -7,5 +7,5 @@
 #' @details This is a local version of the server running on hemaclass.com
 #' @export
 runHemaClass<- function(){
-  shiny::runApp(system.file('shiny', package='hemaClass'))
+  shiny::runApp(system.file('Shiny', package='hemaClass'))
 }
