@@ -21,8 +21,9 @@
 #' 2+2
 #' @import affy
 #' @export
-readCelfiles <- function(filenames, cdfname = NULL, rm.mask=FALSE, rm.outliers=FALSE, 
-                         rm.extra=FALSE, verbose=FALSE, which= c("pm","mm","both")){
+readCelfiles <- function(filenames, cdfname = NULL, rm.mask = FALSE, 
+                         rm.outliers = FALSE, rm.extra = FALSE, verbose = FALSE, 
+                         which = c("pm", "mm", "both")) {
   
   which <- match.arg(which)
   
@@ -31,7 +32,7 @@ readCelfiles <- function(filenames, cdfname = NULL, rm.mask=FALSE, rm.outliers=F
   if (verbose)
     cat("Reading", filenames[1], "to get header information.\n")
   
-  #headdetails <- .Call("ReadHeader", filenames[1], PACKAGE="affyio")
+#  headdetails <- .Call("ReadHeader", filenames[1], PACKAGE="affyio")
   headdetails <- affyio::read.celfile.header(as.character(filenames[[1]]))
   dim.intensity <- headdetails[[2]]
   ref.cdfName <- headdetails[[1]]
@@ -39,7 +40,8 @@ readCelfiles <- function(filenames, cdfname = NULL, rm.mask=FALSE, rm.outliers=F
   if(is.null(cdfname))
     cdfname <- ref.cdfName
   
-  Data <- new("AffyBatch", cdfName = cdfname, annotation = cleancdfname(ref.cdfName, addcdf = FALSE))
+  Data <- new("AffyBatch", cdfName = cdfname, 
+              annotation = cleancdfname(ref.cdfName, addcdf = FALSE))
   
   probesets <- affy::indexProbes(Data)
   

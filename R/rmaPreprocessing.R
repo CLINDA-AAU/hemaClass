@@ -29,10 +29,10 @@ rmaPreprocessing <- function(affy.batch, test = FALSE){
   
   contin = TRUE
   if(test == TRUE){
-    wh <- apply(!is.finite(ref.pm), 2, any)
-    wh2 <- apply(is.na(ref.pm), 2, any)
+    wh  <- apply(!is.finite(ref.pm), 2, any)
+    wh2 <- apply(is.na(ref.pm),      2, any)
     
-    bad <- colnames(affy.batch$exprs)[wh|wh2]
+    bad  <- colnames(affy.batch$exprs)[wh|wh2]
     good <- setdiff(colnames(affy.batch$exprs), bad)
     if(length(good) > 0){
       ref.pm <- ref.pm[, good]
@@ -41,7 +41,7 @@ rmaPreprocessing <- function(affy.batch, test = FALSE){
       contin <- FALSE
     }
     if(length(bad) > 0)
-      warning("The following arrays were discarded: ", paste(bad, collapse = ", "))
+      warning("The following arrays were discarded: ", paste(bad,collapse=", "))
   }else{
     bad <- NULL
   }
