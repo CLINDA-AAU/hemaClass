@@ -25,8 +25,11 @@ Load cel files into a matrix.
 files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
 affy.batch <- readCelfiles(files)
 
-ref.affy  <- rmaPreprocessing(affy.batch)
-user.affy <- rmaReference(affy.batch, ref.affy)
+ref.affy   <- rmaPreprocessing(affy.batch)
+ref.affy.2 <- rmaPreprocessing(affy.batch, quantile = ref.affy$quantile)
+all(ref.affy.2$exprs - ref.affy$exprs < 0.00000001)
+
+user.affy  <- rmaReference(affy.batch, ref.affy)
 
 all(user.affy$exprs - ref.affy$exprs < 0.00000001)
 }

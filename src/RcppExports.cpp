@@ -26,14 +26,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // RMA_norm
-Rcpp::List RMA_norm(const NumericMatrix x2);
-RcppExport SEXP hemaClass_RMA_norm(SEXP x2SEXP) {
+Rcpp::List RMA_norm(const NumericMatrix x2, arma::vec quantile2, int generateQuan);
+RcppExport SEXP hemaClass_RMA_norm(SEXP x2SEXP, SEXP quantile2SEXP, SEXP generateQuanSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< const NumericMatrix >::type x2(x2SEXP );
-        Rcpp::List __result = RMA_norm(x2);
+        Rcpp::traits::input_parameter< arma::vec >::type quantile2(quantile2SEXP );
+        Rcpp::traits::input_parameter< int >::type generateQuan(generateQuanSEXP );
+        Rcpp::List __result = RMA_norm(x2, quantile2, generateQuan);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

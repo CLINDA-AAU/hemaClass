@@ -3,7 +3,7 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
-Rcpp::List RMA_norm(const NumericMatrix x2) {
+Rcpp::List RMA_norm(const NumericMatrix x2, arma::vec quantile2, int generateQuan) {
   
   NumericMatrix x = clone(x2);
   
@@ -31,8 +31,11 @@ Rcpp::List RMA_norm(const NumericMatrix x2) {
   }
   
   arma::vec quantile(n, arma::fill::none);
-  quantile = arma::mean(xnorm, 1);
   
+  if (generateQuan==1)
+    quantile = arma::mean(xnorm, 1);
+  if (generateQuan==0)
+    quantile = quantile2;
   
   NumericVector h2(n);  
   

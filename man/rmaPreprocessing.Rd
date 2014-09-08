@@ -3,7 +3,7 @@
 \alias{rmaPreprocessing}
 \title{RMA pre-process cel files read into R using readCelfiles}
 \usage{
-rmaPreprocessing(affy.batch, test = FALSE)
+rmaPreprocessing(affy.batch, test = FALSE, quantile = NULL)
 }
 \arguments{
 \item{affy.batch}{An object created by readCelfiles.}

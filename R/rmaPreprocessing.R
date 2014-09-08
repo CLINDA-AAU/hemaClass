@@ -14,7 +14,7 @@
 #' @import preprocessCore
 #' @import matrixStats
 #' @export
-rmaPreprocessing <- function(affy.batch, test = FALSE){
+rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL){
   
   # Get the probeset information
   probesets <- affy.batch$probesets
@@ -47,7 +47,14 @@ rmaPreprocessing <- function(affy.batch, test = FALSE){
   }
   if(contin){
     # quantile normalisation
-    affy.batch <- RMA_norm(ref.pm)
+    if(is.null(quantile)){
+      generateQuan <- 1
+      quantile <- rep(0, nrow(ref.pm))
+    }else{
+      generateQuan = 0
+    }
+      
+    affy.batch <- RMA_norm(ref.pm, quantile, generateQuan)
     
     # log2 transformation of the data
     ref.pm.log <- log2(affy.batch$exprs)
