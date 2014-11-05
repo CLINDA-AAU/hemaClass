@@ -12,9 +12,12 @@
 #'   DoxorubicinPredictor
 #'   VincristineClassifier
 #'   VincristinePredictor
+#'   RituximabClassifier
+#'   RituximabPredictor
 #' @param new.data An expression matrix.
 #' @param drugs An RMA reference object created by rmaPreprocessing.
 #' @param cut Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.
+#' @param type For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, and lysis
 #' @return Expression matrix consisting of normalised array.
 #' @details Load cel files into a matrix.
 #' @references Reference to the hemaClass.com paper.
@@ -28,14 +31,17 @@
 #' u133 <- microarrayScale(u133)
 #' 
 #' ResistanceClassifier(u133)
-#' ResistancePredictor(u133) 
+#' ResistancePredictor(u133)
+#' RituximabClassifier(u133, type = "lysis") 
+#' RituximabClassifier(u133, type = "uncorrected") 
+#' RituximabClassifier(u133, type = "corrected") 
 #' 
 #' huex <- exprs(readRDS(system.file("extdata/GEPexon.full.rda", 
 #'                                   package = "MATT")))
 #'
 #' u133.conv  <- huex10st_to_u133(huex, method = "weighted", type = "Complex")
-#' ResistanceClassifier(u133.conv)  
-#'                                                                                                                       
+#' ResistanceClassifier(u133.conv)                       
+#'                                                                                                                                                                                                                          
 #' @export
 ResistanceClassifier <- function(new.data, 
                                  drugs = c("Cyclophosphamide", 
@@ -61,6 +67,7 @@ ResistanceClassifier <- function(new.data,
                             apply(1-train.mat, 1, prod)))
     colnames(train.mat) <- drugs
   }
+  
   cut <- cut[drugs]
   
   class <- train.mat
@@ -130,7 +137,7 @@ ResistancePredictor <- function(new.data,
            levels= c("Sensitive","Intermediate", "Resistant"))
   
   return(list(class = class, 
-              prob  = train.mat,
+              pred  = train.mat,
               cut   = cut))
 }
 
@@ -261,3 +268,94 @@ ResistanceProbFun <- function(newx, drugs = c("Cyclophosphamide", "Doxorubicin",
 }
 
 
+
+#' @rdname REGS
+#' @export
+RituximabClassifier <-
+  function(new.data, type = "corrected", cut = c(0.33, 0.66), 
+           cut.spec = NULL, percent.classified = 85){
+    
+    if(type == "lysis"){
+      
+      new.data[is.na(new.data)] <- 0
+      
+      train.mat <- RituximabProbFun(new.data)
+      
+      if(nrow(new.data) > 1){
+        class <- colnames(train.mat)[apply(train.mat, 1, which.max)]
+      }else{
+        class <- names(which.max(train.mat))
+      }
+      
+      if(nrow(new.data) > 1){
+        prob = apply(train.mat, 1, max)
+        if(is.null(cut.spec))
+          cut <- quantile(prob, 1-percent.classified / 100)    
+      }else{
+        cut <- 0
+        prob = max(train.mat)
+      }
+      
+      if(!is.null(cut.spec)) cut <- cut.spec
+      
+      class.pred <- class
+      
+      class <- factor(ifelse(prob < cut, "Unclassified", class),
+                      levels = c("Lytisk", "Statisk", "Resistant", "Unclassified"))
+      
+      return(list(class = class, 
+                  prob = train.mat,
+                  cut   = cut)
+      )
+        
+    }else{
+      
+      if(type == "uncorrected")
+        coef <- readRituximabClasCoef()
+      if(type == "corrected")
+        coef <- readRituximabClasCorCoef()
+      
+      x <- rbind(1, new.data[names(coef)[-1],,drop= FALSE])
+      
+      prob <- t(x) %*% as.matrix((coef)  )
+      
+      prob <- exp(prob) / ( exp(prob) + exp(-prob))
+      colnames(prob) <- "Resistant"
+      prob
+      
+    }
+  }
+
+#' @rdname REGS
+#' @export
+RituximabPredictor <- 
+  function(new.data, type = "corrected"){
+    if(type == "uncorrected")
+      coef <- readRituximabPredCoef()
+    if(type == "corrected")
+      coef <- readRituximabPredCorCoef()
+    
+    x <- rbind(1, new.data[names(coef)[-1],,drop= FALSE])
+    
+    t(x) %*% as.matrix((coef))
+  }
+
+
+RituximabProbFun <- function(newx){
+ 
+  coef <- readRituximabClasLytiskCoef()
+  
+  x <- rbind(1, newx[row.names(coef)[-1],,drop= FALSE])
+  
+  prob.mat <- matrix(ncol = 3, nrow = ncol(x))
+  
+  colnames(prob.mat) <- c("Lytisk", "Statisk", "Resistant")
+  
+  rownames(prob.mat) <- colnames(x)
+  prob.mat[,1] <- t(x)%*%(as.matrix(coef)[,"Lytisk"]) 
+  prob.mat[,2] <- t(x)%*%(as.matrix(coef)[,"Statisk"]) 
+  prob.mat[,3] <- t(x)%*%(as.matrix(coef)[,"Resistant"]) 
+  
+  prob.mat <- exp(prob.mat)
+  prob.mat / rowSums(prob.mat)
+}

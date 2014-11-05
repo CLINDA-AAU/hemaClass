@@ -84,3 +84,48 @@ readVincristinePredCoef <- function() {
   return(readRDS(file))
 }
 
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readRituximabClasCoef())
+#' @export
+readRituximabClasCoef <- function() {
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readRituximabPredCoef())
+#' @export
+readRituximabPredCoef <- function() {
+  file <- system.file("extdata/Drugs/Rituximab.resistance.pred.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readRituximabClasCorCoef())
+#' @export
+readRituximabClasCorCoef <- function() {
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Cor.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readRituximabPredCorCoef())
+#' @export
+readRituximabPredCorCoef <- function() {
+  file <- system.file("extdata/Drugs/Rituximab.resistance.pred.Cor.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readRituximabClasLytiskCoef())
+#' @export
+readRituximabClasLytiskCoef <- function() {
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
