@@ -34,10 +34,11 @@ VincristineClassifier(new.data)
 
 VincristinePredictor(new.data)
 
-RituximabClassifier(new.data, type = "corrected", cut.spec = NULL,
-  percent.classified = 85)
+RituximabClassifier(new.data, type = "corrected", cut = c(0.33, 0.66),
+  calc.cut = NULL, cut.spec = NULL, percent.classified = 85)
 
-RituximabPredictor(new.data, type = "corrected")
+RituximabPredictor(new.data, type = "corrected", cut = c(0.33, 0.66),
+  calc.cut = NULL)
 }
 \arguments{
 \item{new.data}{An expression matrix.}
@@ -46,7 +47,13 @@ RituximabPredictor(new.data, type = "corrected")
 
 \item{cut}{Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.}
 
-\item{type}{For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, and lysis}
+\item{type}{For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, and lysis.}
+
+\item{calc.cut}{For Rituximab, calculate the cutpoints according to proportions in the data. E.g. calc.cut = c(0.33, 0.66) means that a third is deemed sensitive, intermediate, and resistant respectively.}
+
+\item{cut.spec}{For the lysis type rituximab classifier specify the cut point for unclassified.}
+
+\item{percent.classified}{For the lysis type rituximab classifier specify the percentage of unclassified.}
 }
 \value{
 Expression matrix consisting of normalised array.
@@ -66,7 +73,9 @@ u133 <- microarrayScale(u133)
 
 ResistanceClassifier(u133)
 ResistancePredictor(u133)
-RituximabClassifier(u133, type = "lysis")
+RituximabClassifier(u133, type = "lysis", percent.classified = 100)
+RituximabClassifier(u133, type = "uncorrected", calc.cut = c(0.33, 0.66))
+RituximabClassifier(u133, type = "corrected")
 
 huex <- exprs(readRDS(system.file("extdata/GEPexon.full.rda",
                                   package = "MATT")))

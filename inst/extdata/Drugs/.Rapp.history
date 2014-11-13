@@ -1,0 +1,10 @@
+load("/Users/Falgreen/Documents/R-packages/hemaClass/inst/extdata/Drugs/Vincristine.resistance.class.coef.rda")
+load("/Users/Falgreen/Documents/R-packages/hemaClass/inst/extdata/Drugs/Vincristine.resistance.class.coef.rda")
+load("/Users/Falgreen/Documents/R-packages/hemaClass/inst/extdata/Drugs/Vincristine.resistance.class.coef.rda")
+require(hamaClass)
+require(hemaClass)
+readCyclophosphamideClasCoef()
+read("/Users/Falgreen/Documents/R-packages/hemaClass/inst/extdata/Drugs/Vincristine.resistance.class.coef.rda")
+read.rds("/Users/Falgreen/Documents/R-packages/hemaClass/inst/extdata/Drugs/Vincristine.resistance.class.coef.rda")
+read.RDS("/Users/Falgreen/Documents/R-packages/hemaClass/inst/extdata/Drugs/Vincristine.resistance.class.coef.rda")
+readCyclophosphamideClasCoef

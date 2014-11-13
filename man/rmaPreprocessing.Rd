@@ -9,6 +9,8 @@ rmaPreprocessing(affy.batch, test = FALSE, quantile = NULL)
 \item{affy.batch}{An object created by readCelfiles.}
 
 \item{test}{Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.}
+
+\item{quantile}{Specify a vector of quantiles that the data should be normalized to.}
 }
 \value{
 Expression matrix consisting of normalised array.

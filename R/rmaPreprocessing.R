@@ -4,6 +4,7 @@
 #' 
 #' @param affy.batch An object created by readCelfiles.
 #' @param test Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.
+#' @param quantile Specify a vector of quantiles that the data should be normalized to.
 #' @return Expression matrix consisting of normalised array.
 #' @details Load cel files into a matrix.
 #' @references Reference to the hemaClass.com paper
