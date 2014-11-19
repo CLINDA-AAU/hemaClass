@@ -1,9 +1,10 @@
-citHeader("Thanks for using the MATT package!",
+citHeader("Thanks for using the hemaClass package!",
           "We have invested a lot of time and effort this package,",
           "so please cite it if you are using it. Thanks!")
 
 citEntry(entry = "Manual",
-         title = "MATT: Fast, efficient, and robust microarray translation",
+         title = paste("hemaClass: Online classification of gene expression",
+                       " profiles in hematological cancers."),
          author = personList(person(family="Larsen", 
                                     given="Steffen", 
                                     middle="Falgreen", 
@@ -12,14 +13,15 @@ citEntry(entry = "Manual",
                                     given="Anders", 
                                     middle="Ellern", 
                                     email="abilgrau@math.aau.dk")),
-         url = "http://github.com/AEBilgrau/correlateR",
+         url = "http://github.com/falgreen/hemaClass",
          year = "2014",
-         textVersion = paste("Falgreen, Steffen; Bilgrau, Anders; MATT: Fast,",
-                             "efficient, and robust microarray translation;",
-                             "http://github.com/AEBilgrau/MATT"))
+         textVersion = paste("Falgreen, Steffen; Bilgrau, Anders; hemaClass:",
+                             "Online classification of gene expression ",
+                             "profiles in hematological cancers. (2014)",
+                             "http://github.com/falgreen/hemaClass"))
 
 
 citFooter("Suggestions for improvements, comments, and bug",
           "reports are very welcome at",
-          "http://github.com/AEBilgrau/MATT/issues")
+          "http://github.com/falgreen/hemaClass/issues")
  
