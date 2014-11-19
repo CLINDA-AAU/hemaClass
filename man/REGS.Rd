@@ -47,7 +47,7 @@ RituximabPredictor(new.data, type = "corrected", cut = c(0.33, 0.66),
 
 \item{cut}{Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.}
 
-\item{type}{For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, and lysis.}
+\item{type}{For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, lysis, and lysis2.}
 
 \item{calc.cut}{For Rituximab, calculate the cutpoints according to proportions in the data. E.g. calc.cut = c(0.33, 0.66) means that a third is deemed sensitive, intermediate, and resistant respectively.}
 

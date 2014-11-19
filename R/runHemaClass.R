@@ -9,3 +9,8 @@
 runHemaClass<- function(){
   shiny::runApp(system.file('Shiny', package='hemaClass'))
 }
+
+#' @export
+runHemaClass2<- function(){
+  shiny::runApp(system.file('Shiny2', package='hemaClass'))
+}

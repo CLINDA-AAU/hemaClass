@@ -17,7 +17,7 @@
 #' @param new.data An expression matrix.
 #' @param drugs An RMA reference object created by rmaPreprocessing.
 #' @param cut Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.
-#' @param type For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, and lysis.
+#' @param type For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, lysis, and lysis2.
 #' @param calc.cut For Rituximab, calculate the cutpoints according to proportions in the data. E.g. calc.cut = c(0.33, 0.66) means that a third is deemed sensitive, intermediate, and resistant respectively.
 #' @param cut.spec For the lysis type rituximab classifier specify the cut point for unclassified.
 #' @param percent.classified For the lysis type rituximab classifier specify the percentage of unclassified.
@@ -281,11 +281,11 @@ RituximabClassifier <-
            calc.cut = NULL,
            cut.spec = NULL, percent.classified = 85){
     
-    if(type == "lysis"){
+    if(grepl("lysis", type)){
       
       new.data[is.na(new.data)] <- 0
       
-      train.mat <- RituximabProbFun(new.data)
+      train.mat <- RituximabProbFun(new.data, type = type)
       
       if(nrow(new.data) > 1){
         class <- colnames(train.mat)[apply(train.mat, 1, which.max)]
@@ -398,9 +398,12 @@ RituximabPredictor <-
   }
 
 
-RituximabProbFun <- function(newx){
+RituximabProbFun <- function(newx, type = "lysis"){
  
-  coef <- readRituximabClasLytiskCoef()
+  if(type == "lysis")
+    coef <- readRituximabClasLytiskCoef()
+  if(type == "lysis2")
+    coef <- readRituximabClasLytisk2Coef()
   
   x <- rbind(1, newx[row.names(coef)[-1],,drop= FALSE])
   

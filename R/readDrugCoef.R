@@ -129,3 +129,8 @@ readRituximabClasLytiskCoef <- function() {
   file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk.coef.rda", package = "hemaClass")
   return(readRDS(file))
 }
+
+readRituximabClasLytisk2Coef <- function() {
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk2.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
