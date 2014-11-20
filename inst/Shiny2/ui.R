@@ -108,29 +108,7 @@ shinyUI(
                    )), 
                  
                  
-                 
-                 
-                 ## Metadata
-                 
-                 #                  tabPanel( 
-                 #                    'Meta data', 
-                 #                    sidebarLayout(        
-                 #                      sidebarPanel(
-                 #                        h4("Upload metadata"),
-                 #                        
-                 #                        fileInput("usrMeta", "Please upload the file storing the metadata", 
-                 #                                  accept = "", multiple = FALSE)
-                 #                        
-                 #                     ), 
-                 #                      mainPanel(
-                 #                        helpText("The Output below shows how the data is read.")
-                 #                      )
-                 #                      
-                 #                    )),
-                 
-                 
-                 
-                 
+                            
                  navbarMenu( 
                    'Meta data', 
                    tabPanel('Upload meta data', 
@@ -148,10 +126,19 @@ shinyUI(
                    ), 
                    tabPanel('Input manually', 
                             sidebarLayout( 
-                              sidebarPanel('another panel'), 
+                              sidebarPanel(
+                                helpText("You may also calculate IPI from clinical features."),
+                                checkboxInput(inputId = "IPIcalc",
+                                              label = "Calculate IPI", value = FALSE)
+                                ), 
                               mainPanel(
-                                div(class="well container-fluid"
-                                    ,hotable("hotable1"))
+                                conditionalPanel(
+                                  condition = "input.IPIcalc",
+                                  div(class="well container-fluid",
+                                      hotable("hotableClinical"))
+                                ),
+                                div(class="well container-fluid",
+                                    hotable("hotableIPI"))
                               )) 
                    ) 
                  ),

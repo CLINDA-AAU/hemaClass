@@ -22,16 +22,80 @@ shinyServer(function(input, output, session) {
   results <- list()
     
   # hotable
-  output$hotable1 <- renderHotable({
-    head(iris)
+  output$hotableIPI <- renderHotable({ 
+    fileInfo <- input$usrFiles
+    if(!is.null(fileInfo$name)){
+      if(input$IPIcalc){
+        data <- hot.to.df(input$hotableIPI)
+        
+        if(!is.null(hot.to.df(input$hotableClinical))){
+          data$IPI <- IPIreactive()        
+        }
+        data
+      }else{
+        
+        data <- matrix(NaN, ncol =  2, nrow = length(fileInfo$name), 
+                       dimnames = list(fileInfo$name, c("Patient","IPI")))
+        data <- as.data.frame(data)
+        data$Patient <- fileInfo$name
+        data
+      }
+    }else{
+      data <- matrix(NaN, ncol =  2, nrow = length(fileInfo$name), 
+                     dimnames = list(fileInfo$name, c("Patient","IPI")))
+      as.data.frame(data)
+    }
+  }, readOnly = FALSE)
+  
+  observe({    
+    df <- hot.to.df(input$hotableIPI)
+    print(df)
+  })
+  
+  output$hotableClinical <- renderHotable({  
+    fileInfo <- input$usrFiles
+    if(!is.null(fileInfo$name)){
+      if(!exists("input$hotableClinical")){        
+        data <- matrix(NaN, ncol =  6, nrow = length(fileInfo$name), 
+                       dimnames = list(fileInfo$name, c("Patient", "Age", "ECOG", "LDH", "N.Extra.Nodal", "Stage")))
+        data <- as.data.frame(data)
+        data$Patient <- fileInfo$name
+        data
+      }else{
+        old.data <- hot.to.df(input$hotableClinical)
+        data <- matrix(NaN, ncol =  6, nrow = length(fileInfo$name), 
+                       dimnames = list(fileInfo$name, c("Patient", "Age", "ECOG", "LDH", "N.Extra.Nodal", "Stage")))
+        data <- as.data.frame(data)
+        data$Patient <- fileInfo$name
+        
+        int <- intersect(old.data$Patient, data$Patient)
+        
+        if(length(int))
+          data[int, ] <- old.data[int, ]
+      }
+    }else{
+      data <- matrix(NaN, ncol =  6, nrow = length(fileInfo$name), 
+                   dimnames = list(fileInfo$name, c("Patient", "Age", "ECOG", "LDH", "N.Extra.Nodal", "Stage")))
+      as.data.frame(data)
+    }
   }, readOnly = FALSE)
   
   observe({
-    df <- hot.to.df(input$hotable1)
-    print(head(df))
+    df <- hot.to.df(input$hotableClinical)
+    print(df)
   })
   
+  IPIreactive <- reactive({   
+    data <- hot.to.df(input$hotableClinical)
+    a <- ifelse(data$Age            >  60, 1, 0)
+    b <- ifelse(data$ECOG           >   1, 1, 0)
+    c <- ifelse(data$N.Extra.Nodal  >=  2, 1, 0)
+    d <- ifelse(data$Stage          >   2, 1, 0)
+    e <- ifelse(data$LDH            >   1, 1, 0)
+    rowSums(data.frame(a, b, c, d, e))
+  })
   
+ 
   createReferenceAffy <- reactive({
     # Use isolate() to avoid dependency on input$refFiles
     isolate({
