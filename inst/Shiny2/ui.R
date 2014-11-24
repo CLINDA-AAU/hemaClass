@@ -129,13 +129,32 @@ shinyUI(
                               sidebarPanel(
                                 helpText("You may also calculate IPI from clinical features."),
                                 checkboxInput(inputId = "IPIcalc",
-                                              label = "Calculate IPI", value = FALSE)
-                                ), 
-                              mainPanel(
+                                              label = "Calculate IPI", value = FALSE),
                                 conditionalPanel(
                                   condition = "input.IPIcalc",
+                                  helpText("You may change the settings for the IPI calculation."),
+                                  numericInput(inputId = "AGE.cut", label = "Get point when age > x", 60),
+                                  numericInput(inputId = "ECOG.cut", label = "Get point when ECOG > x", 1),
+                                  numericInput(inputId = "LDH.cut", label = "Get point when LDH > x", 1),                                  
+                                  numericInput(inputId = "N.Extra.Nodal.cut", label = "Get point when number of extra nodal sites > x", 1),
+                                  numericInput(inputId = "Stage.cut", label = "Get point when Stage > x", 2)
+                                  
+                                )
+                                ), 
+                              mainPanel(
+                                
+                                shinyalert("shinyalertInputMeta", click.hide = FALSE),
+                                
+                                conditionalPanel(
+                                  condition = "input.IPIcalc",
+                                  helpText("Input the clinical features for each patien below."),
                                   div(class="well container-fluid",
-                                      hotable("hotableClinical"))
+                                      hotable("hotableClinical")),
+                                  helpText("The calculated IPI values are shown below.")
+                                ),
+                                conditionalPanel(
+                                  condition = "!input.IPIcalc",
+                                  helpText("Input the IPI scores for each patient below.")
                                 ),
                                 div(class="well container-fluid",
                                     hotable("hotableIPI"))
