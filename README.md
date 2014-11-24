@@ -33,8 +33,11 @@ install.packages("RcppArmadillo")
 install.packages("RcppEigen")
 install.packages("testthat")
 
+# From GitHub 
+install.packages("devtools")  # Uncomment if devtools is not installed
+devtools::install_github("AnalytixWare/ShinySky")
+
 # Finally the package is installed.
-#install.packages("devtools")  # Uncomment if devtools is not installed
 devtools::install_github("Falgreen/hemaClass", 
                          auth_token = "...", 
                          dependencies = TRUE)

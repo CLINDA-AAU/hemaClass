@@ -14,6 +14,8 @@
 #' @references Reference to the BAGS and hemaClass paper.
 #' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
 #' (at) math.aau.dk>
+#' @import shinysky
+#' @import shiny
 #' @examples
 #' require(affy)
 #' require(MATT)
