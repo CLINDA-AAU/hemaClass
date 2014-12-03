@@ -10,9 +10,14 @@ shinyUI(
                navlistPanel(
                  "Information:",
                  tabPanel("hemaClass", h3("GEP Based Classification of DLBCL Patients"),
+                          
                           p("This homepage is dedicated to classification of DLBCL", 
                             "patients according various classifications algorithms." )),
-                 tabPanel("News"),
+                 
+                 tabPanel("News",
+                          includeHTML("www/ex1.html")
+                          ),
+                 
                  tabPanel("Authors"),
                  tabPanel("Citation"),
                  tabPanel("Papers"),
@@ -89,7 +94,8 @@ shinyUI(
                          tags$hr() 
                        ),
                        conditionalPanel(
-                         condition = "input.ChooseMethod != 'blah'",
+                         #condition = "input.ChooseMethod != 'blah'",
+                         condition = "output.showNormButton!=0",
                          helpText("Normalise the files according to the chosen reference"),
                          actionButton("normalizeButton", "Normalize files", icon = icon("refresh"))
                        ),
@@ -97,30 +103,44 @@ shinyUI(
                        conditionalPanel(
                          condition = "input.ChooseMethod == 'build'",
                          tags$hr() ,
-                         helpText("Download reference to save time"),
+                         helpText("Download reference to save time on next run"),
                          downloadButton('downloadReference', 'Download reference for later use')      
                        )), 
                      mainPanel(
-                       helpText("The instructions below will aid you through the normalization process"), 
-                       verbatimTextOutput("start") 
+                       #helpText("The instructions below will aid you through the normalization process"), 
+                       shinyalert("shinyalertUploadCel", click.hide = FALSE),
+                       shinyalert("shinyalertUploadCelSucces", auto.close.after = 10),
+                       shinyalert("shinyalertSelectReferenceSucess", auto.close.after = 10),
+                       shinyalert("shinyalertSelectReference", click.hide = FALSE),
+                       shinyalert("shinyalertNormalizationSuccess", click.hide = FALSE),
+                      
+                       conditionalPanel(
+                         condition = "output.showErrorprints!=0",
+                       verbatimTextOutput("start"), 
+                       verbatimTextOutput("start2"), 
+                       verbatimTextOutput("showNormButton"),
+                       verbatimTextOutput("showErrorprints"))
                      )
                      
                    )), 
                  
                  
-                            
+                 
                  navbarMenu( 
                    'Meta data', 
                    tabPanel('Upload meta data', 
                             sidebarPanel(
-                              h4("Upload file"),
+                              h4("Upload file containing meta data"),
                               
                               fileInput("usrMeta", "Please upload the file storing the metadata", 
                                         accept = "", multiple = FALSE)
                               
                             ), 
                             mainPanel(
+                              shinyalert("shinyalertUploadMeta", click.hide = FALSE),
+                              
                               helpText("The Output below shows how the data is read.")
+                              
                             )
                             
                    ), 
@@ -140,7 +160,7 @@ shinyUI(
                                   numericInput(inputId = "Stage.cut", label = "Get point when Stage > x", 2)
                                   
                                 )
-                                ), 
+                              ), 
                               mainPanel(
                                 
                                 shinyalert("shinyalertInputMeta", click.hide = FALSE),
@@ -166,87 +186,107 @@ shinyUI(
              
              
              tabPanel( 
-               'Classification results', 
-               # headerPanel("The resulting classification"),
-               sidebarLayout(       
-                 sidebarPanel(
-                   condition = "input.conditionedPanels == 'Classification results'",
-                   h4("Classification systems:"),
-                   checkboxGroupInput("getClassifications", 
-                                      label = "Perform classifications:", 
-                                      choices = c("BAGS", "ABCGCB", "Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined"),
-                                      selected = c("BAGS", "ABCGCB","Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined")),
-                   
-                   
-                   conditionalPanel(
-                     condition = "input.getClassifications.indexOf('ABCGCB') != -1",
-                     h4("ABC/GCB options:"),
-                     sliderInput("nc.range", "ABC/GCB, range of non classified:", step = 0.01,
-                                 min = 0, max = 1, value = c(0.1,0.9))
-                   ),
-                   
-                   
-                   conditionalPanel(
-                     condition = "input.getClassifications.indexOf('Cyclophosphamide') != -1",
-                     h4("Cyclophosphamide options:"),
-                     sliderInput("Cyclophosphamide.range", "Cyclophosphamide, range of intermediate:", step = 0.01,
-                                 min = 0, max = 1, value = c(0.46,0.67))
-                   ),
-                   
-                   conditionalPanel(
-                     condition = "input.getClassifications.indexOf('Doxorubicin') != -1",
-                     h4("Doxorubicin options:"),
-                     sliderInput("Doxorubicin.range", "Doxorubicin, range of intermediate:", step = 0.01,
-                                 min = 0, max = 1, value = c(0.1, 0.86))
-                   ),
-                   
-                   conditionalPanel(
-                     condition = "input.getClassifications.indexOf('Vincristine') != -1",
-                     h4("Vincristine options:"),
-                     sliderInput("Vincristine.range", "Vincristine, range of intermediate:", step = 0.01,
-                                 min = 0, max = 1, value =  c(0.38, 0.54))
-                   ),
-                   
-                   conditionalPanel(
-                     condition = "input.getClassifications.indexOf('Combined') != -1",
-                     h4("Combined options:"),
-                     sliderInput("Combined.range", "Combined, range of intermediate:", step = 0.01,
-                                 min = 0, max = 1, value = c(0.07,0.91))
-                   ),
-                   
-                   br(),br(),
-                   downloadButton('downloadData', 'Download classification results')
-                 ), 
-                 mainPanel(dataTableOutput("results")) 
+               'Results', 
+               
+               navbarPage( 
+                 
+                 'Classification results', 
+                 
+                 tabPanel( 
+                   'Estimated probabilities', 
+                   # headerPanel("The resulting classification"),
+                   sidebarLayout(       
+                     sidebarPanel(
+                       condition = "input.conditionedPanels == 'Classification results'",
+                       h4("Classification systems:"),
+                       checkboxGroupInput("getClassifications", ,
+                                          label = "Perform classifications:", 
+                                          choices = c("BAGS", "ABCGCB", "Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined"),
+                                          selected = c("BAGS")),
+                       
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('ABCGCB') != -1",
+                         h4("ABC/GCB options:"),
+                         sliderInput("nc.range", "ABC/GCB, range of non classified:", step = 0.01,
+                                     min = 0, max = 1, value = c(0.1,0.9))
+                       ),
+                       
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('Cyclophosphamide') != -1",
+                         h4("Cyclophosphamide options:"),
+                         sliderInput("Cyclophosphamide.range", "Cyclophosphamide, range of intermediate:", step = 0.01,
+                                     min = 0, max = 1, value = c(0.46,0.67))
+                       ),
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('Doxorubicin') != -1",
+                         h4("Doxorubicin options:"),
+                         sliderInput("Doxorubicin.range", "Doxorubicin, range of intermediate:", step = 0.01,
+                                     min = 0, max = 1, value = c(0.1, 0.86))
+                       ),
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('Vincristine') != -1",
+                         h4("Vincristine options:"),
+                         sliderInput("Vincristine.range", "Vincristine, range of intermediate:", step = 0.01,
+                                     min = 0, max = 1, value =  c(0.38, 0.54))
+                       ),
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('Combined') != -1",
+                         h4("Combined options:"),
+                         sliderInput("Combined.range", "Combined, range of intermediate:", step = 0.01,
+                                     min = 0, max = 1, value = c(0.07,0.91))
+                       ),
+                       
+                       br(),br(),
+                       downloadButton('downloadData', 'Download classification results')
+                     ), 
+                     mainPanel(shinyalert("shinyalertResults", click.hide = FALSE),
+                               dataTableOutput("results")) 
+                   )),
+                 tabPanel( 
+                   'Patient summaries'
+                 ),
+                 tabPanel( 
+                   'Prognostics'
+                 )
                )), 
              
              
              
-             tabPanel("test",
-                      navbarPage( 
-                        
-                        'testapp', 
-                        
-                        tabPanel( 
-                          'Other Panel', 
-                          sidebarLayout( 
-                            sidebarPanel('test'), 
-                            mainPanel() 
-                          )), 
-                        
-                        navbarMenu( 
-                          'menu', 
-                          tabPanel('test_panel_1', sidebarLayout( 
-                            sidebarPanel('one panel'), 
-                            mainPanel() 
-                          )), 
-                          tabPanel('test_panel_2', sidebarLayout( 
-                            sidebarPanel('another panel'), 
-                            mainPanel() 
-                          )) 
-                        ))),
-             br(),br(),br(),br(),br(),br(),br(),br(),
-             id = "navbarPanels",
+             navbarMenu( 
+               'Survival Analysis', 
+               tabPanel('Info', sidebarLayout( 
+                 sidebarPanel('one panel'), 
+                 mainPanel() 
+               )), 
+               tabPanel('Descriptive', navbarPage(
+                 'Descriptive',
+                 tabPanel( 'Kaplan-Meier', sidebarLayout( 
+                   sidebarPanel('one panel'), 
+                   mainPanel() 
+                 )),
+                 tabPanel('Cumulative incidens',sidebarLayout( 
+                   sidebarPanel('one panel'), 
+                   mainPanel() 
+                 )) 
+               )),
+               tabPanel('Cox regression', navbarPage(
+                 'Proportional hazards',
+                 tabPanel( 'Analysis', sidebarLayout( 
+                   sidebarPanel('one panel'), 
+                   mainPanel() 
+                 )),
+                 tabPanel('Model control',sidebarLayout( 
+                   sidebarPanel('one panel'), 
+                   mainPanel() 
+                 )) 
+               ))),
+               br(),br(),br(),br(),br(),br(),br(),br(),
+               id = "navbarPanels",
              windowTitle = "hemaClass",
              inverse = TRUE,
              fluid = TRUE,

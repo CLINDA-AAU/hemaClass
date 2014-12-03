@@ -11,7 +11,12 @@
 #' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
 #' (at) math.aau.dk>
 #' @examples
-#' 2+2
+#' 
+#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+#' affyBatch <- readCelfiles(filenames = files[1])
+#' 
+#' affyRMA <- rmaPreprocessing(affyBatch)
+#' 
 #' @import preprocessCore
 #' @import matrixStats
 #' @export
