@@ -2,6 +2,7 @@
 #devtools::install_github("shiny", "rstudio")
 #devtools::install_github("shiny-incubator", "rstudio")
 library(shiny)
+library(tools)
 library(hemaClass)
 #devtools::install_github("AnalytixWare/ShinySky")
 library(shinysky)
@@ -22,7 +23,7 @@ shinyServer(function(input, output, session) {
   user.affy <- NULL
   results <- list()
   
-  GOforReference <<- FALSE
+  GOforReference <- FALSE
   
   #   observe({
   #     df <- hot.to.df(input$hotableClinical)
@@ -31,96 +32,10 @@ shinyServer(function(input, output, session) {
   
   
   
-  observe({
-    if (is.null(input$usrFiles)) {
-      showshinyalert(session, "shinyalertUploadCel",  HTML(paste("No .CEL files chosen!", 
-                                                                 "Please press 'Choose files' and select the CEL files you want to classify.", sep="<br/>")), 
-                     styleclass = "info")
-      showshinyalert(session, "shinyalertInputMeta", paste("Warning: You need to upload CEL files first"), 
-                     styleclass = "warning")
-      showshinyalert(session, "shinyalertUploadMeta", paste("Warning: You need to upload CEL files first"), 
-                     styleclass = "warning")
-      showshinyalert(session, "shinyalertResults", paste('Warning: You need to upload CEL files first. You can do this at "Load data".'), 
-                     styleclass = "warning")
-    }else{
-      fileInfo <- input$usrFiles
-      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
-        
-        showshinyalert(session, "shinyalertUploadCel",  HTML(paste("Not all chosen files are .CEL files.",
-                                                                   "Please upload your CEL files again.", sep="<br/>")),
-                       styleclass = "error")
-      }else{
-        hideshinyalert(session, "shinyalertUploadCel")
-        showshinyalert(session, "shinyalertUploadCelSucces", paste("You have succesfully uploaded", 
-                                                                   length(fileInfo$name), 
-                                                                   ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
-                       styleclass = "success")
-        
-        
-      }
-      
-      hideshinyalert(session, "shinyalertInputMeta")
-      hideshinyalert(session, "shinyalertUploadMeta")
-      hideshinyalert(session, "shinyalertResults")
-    }
-  })
   
   
-  observe({
-    input$usrFiles
-    input$refFiles
-    fileInfo <- input$usrFiles
-    if (!is.null(input$usrFiles)) {
-      fileInfo <- input$usrFiles
-      if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
-        if(input$ChooseMethod == "blah"){
-          showshinyalert(session, "shinyalertSelectReference",  HTML("Please select a reference for RMA-preprocessing"), 
-                         styleclass = "info")
-        }
-        
-        if (input$ChooseMethod == "build"){
-          if (is.null(input$refFiles)){
-            showshinyalert(session, "shinyalertSelectReference",
-                           HTML(paste("No .CEL files chosen for building the reference!",
-                                      "Please press 'Choose files' and select the CEL files you want to use for building the classifier", 
-                                      sep = "<br/>" )),
-                           styleclass = "info") 
-          }else{
-            if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))){
-              
-              showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.",
-                                                                               "Please upload your reference CEL files again.", sep="<br/>")),
-                             styleclass = "error")
-              hideshinyalert(session, "shinyalertNormalizationSuccess")
-            }else{
-              print(fileInfo$name)
-              print( attr(normalized.data, "files"))
-              print(any(fileInfo$name != attr(normalized.data, "files")))
-              
-              
-              if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
-                showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
-                               styleclass = "info")
-                hideshinyalert(session, "shinyalertNormalizationSuccess")
-                
-              }else{
-                print(any(fileInfo$name != attr(normalized.data, "files")))
-                if(any(fileInfo$name != attr(normalized.data, "files"))){
-                  showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.", sep="<br/>")),
-                                 styleclass = "info")  
-                  hideshinyalert(session, "shinyalertNormalizationSuccess")
-                }
-                
-              }
-              
-              
-            }
-          }
-        }
-      }
-    }
-    
-  })
+  
+  
   
   
   
@@ -202,7 +117,7 @@ shinyServer(function(input, output, session) {
   IPIreactive <- reactive({   
     fileInfo <- input$usrFiles
     dataC <- hot.to.df(input$hotableClinical)
-    print(dataC)
+    
     a <- ifelse(dataC$Age            >   input$AGE.cut, 1, 0)
     b <- ifelse(dataC$ECOG           >   input$ECOG.cut, 1, 0)
     c <- ifelse(dataC$N.Extra.Nodal  >   input$N.Extra.Nodal.cut, 1, 0)
@@ -216,9 +131,8 @@ shinyServer(function(input, output, session) {
   
   observe({    
     df <- hot.to.df(input$hotableIPI)
-    print(df)
+    #print(df)
   })
-  
   
   
   
@@ -234,6 +148,7 @@ shinyServer(function(input, output, session) {
                          styleclass = "error")
           stop("Not all chosen files are .CEL files.")
         }
+        hideshinyalert(session, "shinyalertSelectReference")
         user.reference.affy <<- readCelfiles(input$refFiles$datapath)
       }
     })
@@ -241,7 +156,7 @@ shinyServer(function(input, output, session) {
   
   createReference <- reactive({
     # Take a dependency on createReferenceAffy by calling it
-    input$buildreferenceButton
+    #input$buildreferenceButton
     
     
     createReferenceAffy()
@@ -250,6 +165,7 @@ shinyServer(function(input, output, session) {
       
       
       if(!is.null(user.reference.affy)){
+        
         
         user.reference <<- rmaPreprocessing(user.reference.affy)
         user.reference$files <<- input$refFiles$name
@@ -267,33 +183,41 @@ shinyServer(function(input, output, session) {
   
   createUserAffy <- reactive({
     # Use isolate() to avoid dependency on input$usrFiles
+    
     input$normalizeButton
     isolate({
-    fileInfo <- input$usrFiles
-    if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
-      stop("Not all chosen files are .CEL files.")
-    }
-    
-   
+      fileInfo <- input$usrFiles
+      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+        stop("Not all chosen files are .CEL files.")
+      }
+      
+      
       if(!is.null(input$usrFiles)){
+        hideshinyalert(session, "shinyalertSelectReference") 
         user.affy <<- readCelfiles(input$usrFiles$datapath)
       }
     })
   })
   
+  RefUpload <- reactive({
+    input$refUpload
+    if(is.null(input$refUpload$name))
+      return(NULL)
+    if(file_ext(input$refUpload$name) != "rds")
+      return(NULL)
+    ref <<- readRDS(input$refUpload$datapath)
+  })
   
   createData <- reactive({
     # Take a dependency on input$normalizeButton by calling it
-  #  input$normalizeButton
-    
-    
-    
+    #  input$normalizeButton
+    hideshinyalert(session, "shinyalertSelectReference") 
     createUserAffy()
     
     # Use isolate() to avoid dependency on input$usrFiles
     isolate({
       fileInfo <- input$usrFiles
-     
+      
       if(!is.null(user.affy)){
         if(input$ChooseMethod == "standardReference")       
           ref <- switch(EXPR = input$ChooseReference,
@@ -306,7 +230,7 @@ shinyServer(function(input, output, session) {
           ref <- user.reference
         
         if(input$ChooseMethod == "upload") 
-          ref <- readRDS(input$refUpload$datapath)
+          RefUpload()
         
         if(input$ChooseMethod != "RMA"){ 
           normalized.data.RMA <<- rmaReference(user.affy, reference = ref)
@@ -317,19 +241,24 @@ shinyServer(function(input, output, session) {
         colnames(normalized.data.RMA$exprs.sc) <<- gsub("\\.CEL$", "", input$usrFiles$name)
         normalized.data <<- normalized.data.RMA$exprs.sc
         attr(normalized.data, "files") <<- input$usrFiles$name
-        hideshinyalert(session, "shinyalertSelectReference") 
         
+        hideshinyalert(session, "shinyalertResults")
         showshinyalert(session, "shinyalertNormalizationSuccess",  HTML(paste("The normalization was successful!")),
                        styleclass = "success")
       }
     })
   })
   
+  
+  
   # Function to that calls the classification procedures
   classify <- reactive({
+    
+    createData()
+    
     results <<- list()
     
-    createData()  # Create or update data if necessary
+    # Create or update data if necessary
     
     if (is.null(normalized.data)) {
       return(NULL)
@@ -402,18 +331,6 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output$showNormButton <- reactive({
-    if(input$ChooseMethod == "blah"){
-      0
-    }else{
-      1
-    }
-  })
-  
-  
-  output$showErrorprints <- reactive({
-   1
-  })
   
   observe({  
     
@@ -447,7 +364,7 @@ shinyServer(function(input, output, session) {
   
   # The start tab
   output$start <- renderPrint({ 
-    input$buildreferenceButton
+    #input$buildreferenceButton
     
     createReferenceAffy()
     createReference()
@@ -460,6 +377,280 @@ shinyServer(function(input, output, session) {
     createUserAffy()
     createData() # Create or update data if necessary
   })
+  
+  
+  #   
+  #   observe({
+  #     if (is.null(input$usrFiles)) {
+  #       showshinyalert(session, "shinyalertUploadCel",  HTML(paste("No .CEL files chosen!", 
+  #                                                                  "Please press 'Choose files' and select the CEL files you want to classify.", sep="<br/>")), 
+  #                      styleclass = "info")
+  #       showshinyalert(session, "shinyalertInputMeta", paste("Warning: You need to upload CEL files first"), 
+  #                      styleclass = "warning")
+  #       showshinyalert(session, "shinyalertUploadMeta", paste("Warning: You need to upload CEL files first"), 
+  #                      styleclass = "warning")
+  #       showshinyalert(session, "shinyalertResults", paste('Warning: You need to upload CEL files first. You can do this at "Load data".'), 
+  #                      styleclass = "warning")
+  #     }else{
+  #       fileInfo <- input$usrFiles
+  #       if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+  #         
+  #         showshinyalert(session, "shinyalertUploadCel",  HTML(paste("Not all chosen files are .CEL files.",
+  #                                                                    "Please upload your CEL files again.", sep="<br/>")),
+  #                        styleclass = "error")
+  #       }else{
+  #         hideshinyalert(session, "shinyalertUploadCel")
+  #         showshinyalert(session, "shinyalertUploadCelSucces", paste("You have succesfully uploaded", 
+  #                                                                    length(fileInfo$name), 
+  #                                                                    ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
+  #                        styleclass = "success")
+  #         
+  #         
+  #       }
+  #       
+  #       hideshinyalert(session, "shinyalertInputMeta")
+  #       hideshinyalert(session, "shinyalertUploadMeta")
+  #       hideshinyalert(session, "shinyalertResults")
+  #     }
+  #   })
+  
+  
+  output$showNormMethods <- reactive({
+    input$usrFiles
+    if (is.null(input$usrFiles)) {
+      showshinyalert(session, "shinyalertUploadCel",  HTML(paste("No .CEL files chosen!", 
+                                                                 "Please press 'Choose files' and select the CEL files you want to classify.", sep="<br/>")), 
+                     styleclass = "info")
+      showshinyalert(session, "shinyalertInputMeta", paste("Warning: You need to upload CEL files first"), 
+                     styleclass = "warning")
+      showshinyalert(session, "shinyalertUploadMeta", paste("Warning: You need to upload CEL files first"), 
+                     styleclass = "warning")
+      showshinyalert(session, "shinyalertResults", paste('Warning: You need to upload CEL files first. You can do this at "Load data".'), 
+                     styleclass = "warning")
+      
+      return(0)
+    }else{
+      fileInfo <- input$usrFiles
+      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+        
+        showshinyalert(session, "shinyalertUploadCel",  HTML(paste("Not all chosen files are .CEL files.",
+                                                                   "Please upload your CEL files again.", sep="<br/>")),
+                       styleclass = "error")
+        return(0)
+      }else{
+        hideshinyalert(session, "shinyalertUploadCel")
+        showshinyalert(session, "shinyalertUploadCelSucces", paste("You have succesfully uploaded", 
+                                                                   length(fileInfo$name), 
+                                                                   ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
+                       styleclass = "success")   
+        
+        showshinyalert(session, "shinyalertResults", paste('Warning: You need to pre-process the CEL files first. You can do this at "Load data".'), 
+                       styleclass = "warning")
+        
+        hideshinyalert(session, "shinyalertInputMeta")
+        hideshinyalert(session, "shinyalertUploadMeta")
+        return(1)
+      }
+    }
+  })
+  
+  output$showNormButton <- reactive({
+    createReference()
+    RefUpload()  
+    input$usrFiles
+    ShowDownloadReference <<- 0
+    if (!is.null(input$usrFiles)) {
+      fileInfo <- input$usrFiles
+      if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+        if(input$ChooseMethod == "blah"){
+          showshinyalert(session, "shinyalertSelectReference",  HTML("Please select a reference for RMA-preprocessing"), 
+                         styleclass = "info")
+          return(0) # don't show
+        }else{
+          if(input$ChooseMethod == "build"){
+            
+            if (is.null(input$refFiles)){
+              showshinyalert(session, "shinyalertSelectReference",
+                             HTML(paste("No .CEL files chosen for building the reference!",
+                                        "Please press 'Choose files' and select the CEL files you want to use for building the classifier", 
+                                        sep = "<br/>" )),
+                             styleclass = "info")
+              return(0)
+            }else{
+              if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))){
+                
+                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.",
+                                                                                 "Please upload your reference CEL files again.", sep="<br/>")),
+                               styleclass = "error")
+                return(0)
+              }else{
+                if(length(input$refFiles$name) == 1){
+                  showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected 1 .CEL file for building the reference.",
+                                                                                   "Please upload more than 1 CEL file before you continue.", sep="<br/>")),
+                                 styleclass = "error")
+                 
+                  return(0)
+                }else{                
+                  if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
+                    showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
+                                   styleclass = "info")
+                   
+                    return(0)
+                  }else{
+                    if(is.null(normalized.data) || any(fileInfo$name != attr(normalized.data, "files"))){
+                      showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.",
+                                                                                       "You can download the established reference by clicking 'Download reference for later use'", sep="<br/>")),
+                                     styleclass = "info")  
+                      ShowDownloadReference <<- 1 
+                      return(1)
+                    }                  
+                  }
+                }            
+              }
+            }
+          }
+          if(input$ChooseMethod == "upload"){
+            if(is.null(input$refUpload)){
+              showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Please upload a reference.", sep="<br/>")),
+                             styleclass = "info")  
+              return(0)
+            }else{
+              if(file_ext(input$refUpload$name) != "rds"){
+                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("The uploaded file is not an 'rds' file.", "Please upload a correct reference", sep="<br/>")),
+                               styleclass = "error")
+                return(0)
+              }
+              RefUpload()
+              if(!is.null(attributes(ref)) && "Version" %in% names(attributes(ref))  && attr(ref, "Version") %in% "hemaClass"){
+                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.", sep="<br/>")),
+                               styleclass = "info")  
+                return(1)            
+              }else{   
+                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("The uploaded file cannot be used as a reference.", "Please upload a correct reference", sep="<br/>")),
+                               styleclass = "error")
+                return(0)
+              }
+            }
+          }
+          if(input$ChooseMethod == "standardReference"){
+            showshinyalert(session, "shinyalertSelectReference",  
+                           HTML(paste("Select the cohort you want to use as a reference",
+                                      "",
+                                      "The possible references are:",
+                                      "&#160 LLMPP CHOP:",
+                                      "&#160 LLMPP R-CHOP:",
+                                      "&#160 IDRC:",
+                                      "&#160 MDFCI:",
+                                      "",
+                                      "When chosen:",
+                                      "Press 'normalize files' to start the RMA normalization.",
+                                      sep="<br/>")),
+                           styleclass = "info")  
+            return(1)
+          }
+          
+          if(input$ChooseMethod == "RMA"){
+            showshinyalert(session, "shinyalertSelectReference",  
+                           HTML(paste("Press Normalize files to pre-process the uploaded CEL files according to the RMA method",
+                                      sep="<br/>")),
+                           styleclass = "info")  
+            return(1)
+          }
+          
+          1
+        }
+      }
+    }else{
+      return(0)
+    }
+  })
+  
+  
+  #   observe({
+  #     input$usrFiles
+  #     input$refFiles
+  #     fileInfo <- input$usrFiles
+  #     if (!is.null(input$usrFiles)) {
+  #       fileInfo <- input$usrFiles
+  #       if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+  #         if(input$ChooseMethod == "blah"){
+  #           showshinyalert(session, "shinyalertSelectReference",  HTML("Please select a reference for RMA-preprocessing"), 
+  #                          styleclass = "info")
+  #         }
+  #         
+  #         if (input$ChooseMethod == "build"){
+  #           if (is.null(input$refFiles)){
+  #             showshinyalert(session, "shinyalertSelectReference",
+  #                            HTML(paste("No .CEL files chosen for building the reference!",
+  #                                       "Please press 'Choose files' and select the CEL files you want to use for building the classifier", 
+  #                                       sep = "<br/>" )),
+  #                            styleclass = "info") 
+  #           }else{
+  #             if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))){
+  #               
+  #               showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.",
+  #                                                                                "Please upload your reference CEL files again.", sep="<br/>")),
+  #                              styleclass = "error")
+  #               hideshinyalert(session, "shinyalertNormalizationSuccess")
+  #             }else{
+  #               if(length(input$refFiles$name) == 1){
+  #                 showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected 1 .CEL file for building the reference.",
+  #                                                                                  "Please upload more than 1 CEL file before you continue.", sep="<br/>")),
+  #                                styleclass = "error")
+  #               }else{                
+  #                 if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
+  #                   showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
+  #                                  styleclass = "info")
+  #                   hideshinyalert(session, "shinyalertNormalizationSuccess")
+  #                   
+  #                 }else{
+  #                   if(any(fileInfo$name != attr(normalized.data, "files"))){
+  #                     showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.", sep="<br/>")),
+  #                                    styleclass = "info")  
+  #                     hideshinyalert(session, "shinyalertNormalizationSuccess")
+  #                   }                  
+  #                 }
+  #               }            
+  #             }
+  #           }
+  #         }
+  #       }
+  #     }  
+  #   })
+  
+  
+  output$showDownloadRefButton <- reactive({  
+    createReference()
+    ifelse(!is.null(user.reference), 1, 0)
+  })
+  
+  
+  output$showBuildRefButton <- reactive({
+    
+    input$refFiles
+    
+    if(input$ChooseMethod != "build")
+      return(0) # don't show
+    if(is.null(input$refFiles) || length(input$refFiles$name) < 2)
+      return(0)
+    
+    return(1)
+    
+  })
+  
+  output$showErrorprints <- reactive({
+    0 # don't show
+    # 1# Show  
+  })
+  
+  outputOptions(output, "showNormMethods", suspendWhenHidden = FALSE)
+  outputOptions(output, "showNormButton", suspendWhenHidden = FALSE)
+  outputOptions(output, "showDownloadRefButton", suspendWhenHidden = FALSE)
+  outputOptions(output, "showBuildRefButton", suspendWhenHidden = FALSE)
+  outputOptions(output, "showErrorprints", suspendWhenHidden = FALSE)
+  outputOptions(output, "start", suspendWhenHidden = FALSE)
+  outputOptions(output, "start2", suspendWhenHidden = FALSE)
+  
   
   
   # output$start <- renderPrint({    
@@ -509,6 +700,7 @@ shinyServer(function(input, output, session) {
   
   # Generate results
   output$results <- renderDataTable({ 
+    
     classify() # Classify
     
     if (length(results) == 0)
@@ -525,6 +717,15 @@ shinyServer(function(input, output, session) {
     }
     
     
+  })
+  
+  output$normalizedData <- renderDataTable({ 
+    createData()
+    
+    if (is.null(normalized.data))
+      return(NULL)
+    
+    data.frame(Probeset = row.names(normalized.data), normalized.data)[1:100, , drop = FALSE]
   })
   
   
@@ -564,10 +765,9 @@ shinyServer(function(input, output, session) {
   })
   
   output$expression.matrix <- renderTable({
+    createData() # Create or update data if necessary
     if (is.null(normalized.data.RMA))
       return(NULL)
-    
-    createData() # Create or update data if necessary
     
     return(as.data.frame(normalized.data.RMA$exprs[1:100, , drop = FALSE]))
   })
@@ -609,6 +809,7 @@ shinyServer(function(input, output, session) {
   output$downloadReference <- downloadHandler(
     filename = paste("HemaClass-Reference", Sys.Date(), ".rds", sep = ""),
     content = function(file) {
+      attr(user.reference, "Version") <- "hemaClass"
       saveRDS(object = user.reference, file = file)
     }
   )

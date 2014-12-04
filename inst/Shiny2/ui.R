@@ -16,7 +16,7 @@ shinyUI(
                  
                  tabPanel("News",
                           includeHTML("www/ex1.html")
-                          ),
+                 ),
                  
                  tabPanel("Authors"),
                  tabPanel("Citation"),
@@ -41,34 +41,46 @@ shinyUI(
                                  accept = "", multiple = TRUE),
                        
                        tags$hr() ,
-                       h5("RMA Pre-processing"),
-                       selectInput(
-                         "ChooseMethod", "Choose method",
-                         list("Please select" = "blah",
-                              "Use build in reference" = "standardReference",  
-                              "Build a new reference" = "build", 
-                              "Upload a reference" = "upload",
-                              "Cohort based RMA" = "RMA"
-                         )),
-                       
-                       #                    conditionalPanel(
-                       #                      condition = "input.ChooseMethod == 'blah'",
-                       #                      
-                       #                      
-                       #                      tags$hr(),  
-                       #                      tags$hr(),  
-                       #                      tags$hr()  
-                       #                    ),
-                       
                        conditionalPanel(
-                         condition = "input.ChooseMethod == 'build'",
-                         #helpText("In order to build a laboratory specific reference you need to upload .CEL files"),
+                         #condition = "input.ChooseMethod != 'blah'",
+                         condition = "output.showNormMethods!=0",
                          
-                         fileInput("refFiles", "In order to build a laboratory specific reference you need to upload .CEL files:", 
-                                   accept = "", multiple = TRUE),
+                         h5("RMA Pre-processing"),
+                         selectInput(
+                           "ChooseMethod", "Choose method",
+                           list("Please select" = "blah",
+                                "Use build in reference" = "standardReference",  
+                                "Build a new reference" = "build", 
+                                "Upload a reference" = "upload",
+                                "Cohort based RMA" = "RMA"
+                           )),
                          
-                         actionButton("buildreferenceButton", "Build the reference"),
+                         #                    conditionalPanel(
+                         #                      condition = "input.ChooseMethod == 'blah'",
+                         #                      
+                         #                      
+                         #                      tags$hr(),  
+                         #                      tags$hr(),  
+                         #                      tags$hr()  
+                         #                    ),
                          
+                         conditionalPanel(
+                           condition = "input.ChooseMethod == 'build'",
+                           #helpText("In order to build a laboratory specific reference you need to upload .CEL files"),
+                           
+                           fileInput("refFiles", "In order to build a laboratory specific reference you need to upload .CEL files:", 
+                                     accept = "", multiple = TRUE),
+                           conditionalPanel(
+                             condition = "output.showBuildRefButton!=0",
+                             actionButton("buildreferenceButton", "Build the reference"),
+                             tags$hr() ,
+                             conditionalPanel(
+                               condition = "output.showDownloadRefButton!=0",
+                               helpText("Download reference to save time on next run"),
+                               downloadButton('downloadReference', 'Download reference for later use')    
+                             )
+                           )
+                         ),
                          tags$hr()  
                        ),
                        
@@ -98,28 +110,29 @@ shinyUI(
                          condition = "output.showNormButton!=0",
                          helpText("Normalise the files according to the chosen reference"),
                          actionButton("normalizeButton", "Normalize files", icon = icon("refresh"))
-                       ),
+                       )
                        
-                       conditionalPanel(
-                         condition = "input.ChooseMethod == 'build'",
-                         tags$hr() ,
-                         helpText("Download reference to save time on next run"),
-                         downloadButton('downloadReference', 'Download reference for later use')      
-                       )), 
+                       
+                     ), 
                      mainPanel(
                        #helpText("The instructions below will aid you through the normalization process"), 
                        shinyalert("shinyalertUploadCel", click.hide = FALSE),
                        shinyalert("shinyalertUploadCelSucces", auto.close.after = 10),
                        shinyalert("shinyalertSelectReferenceSucess", auto.close.after = 10),
                        shinyalert("shinyalertSelectReference", click.hide = FALSE),
-                       shinyalert("shinyalertNormalizationSuccess", click.hide = FALSE),
-                      
+                       shinyalert("shinyalertNormalizationSuccess", click.hide = FALSE, auto.close.after = 10),
+                       
+                       dataTableOutput("normalizedData"),
+                       
                        conditionalPanel(
                          condition = "output.showErrorprints!=0",
-                       verbatimTextOutput("start"), 
-                       verbatimTextOutput("start2"), 
-                       verbatimTextOutput("showNormButton"),
-                       verbatimTextOutput("showErrorprints"))
+                         verbatimTextOutput("start"), 
+                         verbatimTextOutput("start2"), 
+                         verbatimTextOutput("showBuildRefButton"),
+                         verbatimTextOutput("showNormButton"),
+                         verbatimTextOutput("showDownloadRefButton"),                         
+                         verbatimTextOutput("showNormMethods"),
+                         verbatimTextOutput("showErrorprints"))
                      )
                      
                    )), 
@@ -181,6 +194,13 @@ shinyUI(
                               )) 
                    ) 
                  ),
+                 #                  tabPanel('Pre-processed CEL files',
+                 #                           sidebarLayout( 
+                 #                             sidebarPanel("Data"),
+                 #                             mainPanel(
+                 #                               dataTableOutput("normalizedData")
+                 #                             ))
+                 #                  ),
                  br(),br(),br(),br(),br(),br(),br(),br())
              ),
              
@@ -285,8 +305,8 @@ shinyUI(
                    mainPanel() 
                  )) 
                ))),
-               br(),br(),br(),br(),br(),br(),br(),br(),
-               id = "navbarPanels",
+             br(),br(),br(),br(),br(),br(),br(),br(),
+             id = "navbarPanels",
              windowTitle = "hemaClass",
              inverse = TRUE,
              fluid = TRUE,

@@ -22,7 +22,10 @@ Pre-process cel files according to the RMA method and create a reference for lat
 Load cel files into a matrix.
 }
 \examples{
-2+2
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+affyBatch <- readCelfiles(filenames = files[1])
+
+affyRMA <- rmaPreprocessing(affyBatch)
 }
 \author{
 Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau

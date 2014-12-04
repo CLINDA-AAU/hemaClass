@@ -6,6 +6,9 @@
 #'   Anders Ellern Bilgrau
 #' @details This is a local version of the server running on hemaclass.com
 #' @export
+#' @import tools
+#' @import shiny
+#' @import shinysky
 runHemaClass<- function(){
   shiny::runApp(system.file('Shiny', package='hemaClass'))
 }
