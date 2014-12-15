@@ -1,0 +1,13 @@
+
+# In a local terminal the following command copies the current homepage to the server
+scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/homepage/ sfl@oncoclass.hpc.aau.dk:~/hemaClass
+
+# logon to the server using a sudo user
+ssh -X sfl@oncoclass.hpc.aau.dk
+
+# After you have logged in you can copy the file into the shiny server
+sudo cp -r  ~/hemaClass/homepage /srv/shiny-server/hemaClass/
+
+
+# In R write to gain support for reading xlsx files
+gdata::installXLSXsupport(perl = "perl", verbose = FALSE)

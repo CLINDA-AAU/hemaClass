@@ -1,5 +1,8 @@
 #' Run the shiny server for hemaClass.
-#' 
+#' @rdname runHemaClass
+#' @aliases 
+#'   runHemaClass
+#' @param Version What version of hemaClass should be run.
 #' @return Starts a shiny server for the analysis
 #' @author 
 #'   Steffen Falgreen Larsen
@@ -9,11 +12,14 @@
 #' @import tools
 #' @import shiny
 #' @import shinysky
-runHemaClass<- function(){
-  shiny::runApp(system.file('Shiny', package='hemaClass'))
-}
-
-#' @export
-runHemaClass2<- function(){
-  shiny::runApp(system.file('Shiny2', package='hemaClass'))
+#' @import gdata
+#' @import WriteXLS
+#' @examples
+#' #require(gdata)
+#' #require(survival)
+#' #require(shinysky)
+#' #runHemaClass()
+runHemaClass<- function(Version = 0.1){
+  #shinysky::actionButton("k", "k")
+  shiny::runApp(system.file(paste0("homepage", "/Version_", Version), package='hemaClass'))
 }

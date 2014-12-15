@@ -17,7 +17,11 @@ Imports:
     preprocessCore,
     affyio,
     Rcpp (>= 0.10.6),
-    RcppArmadillo
+    RcppArmadillo,
+    shinysky,
+    Biobase,
+    gdata,
+    WriteXLS
 LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 Suggests:
     testthat (>= 0.3),

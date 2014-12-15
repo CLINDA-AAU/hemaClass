@@ -3,7 +3,10 @@
 \alias{runHemaClass}
 \title{Run the shiny server for hemaClass.}
 \usage{
-runHemaClass()
+runHemaClass(Version = 0.1)
+}
+\arguments{
+\item{Version}{What version of hemaClass should be run.}
 }
 \value{
 Starts a shiny server for the analysis
@@ -13,6 +16,12 @@ Run the shiny server for hemaClass.
 }
 \details{
 This is a local version of the server running on hemaclass.com
+}
+\examples{
+#require(gdata)
+#require(survival)
+#require(shinysky)
+#runHemaClass()
 }
 \author{
 Steffen Falgreen Larsen

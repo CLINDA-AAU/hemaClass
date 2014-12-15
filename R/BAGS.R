@@ -14,8 +14,6 @@
 #' @references Reference to the BAGS and hemaClass paper.
 #' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
 #' (at) math.aau.dk>
-#' @import shinysky
-#' @import shiny
 #' @examples
 #' require(affy)
 #' require(MATT)
@@ -37,9 +35,9 @@ BAGS <- function(new.data, cut.spec = NULL,
                  percent.classified = 85){
   
   
-  mean1 <- mean(new.data, na.rm = TRUE)
+  #mean1 <- mean(new.data, na.rm = TRUE)
   
-  new.data[is.na(new.data)] <- mean1
+  new.data[is.na(new.data)] <- 0
   
   train.mat <- BAGSProbFun(new.data)
   

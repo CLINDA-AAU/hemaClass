@@ -11,10 +11,11 @@
 #' @examples
 #' 2+2
 #' @import matrixStats
+#' @importFrom Biobase exprs "exprs<-"
 #' @export
 microarrayScale <- function(x){
   if(class(x) == "ExpressionSet"){
-    x.m <- exprs(x)
+    x.m <- Biobase::exprs(x)
   }else{
     x.m <- x
   }
@@ -27,7 +28,7 @@ microarrayScale <- function(x){
   x.m <- x.m / rowSd 
   
   if(class(x) == "ExpressionSet"){
-    exprs(x)  <- x.m
+    Biobase::exprs(x)  <- x.m
   }else{
     x <- x.m
   }
