@@ -317,7 +317,7 @@ shinyUI(
                        h4("Classification systems:"),
                        checkboxGroupInput("getClassifications", ,
                                           label = "Perform classifications:", 
-                                          choices = c("BAGS", "ABCGCB", "Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined"),
+                                          choices = c("BAGS", "ABCGCB", "ABCGCB2", "Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined"),
                                           selected = c("BAGS")),
                        
                        
@@ -364,75 +364,96 @@ shinyUI(
                                dataTableOutput("results")) 
                    )),
                  tabPanel( 
-                   'Patient summaries'
-                 ),
-                 tabPanel( 
-                   'Prognostics'
+                   'Patient summaries', 
+                   sidebarLayout( 
+                     sidebarPanel( 
+                       uiOutput("patientSummaryIPI"),
+                       uiOutput("patientSummarySelect"),
+                       tags$hr() ,
+                       # uiOutput("patientSumCols"),
+                       helpText("Select the colors used for the predicted survival curves"),
+                       jscolorInput("jscolorInputPS"),
+                       br(),br(),
+                       actionButton(inputId = "SelectColourPS", "Add the color"),
+                       br(),
+                       uiOutput("SelectedColoursPS")
+                       #select2Input("SelectedColoursPS", label = "The selected colours", selected = "333333", type = "input") 
+                     ),
+                     mainPanel(
+                       plotOutput("patientSummaryPlot"),
+                       uiOutput("patientSummaries")
+                     )
+                   )
                  )
                )), 
              
              
              
-             navbarMenu( 
-               'Survival Analysis', 
-               tabPanel('Info', sidebarLayout( 
-                 sidebarPanel('one panel'), 
-                 mainPanel() 
-               )), 
-               tabPanel('Descriptive', navbarPage(
-                 'Descriptive',
-                 tabPanel( 'Kaplan-Meier', sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )),
-                 tabPanel('Cumulative incidens',sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )) 
-               )),
-               tabPanel('Cox regression', navbarPage(
-                 'Proportional hazards',
-                 tabPanel( 'Analysis', sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )),
-                 tabPanel('Model control',sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )) 
-               ))),
-             navbarMenu( 
-               'Differentially expressed', 
-               tabPanel('Info', sidebarLayout( 
-                 sidebarPanel('one panel'), 
-                 mainPanel() 
-               )), 
-               tabPanel('Descriptive', navbarPage(
-                 'Descriptive',
-                 tabPanel( 'Cross tabulation', sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )),
-                 tabPanel('Cumulative incidens',sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )) 
-               )),
-               tabPanel('DE Methods', navbarPage(
-                 'Analysis',
-                 tabPanel("Welch's t test",sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )),
-                 tabPanel( 'Linear regression', sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 )),
-                 tabPanel( 'Linear mixed-effects model', sidebarLayout( 
-                   sidebarPanel('one panel'), 
-                   mainPanel() 
-                 ))
-               ))),
+#              navbarMenu( 
+#                'Survival Analysis', 
+#                tabPanel('Info', sidebarLayout( 
+#                  sidebarPanel('one panel'), 
+#                  mainPanel() 
+#                )), 
+#                tabPanel('Descriptive', navbarPage(
+#                  'Descriptive',
+#                  tabPanel( 'Kaplan-Meier', sidebarLayout( 
+#                    sidebarPanel( 
+#                      uiOutput("KMSurvival"),
+#                      
+#                      textInput("geneKM", "Which gene should be analysed (e.g. MS4A1)", value = "Gene"),
+#                      uiOutput("probeselector")
+#                    ),
+#                    mainPanel() 
+#                  )),
+#                  tabPanel('Cumulative incidens',sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )) 
+#                )),
+#                tabPanel('Cox regression', navbarPage(
+#                  'Proportional hazards',
+#                  tabPanel( 'Analysis', sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )),
+#                  tabPanel('Model control',sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )) 
+#                ))),
+#              navbarMenu( 
+#                'Differentially expressed', 
+#                tabPanel('Info', sidebarLayout( 
+#                  sidebarPanel('one panel'), 
+#                  mainPanel() 
+#                )), 
+#                tabPanel('Descriptive', navbarPage(
+#                  'Descriptive',
+#                  tabPanel( 'Cross tabulation', sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )),
+#                  tabPanel('Cumulative incidens',sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )) 
+#                )),
+#                tabPanel('DE Methods', navbarPage(
+#                  'Analysis',
+#                  tabPanel("Welch's t test",sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )),
+#                  tabPanel( 'Linear regression', sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  )),
+#                  tabPanel( 'Linear mixed-effects model', sidebarLayout( 
+#                    sidebarPanel('one panel'), 
+#                    mainPanel() 
+#                  ))
+#                ))),
              br(),br(),br(),br(),br(),br(),br(),br(),
              id = "navbarPanels",
              windowTitle = "hemaClass",

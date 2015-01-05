@@ -11,12 +11,176 @@ require(survival)
 require(WriteXLS)
 # Changing maximum file size
 options(shiny.maxRequestSize = 30*1024^2)
-cat("done.\n")
+
+
+# 
+# 
+# PlotKM <- function(index, surv.object,
+#                    cut.points   = c(1/3, 2/3),
+#                    our.colscheme = c("black", "darkgrey", "red"),
+#                    lty      = c(1, 1, 1),
+#                    main      = "",
+#                    ylab = "",
+#                    xlab = "",
+#                    ...) {
+#   
+#   # Function to perform KM plot
+#   
+#   threshold <- cut(index,
+#                    c(min(index) - 1,
+#                      cut.points,
+#                      max(index) + 1 ))
+#   
+#   levels <- levels(threshold)
+#   legend <- levels(threshold)
+#   plot(survfit(surv.object ~ threshold),
+#        col  = our.colscheme,
+#        lwd  = 2,
+#        xlab = xlab,
+#        ylab = ylab,
+#        main = main, ...)
+#   
+#   logRankTest <- survdiff(surv.object ~ threshold)
+#   
+#   nchar <- max(nchar(legend)) - nchar(legend) + 1
+#   spaces <- vector()
+#   
+#   for(i in 1:length(legend)){
+#     spaces[i] <- paste(rep(" ", nchar[i]), sep = "", collapse = "")
+#   }
+#   
+#   nchar <- max(nchar(summary(threshold))) - nchar(summary(threshold)) + 1
+#   spaces2 <- vector()
+#   
+#   for(i in 1:length(legend)){
+#     spaces2[i] <- paste(rep(" ", nchar[i]), sep = "", collapse = "")
+#   }
+#   
+#   
+#   old.par <- par(no.readonly = TRUE)
+#   on.exit(par(old.par))
+#   
+#   par(family = 'mono')
+#   legend("bottomleft",
+#          legend = paste(legend, ",", spaces, "n = ", spaces2,
+#                         summary(threshold), sep = ""),
+#          bty   = "n",
+#          col   = our.colscheme,
+#          lty   = lty,
+#          lwd   = 2)
+#   
+#   legend("bottomright",
+#          bty = "n",
+#          legend = paste("P-value = ",
+#                         as.character(signif(1-pchisq(logRankTest$chisq, 1), 1)), sep = ""))
+#   
+# }
+# 
+# 
+# 
+# coxR <- function(formula = OS5 ~ probe, data){
+#   
+#   terms <- terms(formula)
+#   
+#   labels <- attr(terms, "term.labels")
+#   
+#   data <- data[!apply(data[, labels, drop = FALSE], 1, function(x) any(is.na(x))), ]
+#   
+#   
+#   for(lab.iter in labels)
+#     if(is.factor(data[,lab.iter]))
+#       data[,lab.iter] <- droplevels(data[,lab.iter])
+#   
+#   for(lab.iter in labels)
+#     if(is.character(data[,lab.iter]))
+#       data[,lab.iter] <- as.factor(data[,lab.iter])
+#   
+#   
+#   levels <- vector()
+#   for(lab.iter in labels){
+#     if(is.factor(data[,lab.iter]))
+#       levels <- c(levels, levels(data[,lab.iter]))
+#     if(!is.factor(data[,lab.iter]))
+#       levels <- c(levels, lab.iter)
+#     
+#   }
+#   
+#   mat <- matrix(NaN, nrow = length(levels), ncol = 6)
+#   
+#   rownames(mat) <- levels
+#   
+#   colnames(mat) <- rep(c("Hazard ratio", "95% CI", "P-Value"), 2)
+#   
+#   mat[, c(1,4)] <- 1 
+#   
+#   y <- rownames(attr(terms,"factors"))[1]
+#   
+#   
+#   for(lab.iter in labels){
+#     formula2 <- 
+#       as.formula((substitute(a ~ b, 
+#                              list(a = as.name(rownames(attr(terms,"factors"))[1]), 
+#                                   b = as.name(lab.iter)))))
+#     
+#     cox <- summary(coxph(formula2, data = data))
+#     COEF <- cox$coefficients
+#     
+#     if(is.factor(data[,lab.iter]))
+#       wh <- gsub(lab.iter, "", rownames(COEF))
+#     
+#     if(!is.factor(data[,lab.iter]))
+#       wh <- rownames(COEF)
+#     
+#     mat[wh, 1] <- round(COEF[,2], 2) 
+#     conf <-  round(cox$conf.int[, 3:4], 2)
+#     
+#     if(!is.null(dim(conf)))
+#       mat[wh, 2] <- apply(conf, 1, function(x) 
+#         paste("(",x[1], "-", x[2], ")", sep = ""))
+#     
+#     if(is.null(dim(conf)))
+#       mat[wh, 2] <- 
+#       paste("(",conf[1], "-", conf[2], ")", sep = "")
+#     
+#     mat[wh, 3] <- signif(cox$coefficients[,5], 2)
+#   }
+#   
+#   
+#   cox <- summary(coxph(formula, data = data))
+#   COEF <- cox$coefficients
+#   
+#   wh <- rownames(COEF)
+#   for(lab.iter in labels)
+#     if(is.factor(data[,lab.iter]))
+#       wh <- gsub(lab.iter, "", wh)
+#   
+#   
+#   mat[wh, 4] <- round(COEF[,2], 2) 
+#   conf <-  round(cox$conf.int[, 3:4], 2)
+#   
+#   if(class(conf) == "numeric"){
+#     mat[wh, 5] <-  paste("(",conf[1], "-", conf[2], ")", sep = "")
+#   }else{
+#     mat[wh, 5] <- apply(conf, 1, function(x) 
+#       paste("(",x[1], "-", x[2], ")", sep = ""))
+#   }
+#   mat[wh, 6] <- signif(cox$coefficients[,5], 2)
+#   
+#   mat[mat == "NaN"] <- "-"
+#   
+#   list(n = paste("n = ", cox$n, ", number of events = ", 
+#                  cox$nevent, sep = ""),
+#        result = as.data.frame(mat, stringsAsFactors=FALSE))
+#   
+# }
+
+
+
 
 #
 # Run the shiny server
 #
-
+cat("done.\n")
 shinyServer(function(input, output, session) {
   # Initialzing the normalized.data and results object
   normalized.data <- NULL
@@ -29,10 +193,68 @@ shinyServer(function(input, output, session) {
   LoadAnnotation <- reactive({
     HGU133Plus2 <<- readRDS("../Database/V1/Annotation/HGU133Plus2.na33.annot.RDSData")
   })
-  buildin.data <- list()
-  buildin.datasets <- setdiff(dir("../Database/V1/"), "Annotation")
   
-  # hotable
+  buildin.data <- list()
+  buildin.datasets <- setdiff(dir("../Database/V1/"), c("Annotation", "Classification"))
+  
+#   # hotable
+#   
+#   
+#   
+#   
+#   my.lookUp <- reactive({
+#     x <- input$geneKM
+#     LoadAnnotation()
+#     data = HGU133Plus2
+#     what = "ALIAS2PROBE"
+#     if(what == "ALIAS2PROBE"){
+#       return.data <- data.frame()
+#       xx <- strsplit(data$Gene.Symbol, " /// ")
+#       
+#       alias  <- unlist(xx)
+#       reps   <- (unlist(lapply(xx, FUN = function(x) length(x))))   
+#       probes <- rep(data[,1], reps)
+#       
+#       data2  <- data.frame(alias, probes)
+#       data2  <- data2[data2$alias %in% x, ]
+#       data2  <- data2[order(data2$alias),]  
+#       data2$alias <- as.character(data2$alias)
+#       rownames(data2) <- data2$probes
+#     }
+#     
+#     return(data2)
+#   })
+#   
+#   
+#   output$probeselector <- renderUI({
+#     
+#     probe.data <- my.lookUp()
+#     
+#     if(nrow(probe.data) == 0)
+#       return(NULL)
+#     
+#     probe.list <- list()
+#     for(probe.iter in rownames(probe.data))
+#       probe.list[[probe.iter]] <- probe.iter
+#     
+#     
+#     list(
+#       selectInput("AvailableProbesetsKM", "Choose a probeset",
+#                   choices = probe.list)
+#     )
+#     
+#   })
+#   
+#   
+#   output$KMSurvival <- renderUI({
+#     
+#     metadata.in.use <- MetaDataInUse()
+#     
+#     list(
+#       selectInput(inputId = "KMSurvivalTime",   "Column containing survival times",  colnames(metadata.in.use)),
+#       selectInput(inputId = "KMSurvivalStatus", "Column containing survival status", colnames(metadata.in.use))
+#     )    
+#   })
   
   ##################################
   ##
@@ -151,7 +373,8 @@ shinyServer(function(input, output, session) {
       if(input$IPIcalc){
         
         old.data <- currentMetadataManual()
-        print(old.data)
+        
+        # print(old.data)
         cols <- c("CEL.files", "Age", "ECOG", "LDH", "N.Extra.Nodal", 
                   "Stage", "IPI", input$Additionalcolumns)
         
@@ -161,7 +384,7 @@ shinyServer(function(input, output, session) {
         data <- as.data.frame(data)
         data$CEL.files <- new.names      
         
-        if(!any(is.na(old.data$CEL.files))){
+        if(!is.null(old.data) && !any(is.na(old.data$CEL.files))){
           int.names <- intersect(colnames(old.data), colnames(data))
           int.cels <- intersect(rownames(old.data), rownames(data))
           
@@ -180,7 +403,7 @@ shinyServer(function(input, output, session) {
         
       }else{    
         old.data <- currentMetadataManual()
-        print(old.data)
+        # print(old.data)
         cols <- c("CEL.files", "IPI", input$Additionalcolumns)
         
         data <- matrix(NaN, ncol =  length(cols), nrow = length(fileInfo$name), 
@@ -188,7 +411,7 @@ shinyServer(function(input, output, session) {
         data <- as.data.frame(data)
         data$CEL.files <- new.names
         
-        if(!any(is.na(old.data$CEL.files))){
+        if(!is.null(old.data) && !any(is.na(old.data$CEL.files))){
           int.names <- intersect(colnames(old.data), colnames(data))
           int.cels  <- intersect(rownames(old.data), rownames(data))
           
@@ -212,6 +435,7 @@ shinyServer(function(input, output, session) {
   
   currentMetadataManual <- reactive({   
     old.data <- NULL
+    print(hot.to.df(input$hotableMetadataManual))
     isolate({
       fileInfo <- (input$usrFiles) 
     })
@@ -219,18 +443,20 @@ shinyServer(function(input, output, session) {
     
     if(!is.null(fileInfo$name)){
       old.data <- hot.to.df(input$hotableMetadataManual)  
-      if("CEL.files" %in% colnames(old.data)){
-        print(old.data$CEL.files)
-        if(any(is.na(old.data$CEL.files)))
-          return(NULL)
-        
-        new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
-        
-        old.data$CEL.files[is.na(old.data$CEL.files)] <- paste("a", 1:sum(is.na(old.data$CEL.files)))
-        
-        rownames(old.data) <- old.data$CEL.files
-        old.data <- old.data[new.names, , drop = FALSE] 
-      }
+      #print(old.data)
+      if(!is.null( old.data ))
+        if("CEL.files" %in% colnames(old.data)){
+          
+          if(any(is.na(old.data$CEL.files)))
+            return(NULL)
+          
+          new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
+          
+          old.data$CEL.files[is.na(old.data$CEL.files)] <- paste("a", 1:sum(is.na(old.data$CEL.files)))
+          
+          rownames(old.data) <- old.data$CEL.files
+          old.data <- old.data[new.names, , drop = FALSE] 
+        }
     }
     old.data 
   })
@@ -239,8 +465,6 @@ shinyServer(function(input, output, session) {
   IPIreactive <- reactive({   
     
     dataC <- currentMetadataManual()
-    
-    #print(any(is.na(dataC$CEL.files)))
     
     if(!all(c("Age", "ECOG", "LDH", "N.Extra.Nodal", 
               "Stage") %in% colnames(dataC)) && !any(is.na(dataC$CEL.files))){
@@ -260,13 +484,10 @@ shinyServer(function(input, output, session) {
       names(IPI) <- dataC$CEL.files
       
     } 
-    
     IPI
   })
   
   output$downloadMetadataManual <- downloadHandler(
-    
-    
     
     filename = paste0("HemaClass-Metadata", Sys.Date(), ".xls"),
     
@@ -274,6 +495,7 @@ shinyServer(function(input, output, session) {
       isolate({
         dataC <- currentMetadataManual()
       })
+      
       WriteXLS::WriteXLS("dataC", ExcelFileName = file)
     }
   )
@@ -286,6 +508,7 @@ shinyServer(function(input, output, session) {
   ##################################
   
   uploadMetaData <- reactive({
+    
     hideshinyalert(session, "shinyalertUploadMetaData")
     metadata.upload <<- NULL
     if(!is.null(input$usrMeta)){
@@ -351,6 +574,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$uploadMetaData <- renderDataTable({ 
+    
     uploadMetaData()
     if(is.null(metadata.upload))
       return(NULL)
@@ -391,6 +615,7 @@ shinyServer(function(input, output, session) {
   
   
   metadataUploaded <- reactive({
+    fileInfo <- input$usrFiles
     uploadMetaData()
     if(!is.null(metadata.upload)) 
       
@@ -408,8 +633,7 @@ shinyServer(function(input, output, session) {
           fileInfo <- input$usrFiles
         })
         new.names2 <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
-        metadata.upload <- metadata.upload[new.names2, , drop = FALSE]
-        
+        metadata.upload <- metadata.upload[new.names2, , drop = FALSE] 
       }
     metadata.upload
   })
@@ -452,14 +676,14 @@ shinyServer(function(input, output, session) {
         hideshinyalert(session, "shinyalertResults")
         GEP.file <- dir(file.path("../Database/V1/", dataset, "GEP"), full.names=TRUE, pattern = ".RDSData")
         GEP <- microarrayScale(exprs(readRDS(GEP.file)))
-        colnames(GEP) <- gsub(pattern = ".cel", "", colnames(GEP))
+        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP), ignore.case = TRUE)
         buildin.data[[dataset]][["GEP"]] <<- GEP
         
         
         Meta.file <- dir(file.path("../Database/V1/", dataset, "Metadata"), full.names=TRUE, pattern = ".RDSData")
         meta <- readRDS(Meta.file)  
-        rownames(meta) <- gsub(pattern = ".cel", "", rownames(meta))
-        buildin.data[[dataset]][["metadata"]] <<- readRDS(Meta.file)  
+        rownames(meta) <- gsub("\\.CEL$", "", rownames(meta), ignore.case = TRUE)
+        buildin.data[[dataset]][["metadata"]] <<- meta
       }
     }      
     return(buildin.data)
@@ -506,7 +730,7 @@ shinyServer(function(input, output, session) {
     if(dataset %in% buildin.datasets)
       if(dataset %in% names(buildin.data)){   
         data <- as.data.frame(buildin.data[[dataset]][["metadata"]])
-        print("I was here")
+        #print("I was here")
         return(data)  
       } 
   })
@@ -528,7 +752,7 @@ shinyServer(function(input, output, session) {
     metadata.manual <- currentMetadataManual()
     if(!is.null(metadata.manual))
       available.datasets <- c(available.datasets, "Manually input metadata")
-       
+    
     metadata.buildin <- buildInMetadata()
     if(!is.null(metadata.buildin))
       available.datasets <- c(available.datasets, "Build-in dataset")
@@ -547,6 +771,7 @@ shinyServer(function(input, output, session) {
   outputOptions(output, "metadataselector", suspendWhenHidden = FALSE)
   
   MetaDataInUse <- reactive({ 
+    fileInfo <- input$usrFiles
     metadata.in.use <- NULL
     if(!is.null(input$chooseMetaDataset)){
       if(input$chooseMetaDataset == "Uploaded metadata")
@@ -720,6 +945,113 @@ shinyServer(function(input, output, session) {
   ############################
   
   # Function to that calls the classification procedures
+  #   classify <- reactive({
+  #     
+  #     #createData()
+  #     
+  #     normalized.data <<- GEPInUse()
+  #     
+  #     results <<- list()
+  #     
+  #     # Create or update data if necessary
+  #     
+  #     if (is.null(normalized.data)) {
+  #       return(NULL)
+  #     }
+  #     
+  #     results$files <<- colnames(normalized.data)
+  # 
+  #     
+  #     if ("BAGS" %in% input$getClassifications) {
+  #       bags <- BAGS(normalized.data, cut.spec=0)
+  #       results$ProbOfBAGS <<- bags$prob
+  #       results$BAGS <<- bags$class
+  #     } else {
+  #       results <<- results[!(names(results) %in% c("ProbOfBAGS", "BAGS"))]
+  #     }
+  #     
+  #     if ("ABCGCB" %in% input$getClassifications) {
+  #       abcgcb <- ABCGCB(normalized.data, NC.range = input$nc.range)
+  #       results$"ProbOfABC" <<- abcgcb$prob
+  #       results$"ABCGCB" <<- abcgcb$class
+  #     } else {
+  #       results <<- results[!(names(results) %in% c("ProbOfABC", "ABCGCB"))]
+  #     }
+  #     
+  #     av.drugs <- c("Cyclophosphamide", "Doxorubicin", "Vincristine") 
+  #     drugs <<- input$getClassifications 
+  #     drugs <- drugs[drugs %in% c(av.drugs, "Combined")]
+  #     if (length(intersect(av.drugs,input$getClassifications)) > 0) {
+  #       
+  #       cut <- list(Cyclophosphamide = input$Cyclophosphamide.range,
+  #                   Doxorubicin = input$Doxorubicin.range,
+  #                   Vincristine = input$Vincristine.range,
+  #                   Combined    = input$Combined.range)
+  #       
+  #       CHO <- ResistanceClassifier(normalized.data, drugs=drugs, cut = cut)
+  #       
+  #       if ("Cyclophosphamide" %in% input$getClassifications) {
+  #         results$CycProb  <<- CHO$prob[,"Cyclophosphamide"]
+  #         results$CycClass <<- CHO$class[,"Cyclophosphamide"]
+  #       } else {
+  #         results <<- results[!(names(results) %in% c("CycProb", "CycClass"))]
+  #       }
+  #       
+  #       if ("Doxorubicin" %in% input$getClassifications) {
+  #         results$DoxProb  <<- CHO$prob[,"Doxorubicin"]
+  #         results$DoxClass <<- CHO$class[,"Doxorubicin"]
+  #       } else {
+  #         results <<- results[!(names(results) %in% c("DoxProb", "DoxClass"))]
+  #       }
+  #       if ("Vincristine" %in% input$getClassifications) {
+  #         results$VinProb  <<- CHO$prob[,"Vincristine"]
+  #         results$VinClass <<- CHO$class[,"Vincristine"]
+  #       } else {
+  #         results <<- results[!(names(results) %in% c("VinProb", "VinProb"))]
+  #       }
+  #       if ("Combined" %in% input$getClassifications & 
+  #             length(drugs) > 2) {
+  #         results$CombProb  <<- CHO$prob[,"Combined"]
+  #         results$CombClass <<- CHO$class[,"Combined"]
+  #       } else {
+  #         results <<- results[!(names(results) %in% c("CombProb", "CombClass"))]
+  #       }
+  #     } else {
+  #       results <<- results[!(names(results) %in% c("CycProb", "CycClass", "DoxProb", "DoxClass",
+  #                                                   "VinProb", "VinProb","CombProb", "CombClass"))]
+  #     }
+  #     
+  #     results <<- base::as.data.frame(results, row.names = NULL)
+  #     rownames(results) <<- NULL
+  #   })
+  
+  
+  BAGSR <- reactive({
+    normalized.data <- GEPInUse()
+    BAGS(normalized.data, cut.spec=0)
+  })
+  
+  ABCGCBR <- reactive({
+    normalized.data <- GEPInUse()
+    ABCGCB(normalized.data, NC.range = input$nc.range)
+  })
+  
+  
+  ResistanceClassifierR <- reactive({
+    normalized.data <- GEPInUse()
+    av.drugs <<- c("Cyclophosphamide", "Doxorubicin", "Vincristine") 
+    drugs <<- input$getClassifications 
+    drugs <<- drugs[drugs %in% c(av.drugs, "Combined")]
+    
+    
+    cut <- list(Cyclophosphamide = input$Cyclophosphamide.range,
+                Doxorubicin = input$Doxorubicin.range,
+                Vincristine = input$Vincristine.range,
+                Combined    = input$Combined.range)
+    
+    ResistanceClassifier(normalized.data, drugs=c(av.drugs, "Combined"), cut = cut)
+  })
+  
   classify <- reactive({
     
     #createData()
@@ -727,7 +1059,7 @@ shinyServer(function(input, output, session) {
     normalized.data <<- GEPInUse()
     
     results <<- list()
-    
+    chosen.names <<- vector()
     # Create or update data if necessary
     
     if (is.null(normalized.data)) {
@@ -736,68 +1068,92 @@ shinyServer(function(input, output, session) {
     
     results$files <<- colnames(normalized.data)
     
-    if ("ABCGCB" %in% input$getClassifications) {
-      abcgcb <- ABCGCB(normalized.data, NC.range = input$nc.range)
-      results$"ProbOfABC" <<- abcgcb$prob
-      results$"ABCGCB" <<- abcgcb$class
-    } else {
-      results <<- results[!(names(results) %in% c("ProbOfABC", "ABCGCB"))]
-    }
-
+    
+    bags <- BAGSR()
+    results$ProbOfBAGS <<- bags$prob
+    results$BAGS <<- bags$class
     
     if ("BAGS" %in% input$getClassifications) {
-      bags <- BAGS(normalized.data, cut.spec=0)
-      results$ProbOfBAGS <<- bags$prob
-      results$BAGS <<- bags$class
+      chosen.names <<- c(chosen.names, "ProbOfBAGS", "BAGS")
     } else {
-      results <<- results[!(names(results) %in% c("ProbOfBAGS", "BAGS"))]
+      chosen.names <<- setdiff(chosen.names, c("ProbOfBAGS", "BAGS"))
     }
-   
-    results <<- base::as.data.frame(results, row.names = NULL)
-    rownames(results) <<- NULL
-    return(NULL)
     
-    av.drugs <- c("Cyclophosphamide", "Doxorubicin", "Vincristine") 
-    drugs <<- input$getClassifications 
-    drugs <- drugs[drugs %in% c(av.drugs, "Combined")]
-    if (length(intersect(av.drugs,input$getClassifications)) > 0) {
-      
-      cut <- list(Cyclophosphamide = input$Cyclophosphamide.range,
-                  Doxorubicin = input$Doxorubicin.range,
-                  Vincristine = input$Vincristine.range,
-                  Combined    = input$Combined.range)
-      
-      CHO <- ResistanceClassifier(normalized.data, drugs=drugs, cut = cut)
-      
-      if ("Cyclophosphamide" %in% input$getClassifications) {
-        results$CycProb  <<- CHO$prob[,"Cyclophosphamide"]
-        results$CycClass <<- CHO$class[,"Cyclophosphamide"]
-      } else {
-        results <<- results[!(names(results) %in% c("CycProb", "CycClass"))]
-      }
-      
-      if ("Doxorubicin" %in% input$getClassifications) {
-        results$DoxProb  <<- CHO$prob[,"Doxorubicin"]
-        results$DoxClass <<- CHO$class[,"Doxorubicin"]
-      } else {
-        results <<- results[!(names(results) %in% c("DoxProb", "DoxClass"))]
-      }
-      if ("Vincristine" %in% input$getClassifications) {
-        results$VinProb  <<- CHO$prob[,"Vincristine"]
-        results$VinClass <<- CHO$class[,"Vincristine"]
-      } else {
-        results <<- results[!(names(results) %in% c("VinProb", "VinProb"))]
-      }
-      if ("Combined" %in% input$getClassifications & 
-            length(drugs) > 2) {
-        results$CombProb  <<- CHO$prob[,"Combined"]
-        results$CombClass <<- CHO$class[,"Combined"]
-      } else {
-        results <<- results[!(names(results) %in% c("CombProb", "CombClass"))]
-      }
+    
+    abcgcb <- ABCGCBR()
+    results$"ProbOfABC" <<- abcgcb$prob
+    results$"ABCGCB" <<- abcgcb$class
+    if ("ABCGCB" %in% input$getClassifications) {
+      chosen.names <<- c(chosen.names, "ProbOfABC", "ABCGCB")
     } else {
-      results <<- results[!(names(results) %in% c("CycProb", "CycClass", "DoxProb", "DoxClass",
-                                                  "VinProb", "VinProb","CombProb", "CombClass"))]
+      chosen.names <<- setdiff(chosen.names, c("ProbOfABC", "ABCGCB"))
+    }
+    
+    
+    results$ABCGCB2 <<- results$ABCGCB
+    
+    results$ABCGCB2 <<- as.character(results$ABCGCB2)
+    
+    results$ABCGCB2[results$ABCGCB2 == "GCB" & results$BAGS == "Centrocyte"] <<- "GCB-CC"
+    results$ABCGCB2[results$ABCGCB2 == "GCB" & results$BAGS == "Centroblast"] <<- "GCB-CB"
+    
+    if ("ABCGCB2" %in% input$getClassifications) {
+      chosen.names <<- c(chosen.names, "ABCGCB2")
+    } else {
+      chosen.names <<- setdiff(chosen.names, c("ABCGCB2"))
+    }
+    
+    
+    
+    
+    # if(length(intersect(av.drugs,input$getClassifications)) > 0)
+    #  CHO <- ResistanceClassifier(normalized.data, drugs=drugs, cut = cut)
+    
+    #     results <<- base::as.data.frame(results, row.names = NULL)
+    #     rownames(results) <<- NULL
+    #     return(NULL)
+    #     
+    
+    
+    CHO.single <<- ResistanceClassifierR()
+    
+    
+    results$CycProb  <<- CHO.single$prob[,"Cyclophosphamide"]
+    results$CycClass <<- CHO.single$class[,"Cyclophosphamide"]
+    if ("Cyclophosphamide" %in% input$getClassifications) {
+      chosen.names <<- c(chosen.names, "CycProb", "CycClass")
+    } else {
+      chosen.names <<- setdiff(chosen.names, c("CycProb", "CycClass")) 
+    }
+    
+    results$DoxProb  <<- CHO.single$prob[,"Doxorubicin"]
+    results$DoxClass <<- CHO.single$class[,"Doxorubicin"]
+    if ("Doxorubicin" %in% input$getClassifications) {
+      chosen.names <<- c(chosen.names, "DoxProb", "DoxClass")
+    } else {
+      chosen.names <<- setdiff(chosen.names, c("DoxProb", "DoxClass"))
+    }
+    
+    results$VinProb  <<- CHO.single$prob[,"Vincristine"]
+    results$VinClass <<- CHO.single$class[,"Vincristine"]
+    if ("Vincristine" %in% input$getClassifications) {
+      chosen.names <<- c(chosen.names, "VinProb", "VinProb")
+    } else {
+      chosen.names <<- setdiff(chosen.names, c("VinProb", "VinProb")) 
+    }
+    
+    results$CombProb  <<- CHO.single$prob[,"Combined"]
+    results$CombClass <<- CHO.single$class[,"Combined"]
+    
+    if ("Combined" %in% input$getClassifications) {
+      chosen.names <<- c(chosen.names, "CombProb", "CombClass")
+    } else {
+      chosen.names <<- setdiff(chosen.names, c("CombProb", "CombClass"))
+    }
+    
+    if (!length(intersect(av.drugs,input$getClassifications)) > 0) {
+      chosen.names <<- setdiff(chosen.names, c("CycProb", "CycClass", "DoxProb", "DoxClass",
+                                               "VinProb", "VinProb","CombProb", "CombClass"))
     }
     
     results <<- base::as.data.frame(results, row.names = NULL)
@@ -811,6 +1167,7 @@ shinyServer(function(input, output, session) {
     classifers.ch <- input$getClassifications
     if(length(classifers.ch) > 0){
       l<- list("ABCGCB" = "ABCGCB", 
+               "ABCGCB2" = "ABCGCB2",
                "BAGS" = "BAGS",  
                "Cyclophosphamide" = "CycClass", 
                "Doxorubicin" = "DoxClass", 
@@ -853,6 +1210,209 @@ shinyServer(function(input, output, session) {
   })
   
   
+  ##########################################
+  ##
+  ## Patient summaries
+  ##
+  ##########################################
+  
+  
+  observe({ 
+    
+    classify()
+    
+    rownames(results) <- results$files
+    
+    metadata.in.use <- MetaDataInUse()
+    
+    
+    
+    prog.list <- NULL
+    if(all(rownames(results) == rownames(metadata.in.use)) && !is.null(input$patientSummarySelectW)){
+      prog.list <- list()
+      out.list <- list()
+      
+      if(input$patientSummaryIPIW != "Choose" && input$patientSummaryIPIW %in% colnames(metadata.in.use)){
+        metadata.in.use$IPI <- metadata.in.use[, input$patientSummaryIPIW]   
+      }else{
+        metadata.in.use$IPI <- NA
+      }
+      
+      for(patient in input$patientSummarySelectW){
+        
+        if(is.na(metadata.in.use[patient, "IPI"])){
+          text2 <- paste0(" and the patient have an unknown IPI score.")
+        }else{
+          text2 <- paste0(" and the patient have an IPI score of ", metadata.in.use[patient, "IPI"], ".")
+        }
+        
+        prog.list[[patient]] <- paste(paste("Some Text about", patient),
+                                      paste0("The cancer is of the ", results[patient, "ABCGCB2"], " type,",
+                                             text2),
+                                      sep="<br/>")
+      } 
+      
+      
+      for(i in 1:length(input$patientSummarySelectW)){
+        showshinyalert(session, paste(input$patientSummarySelectW[i]),  
+                       HTML(prog.list[[input$patientSummarySelectW[i]]]))
+        
+      }
+      
+      if(!exists(x = "PatientSummaryOpen")){
+        PatientSummaryOpen <<- input$patientSummarySelectW
+      }else{
+        PatientSummaryOpen <<- unique(c(PatientSummaryOpen, input$patientSummarySelectW))
+      }
+      
+      print(setdiff(PatientSummaryOpen, input$patientSummarySelectW))
+      if(length(setdiff(PatientSummaryOpen, input$patientSummarySelectW)) > 0)
+        for(patient in setdiff(PatientSummaryOpen, input$patientSummarySelectW))
+          hideshinyalert(session, patient)
+      PatientSummaryOpen <<- input$patientSummarySelectW
+    }
+  })
+  
+  output$patientSummaries <-  renderUI({ 
+    classify()
+    out.list <- list()
+    for(i in 1:nrow(results))
+      out.list[[i]] <- shinyalert(paste(results$files[i]), click.hide = TRUE)
+    out.list
+  })
+  
+  #   output$patientSumCols <-  renderUI({   
+  #     out.list <- list()
+  #     for(i in 1:length(input$patientSummarySelectW))
+  #       out.list[[i]] <- div(class = "well container-fluid", 
+  #                            div(class = "row-fluid", 
+  #                                div(class = "row-fluid", 
+  #                                    div(helpText(paste(input$patientSummarySelectW[i]))),
+  #                                    div(class = "span3", jscolorInput(paste0("jscolorInput", input$patientSummarySelectW[i])))
+  #                                )
+  #                            )
+  #       )
+  #     out.list
+  #   })
+  
+  observe({
+    
+    input$SelectColourPS
+    
+   
+      
+      
+    output$SelectedColoursPS <- renderUI({
+      
+      isolate({
+        print(input$jscolorInputPS)
+        if(is.null(input$jscolorInputPS)){
+          list(
+            select2Input(inputId = "SelectedColoursPSw", 
+                         label = "The selected colours", 
+                         selected = "333333")
+          )
+        }else{
+          if(is.null(input$jscolorInputPS)){
+            new.col <- "333333"
+          }else{
+            if(input$jscolorInputPS == ""){
+              new.col <- "333333"
+            }else{
+              new.col <- ifelse(input$jscolorInputPS == "FFFFFF", "333333", input$jscolorInputPS) 
+            }
+          }
+          selected.colors <- c(input$SelectedColoursPSw, new.col)
+          
+          print(selected.colors)
+          list(
+            select2Input(inputId = "SelectedColoursPSw", 
+                         label = "The selected colours", 
+                         selected = selected.colors)
+          )
+        }
+      })
+    })   
+  })
+  
+  prognosisR <- reactive({
+    input$patientSummaryIPIW
+    input$patientSummarySelectW
+    isolate({
+      
+      classify()
+      
+      rownames(results) <- results$files
+      
+      
+      metadata.in.use <- MetaDataInUse()
+      
+      
+      
+      prog.surv <- NULL
+      if(length(rownames(results)) == length(rownames(metadata.in.use)) && 
+           all(rownames(results) == rownames(metadata.in.use))){
+        
+        prog.surv <- list()
+        
+        pred.data <- as.data.frame(cbind(metadata.in.use, results))      
+        
+        fit.OS <<- 
+          readRDS(file = "../Database/V1/Classification//fit.ABCGCB2.OS.rds")
+        fit.PFS <<- 
+          readRDS(file = "../Database/V1/Classification//fit.ABCGCB2.PFS.rds")
+        
+        metadataCombined <<-
+          readRDS(file = "../Database/V1/Classification//metadataCombined.rds")
+        
+        if(input$patientSummaryIPIW != "Choose"){
+          pred.data$IPI <- pred.data[, input$patientSummaryIPIW]   
+        }else{
+          pred.data$IPI <- NA
+        }
+        
+        pred.data$IPI <- as.character(pred.data$IPI)
+        
+        pred.data$IPI[is.na(pred.data$IPI)] <- "NC"
+        
+        print(pred.data[input$patientSummarySelectW, , drop = FALSE])
+        
+        prog.surv[["Survfit.PFS"]] <- 
+          survfit(fit.PFS, newdata = pred.data[input$patientSummarySelectW, , drop = FALSE], 
+                  censor = FALSE)
+        prog.surv[["Survfit.OS"]]  <- 
+          survfit(fit.OS,  newdata = pred.data[input$patientSummarySelectW, , drop = FALSE], 
+                  censor = FALSE)
+        
+        print(prog.surv)
+      }
+      return(prog.surv)
+      
+    })
+  })
+  
+  output$patientSummaryPlot <- renderPlot({
+    
+    prog.surv <- prognosisR()
+    
+    if(is.null(prog.surv))
+      return(NULL)
+    
+    par(mfrow = c(1, 2))
+    
+    if(is.null(input$SelectedColoursPSw))
+      return(NULL)
+    
+    
+    plot(prog.surv[["Survfit.OS"]],
+         xlab = "Years", ylab="Survival", main = "Overall survival", col = paste0("#", input$SelectedColoursPSw))
+   
+    legend("bottomleft", fill = rep(paste0("#", input$SelectedColoursPSw), 50), legend = input$patientSummarySelectW)
+    
+    plot(prog.surv[["Survfit.PFS"]],
+         xlab = "Years", ylab="Survival", main = "Progression free survival", col = paste0("#", input$SelectedColoursPSw))
+    
+  })
   #   
   #   observe({
   #     if (is.null(input$usrFiles)) {
@@ -888,6 +1448,37 @@ shinyServer(function(input, output, session) {
   #     }
   #   })
   
+  
+  output$patientSummarySelect <- renderUI({
+    
+    classify()
+    
+    list(
+      select2Input(inputId = "patientSummarySelectW", "Column containing IPI", 
+                   results$files, selected =  results$files[1] )
+    )    
+  })
+  
+  
+  output$patientSummaryIPI <- renderUI({
+    
+    metadata.in.use <- MetaDataInUse()
+    
+    select = NULL
+    
+    
+    
+    if(any(colnames(metadata.in.use) == "ipi"))
+      select = "ipi"
+    
+    if(any(colnames(metadata.in.use) == "IPI"))
+      select = "IPI"
+    
+    list(
+      selectInput(inputId = "patientSummaryIPIW", "Column containing IPI", 
+                  c("Choose", colnames(metadata.in.use)), selected = select)
+    )    
+  })
   
   output$showNormMethods <- reactive({
     input$usrFiles
@@ -1175,19 +1766,21 @@ shinyServer(function(input, output, session) {
     
     classify() # Classify
     
-    if (length(results) == 0)
+    
+    if (length(chosen.names) == 0)
       return(NULL)
-    results2 <- results
-    if( length(names(results)) >0){
-      for(i in names(results)){
-        if(class(results[,i]) == "numeric")
+    
+    
+    results2 <- results[, c("files", chosen.names)]
+    if(length(names(results2)) >0){
+      for(i in names(results2)){
+        if(class(results2[,i]) == "numeric")
           results2[,i] <- round(results2[,i], 3)
       }
       return(results2)
     }else{
       return(NULL)
-    }
-    
+    }  
     
   })
   

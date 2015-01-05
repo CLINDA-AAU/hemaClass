@@ -34,7 +34,6 @@
 BAGS <- function(new.data, cut.spec = NULL,
                  percent.classified = 85){
   
-  
   #mean1 <- mean(new.data, na.rm = TRUE)
   
   new.data[is.na(new.data)] <- 0
