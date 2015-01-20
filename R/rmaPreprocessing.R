@@ -18,7 +18,7 @@
 #' affyRMA <- rmaPreprocessing(affyBatch)
 #' 
 #' @import preprocessCore
-#' @import matrixStats
+#' @importFrom matrixStats rowMedians
 #' @export
 rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL){
   
@@ -35,8 +35,8 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL){
   
   contin = TRUE
   if(test == TRUE){
-    wh  <- apply(!is.finite(ref.pm), 2, any)
-    wh2 <- apply(is.na(ref.pm),      2, any)
+    wh  <- colSums(!is.finite(ref.pm)) > 0 #apply(!is.finite(ref.pm), 2, any)
+    wh2 <- colSums(is.na(ref.pm)) > 0 # apply(is.na(ref.pm), 2, any)
     
     bad  <- colnames(affy.batch$exprs)[wh|wh2]
     good <- setdiff(colnames(affy.batch$exprs), bad)
@@ -74,17 +74,21 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL){
                    colnames(ref.pm.log))
     
     # estimate median for later centralisation
-    ref.median <- rowMedians(as.matrix(tmp$exprs))
+    ref.median <- matrixStats::rowMedians(as.matrix(tmp$exprs))
     names(ref.median) <- rownames(tmp$exprs)
     
     # estimate standard deviations for later normalisation
-    ref.sd <- matrixStats::rowSds(as.matrix(tmp$exprs))
+    ref.sd <- rowSds(as.matrix(tmp$exprs))
     
+    ref.mean <- rowMeans(as.matrix(tmp$exprs))
+      
     exprs.sc <- (tmp$exprs - ref.median) / ref.sd
     
-    return(list(exprs = tmp$exprs, exprs.sc = exprs.sc,
+    exprs.sc.mean <- (tmp$exprs - ref.mean) / ref.sd
+   
+    return(list(exprs = tmp$exprs, exprs.sc = exprs.sc, exprs.sc.mean = exprs.sc.mean, 
                 quantile = affy.batch$quantile, alpha = tmp$alpha, 
-                sd = ref.sd, median = ref.median, bad = bad))
+                sd = ref.sd, median = ref.median, mean = ref.mean, bad = bad))
   }else{
     return(bad)
   }

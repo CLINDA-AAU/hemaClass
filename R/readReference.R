@@ -53,3 +53,12 @@ readCHEPRETROreference <- function() {
   file <- system.file("extdata/References/CHEPRETRO.ref.rda", package = "hemaClass")
   return(readRDS(file))
 }
+
+#' @rdname readReference
+#' @examples
+#' names(readUAMSreference())
+#' @export
+readUAMSreference <- function() {
+  file <- system.file("extdata/References/UAMS.ref.rda", package = "hemaClass")
+  return(readRDS(file))
+}

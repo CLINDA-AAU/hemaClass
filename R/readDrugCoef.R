@@ -134,3 +134,42 @@ readRituximabClasLytisk2Coef <- function() {
   file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk2.coef.rda", package = "hemaClass")
   return(readRDS(file))
 }
+
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readDexamethasoneClasCoef())
+#' @export
+readDexamethasoneClasCoef <- function() {
+  file <- system.file("extdata/Drugs/Dexamethasone.resistance.class.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readDexamethasonePredCoef())
+#' @export
+readDexamethasonePredCoef <- function() {
+  file <- system.file("extdata/Drugs/Dexamethasone.resistance.pred.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readMelphalanClasCoef())
+#' @export
+readMelphalanClasCoef <- function() {
+  file <- system.file("extdata/Drugs/Melphalan.resistance.class.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+#' @rdname readDrugCoef
+#' @examples
+#' head(readMelphalanPredCoef())
+#' @export
+readMelphalanPredCoef <- function() {
+  file <- system.file("extdata/Drugs/Melphalan.resistance.pred.coef.rda", package = "hemaClass")
+  return(readRDS(file))
+}
+
+

@@ -101,7 +101,9 @@ shinyUI(
                            list("LLMPP CHOP"   = "LLMPPCHOP",  
                                 "LLMPP R-CHOP" = "LLMPPRCHOP", 
                                 "IDRC"         = "IDRC", 
-                                "MDFCI"        = "MDFCI"
+                                "MDFCI"        = "MDFCI",
+                                "CHEPRETRO"    = "CHEPRETRO",
+                                "UAMS"         = "UAMS"
                            )),
                          tags$hr() 
                        ),
@@ -317,7 +319,7 @@ shinyUI(
                        h4("Classification systems:"),
                        checkboxGroupInput("getClassifications", ,
                                           label = "Perform classifications:", 
-                                          choices = c("BAGS", "ABCGCB", "ABCGCB2", "Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined"),
+                                          choices = c("BAGS", "ABCGCB", "ABCGCB2", "Rituximab (R)", "Cyclophosphamide (C)", "Doxorubicin (H)", "Vincristine (O)", "Dexamethasone (P)", "Combined (CHO)", "Melphalan"),
                                           selected = c("BAGS")),
                        
                        
@@ -330,32 +332,50 @@ shinyUI(
                        
                        
                        conditionalPanel(
-                         condition = "input.getClassifications.indexOf('Cyclophosphamide') != -1",
+                         condition = "input.getClassifications.indexOf('Rituximab (R)') != -1",
+                         h4("Rituximab options:"),
+                         checkboxInput(inputId = "HSCorrected", "Human serum corrected", value = TRUE),
+                         checkboxInput(inputId = "Lysis", "Lysis based", value = FALSE),
+                         sliderInput("Rituximab.range", "Rituximab, range of intermediate:", step = 0.01,
+                                     min = 0, max = 1, value =  c(0.38, 0.54))
+                       ),
+                       
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('Cyclophosphamide (C)') != -1",
                          h4("Cyclophosphamide options:"),
                          sliderInput("Cyclophosphamide.range", "Cyclophosphamide, range of intermediate:", step = 0.01,
                                      min = 0, max = 1, value = c(0.46,0.67))
                        ),
                        
                        conditionalPanel(
-                         condition = "input.getClassifications.indexOf('Doxorubicin') != -1",
+                         condition = "input.getClassifications.indexOf('Doxorubicin (H)') != -1",
                          h4("Doxorubicin options:"),
                          sliderInput("Doxorubicin.range", "Doxorubicin, range of intermediate:", step = 0.01,
                                      min = 0, max = 1, value = c(0.1, 0.86))
                        ),
                        
                        conditionalPanel(
-                         condition = "input.getClassifications.indexOf('Vincristine') != -1",
+                         condition = "input.getClassifications.indexOf('Vincristine (O)') != -1",
                          h4("Vincristine options:"),
                          sliderInput("Vincristine.range", "Vincristine, range of intermediate:", step = 0.01,
                                      min = 0, max = 1, value =  c(0.38, 0.54))
                        ),
                        
                        conditionalPanel(
-                         condition = "input.getClassifications.indexOf('Combined') != -1",
-                         h4("Combined options:"),
-                         sliderInput("Combined.range", "Combined, range of intermediate:", step = 0.01,
+                         condition = "input.getClassifications.indexOf('Dexamethasone (P)') != -1",
+                         h4("Dexamethasone options:"),
+                         sliderInput("Dexamethasone.range", "Dexamethasone, range of intermediate:", step = 0.01,
+                                     min = 0, max = 1, value = c(0.25,0.75))
+                       ),
+                       
+                       conditionalPanel(
+                         condition = "input.getClassifications.indexOf('Combined (CHO)') != -1",
+                         h4("Combined CHO options:"),
+                         sliderInput("Combined.range", "Combined CHO, range of intermediate:", step = 0.01,
                                      min = 0, max = 1, value = c(0.07,0.91))
                        ),
+                       
                        
                        br(),br(),
                        downloadButton('downloadData', 'Download classification results')

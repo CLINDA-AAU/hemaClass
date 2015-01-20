@@ -38,8 +38,8 @@ rmaReference <- function(affy.batch, reference, test = FALSE){
   # Test for bad arrays
   contin = TRUE
   if(test == TRUE){
-    wh <- apply(!is.finite(ref.pm), 2, any)
-    wh2 <- apply(is.na(ref.pm), 2, any)
+    wh  <- colSums(!is.finite(ref.pm)) > 0 #apply(!is.finite(ref.pm), 2, any)
+    wh2 <- colSums(is.na(ref.pm)) > 0 # apply(is.na(ref.pm), 2, any)
     
     bad <- colnames(affy.batch$exprs)[wh|wh2]
     good <- setdiff(colnames(ref.pm), bad)
@@ -61,7 +61,9 @@ rmaReference <- function(affy.batch, reference, test = FALSE){
                    reference$quantile,  reference$alpha)
     
     # Scale the rma normalised
-    tmp$exprs.sc <- (tmp$exprs -reference$median) / reference$sd
+    tmp$exprs.sc <- (tmp$exprs - reference$median) / reference$sd
+    
+    tmp$exprs.sc.mean <- (tmp$exprs - reference$mean) / reference$sd
     
     return(tmp)
   }else{

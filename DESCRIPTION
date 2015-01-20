@@ -12,13 +12,13 @@ License: file LICENSE
 Depends:
     affy
 Imports:
+    shinysky,
     shiny,
     matrixStats,
     preprocessCore,
     affyio,
     Rcpp (>= 0.10.6),
     RcppArmadillo,
-    shinysky,
     Biobase,
     gdata,
     WriteXLS

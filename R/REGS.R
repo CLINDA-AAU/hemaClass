@@ -14,6 +14,10 @@
 #'   VincristinePredictor
 #'   RituximabClassifier
 #'   RituximabPredictor
+#'   DexamethasoneClassifier
+#'   DexamethasonePredictor
+#'   MelphalanClassifier
+#'   MelphalanPredictor
 #' @param new.data An expression matrix.
 #' @param drugs An RMA reference object created by rmaPreprocessing.
 #' @param cut Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.
@@ -419,3 +423,69 @@ RituximabProbFun <- function(newx, type = "lysis"){
   prob.mat <- exp(prob.mat)
   prob.mat / rowSums(prob.mat)
 }
+
+
+
+#' @rdname REGS
+#' @export
+DexamethasoneClassifier <-
+  function(new.data){
+    
+    coef <- readDexamethasoneClasCoef()
+    
+    x <- rbind(1, new.data[names(coef)[-1],,drop= FALSE])
+    
+    prob <- t(x) %*% as.matrix((coef)  )
+    
+    prob <- 1 - exp(prob) / ( exp(prob) + exp(-prob))
+    colnames(prob) <- "Sensitive"
+    prob
+  }
+
+#' @rdname REGS
+#' @export
+DexamethasonePredictor <- 
+  function(new.data){
+    coef <- readDexamethasonePredCoef()
+    
+    x <- rbind(1, new.data[names(coef)[-1],,drop= FALSE])
+    
+    t(x) %*% as.matrix((coef))
+  }
+
+#' @rdname REGS
+#' @export
+MelphalanClassifier <-
+  function(new.data){
+    
+    coef <- readMelphalanClasCoef()
+    
+    x <- rbind(1, as.matrix(new.data)[colnames(coef)[-1],,drop= FALSE])
+    
+    probs <- t(tcrossprod(coef, t(x)))
+    probs <- exp(probs - probs[cbind(1:nrow(probs), max.col(probs, ties.method = "first"))])
+    probs <- zapsmall(probs/rowSums(probs))
+    class <- factor(rownames(coef)[max.col(probs)], 
+                    levels = c("Sensitive", "Intermediate", "Resistant"))
+    
+    
+  return(list(probs = probs, class = class))  
+    
+  
+  }
+
+#' @rdname REGS
+#' @export
+MelphalanPredictor <- 
+  function(new.data){
+    
+    fit <- readMelphalanPredCoef()
+    
+    newx <- t(as.matrix(new.data)[rownames(fit$beta)[-1],, drop= FALSE])
+    newx <- scale(newx, fit$center, fit$scale)
+    
+    cbind(1, newx) %*% fit$beta
+
+  }
+
+
