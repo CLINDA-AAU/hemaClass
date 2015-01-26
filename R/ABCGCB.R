@@ -21,11 +21,11 @@
 #' # The cel files are pre-processed
 #' affyRMA <- rmaPreprocessing(affyBatch)
 #' 
-#' # the function \code{rmaPreprocessing} returns median centered and scaled 
+#' # the function rmaPreprocessing returns median centered and scaled 
 #' # expression values in the slot exprs.sc. 
 #' 
 #' # The slot exprs.sc.mean contains mean cetered and scaled expression values.
-#' # This scaling can also be achieved using the function \code{microarrayScale}.
+#' # This scaling can also be achieved using the function microarrayScale.
 #' affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 #' 
 #' # We may now use the ABCGCB classifier
