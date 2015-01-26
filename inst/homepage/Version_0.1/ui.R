@@ -15,10 +15,11 @@ shinyUI(
                             "patients according various classifications algorithms." )),
                  
                  tabPanel("News",
-                          includeHTML("www/ex1.html")
+                          includeHTML("www/News.html")
                  ),
-                 
-                 tabPanel("Authors"),
+                 tabPanel("Authors"
+                          ,includeHTML("www/Authors.html")
+                 ),
                  tabPanel("Citation"),
                  tabPanel("Papers"),
                  

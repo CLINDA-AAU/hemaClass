@@ -71,25 +71,55 @@ devtools::install_github("analytixware/shinysky")
 # To gain support for reading xlsx files
 gdata::installXLSXsupport(perl = "perl", verbose = FALSE)
 
-# General editing
 
+#################################
+# General editing
+#################################
 
 # installing shiny applications
 
+
 # In a local terminal the following command copies the current homepage to the server
-scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/homepage/ sfl@oncoclass.hpc.aau.dk:~/hemaClass/homepage
-
-
-scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/homepage/ m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/hemaClass/homepage
+scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/homepage/. sfl@oncoclass.hpc.aau.dk:~/hemaClass/
 
 # logon to the server using a sudo user
 ssh -X sfl@oncoclass.hpc.aau.dk
 
+# After you have logged in you can copy the file into the shiny server
+sudo cp -r  ~/hemaClass/ /srv/shiny-server/hemaClass/homepage/
+
+
+
+
+
+# In a local terminal the following command copies the current homepage to the server
+scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/homepage/. m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/hemaClass/
+
+# logon to the server using a sudo user
 ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
 
-
 # After you have logged in you can copy the file into the shiny server
-sudo cp -r  ~/hemaClass/homepage/ /srv/shiny-server/hemaClass/homepage/
+sudo cp -r  ~/hemaClass/ /srv/shiny-server/hemaClass/homepage/
+
+
+##########################################
+# In order to only submit changes made to the homepage and not the database use
+scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/homepage/Version_0.1/. sfl@oncoclass.hpc.aau.dk:~/Version_0.1/
+
+ssh -X sfl@oncoclass.hpc.aau.dk
+
+sudo cp -r  ~/Version_0.1 /srv/shiny-server/hemaClass/homepage
+#########################################
+
+#########################################
+scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/homepage/Version_0.1/ m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/Version_0.1/
+
+ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
+
+sudo cp -r  ~/Version_0.1 /srv/shiny-server/hemaClass/homepage
+#########################################
+
+
 
 # install new version of the package
 
