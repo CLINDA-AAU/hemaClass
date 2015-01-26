@@ -18,7 +18,15 @@
 #' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
 #' (at) math.aau.dk>
 #' @examples
-#' 2+2
+#' 
+#' # Read hgu133plus2 .CEL files into R 
+#' \donttest{
+#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+#' CEL.data <- readCelfiles(files) 
+#' }
+#' 
+#' @seealso For preprocessing of the cel files see \code{\link{rmaPreprocessing}}.
+#' 
 #' @import affy
 #' @export
 readCelfiles <- function(filenames, cdfname = NULL, rm.mask = FALSE, 

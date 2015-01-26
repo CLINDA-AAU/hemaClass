@@ -38,7 +38,6 @@ apt-get -y install libcurl4-gnutls-dev
 
 # installing shiny applications
 
-
 # In a local terminal the following command copies the current homepage to the server
 scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/homepage/ sfl@oncoclass.hpc.aau.dk:~/hemaClass
 

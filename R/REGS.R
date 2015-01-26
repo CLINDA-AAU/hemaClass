@@ -31,24 +31,47 @@
 #' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
 #' (at) math.aau.dk>
 #' @examples
-#' require(affy)
-#' require(MATT)
-#' u133 <- exprs(readRDS(system.file("extdata/GEPhgu.rda", package = "MATT")))
 #' 
-#' u133 <- microarrayScale(u133)
+#' \donttest{
+#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+#' affyBatch <- readCelfiles(filenames = files)
 #' 
-#' ResistanceClassifier(u133)
-#' ResistancePredictor(u133)
-#' RituximabClassifier(u133, type = "lysis", percent.classified = 100) 
-#' RituximabClassifier(u133, type = "uncorrected", calc.cut = c(0.33, 0.66)) 
-#' RituximabClassifier(u133, type = "corrected") 
+#' # The cel files are pre-processed
+#' affyRMA <- rmaPreprocessing(affyBatch)
 #' 
-#' huex <- exprs(readRDS(system.file("extdata/GEPexon.full.rda", 
-#'                                   package = "MATT")))
-#'
-#' u133.conv  <- huex10st_to_u133(huex, method = "weighted", type = "Complex")
-#' ResistanceClassifier(u133.conv)                       
-#'                                                                                                                                                                                                                          
+#' # the function \code{rmaPreprocessing} returns median centered and scaled 
+#' # expression values in the slot exprs.sc. 
+#' 
+#' # The slot exprs.sc.mean contains mean cetered and scaled expression values.
+#' # This scaling can also be achieved using the function \code{microarrayScale}.
+#' affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
+#' 
+#' # We may now use the predictors
+#' 
+#' # The classifier for Cyclophosphamide, Doxorubicin, and Vincristine:
+#' ResistanceClassifier(affyRMA.sc)
+#' 
+#' # The predictor for Cyclophosphamide, Doxorubicin, and Vincristine:
+#' ResistancePredictor(affyRMA.sc)
+#' 
+#' # The classifier for Rituximab into Lysis, Statisk, or Resistant:
+#' RituximabClassifier(affyRMA.sc, type = "lysis2", percent.classified = 100) 
+#' 
+#' # The classifier for Rituximab into Sensitive, Intermediate, or Resistant without 
+#' # taking human serum into accout:
+#' RituximabClassifier(affyRMA.sc, type = "uncorrected", calc.cut = c(0.33, 0.66)) 
+#' 
+#' # The classifier for Rituximab into Sensitive, Intermediate, or Resistant 
+#' # while taking human serum into accout:
+#' RituximabClassifier(affyRMA.sc, type = "corrected") 
+#' 
+#' # For the melphalan classifier we use mean centered and sd scaled expression values:
+#' affyRMA.sc.mean <- microarrayScale(affyRMA$exprs, center = "mean")
+#' MelphalanClassifier(affyRMA.sc.mean) 
+#' 
+#' # For the melphalan predictor we use the original scale:
+#' MelphalanPredictor(affyRMA$exprs)  
+#' }                                                                                                                                                                                                                                  
 #' @export
 ResistanceClassifier <- function(new.data, 
                                  drugs = c("Cyclophosphamide", 

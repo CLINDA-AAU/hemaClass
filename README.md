@@ -38,8 +38,7 @@ install.packages("devtools")  # Uncomment if devtools is not installed
 devtools::install_github("AnalytixWare/ShinySky")
 
 # Finally the package is installed.
-devtools::install_github("Falgreen/hemaClass", 
-                         auth_token = "...", 
+devtools::install_github("oncoclass/hemaClass",
                          dependencies = TRUE)
 ```
 

@@ -25,20 +25,23 @@ B-cell associated gene signatures (BAGS).
 The function BAGS classifies DLBCL patients according to the cell of origin for the tumor.
 }
 \examples{
-require(affy)
-require(MATT)
-u133 <- exprs(readRDS(system.file("extdata/GEPhgu.rda", package = "MATT")))
+\donttest{
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+affyBatch <- readCelfiles(filenames = files)
 
-u133 <- microarrayScale(u133)
+# The cel files are pre-processed
+affyRMA <- rmaPreprocessing(affyBatch)
 
-BAGS(u133)
+# the function \\code{rmaPreprocessing} returns median centered and scaled
+#  expression values in the slot exprs.sc.
 
+# The slot exprs.sc.mean contains mean cetered and scaled expression values.
+# This scaling can also be achieved using the function \\code{microarrayScale}.
+affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 
-huex <- exprs(readRDS(system.file("extdata/GEPexon.full.rda",
-                                  package = "MATT")))
-
-u133.conv  <- huex10st_to_u133(huex, method = "weighted", type = "Complex", min.pct = 0.8)
-BAGS(u133.conv)
+# We may now use the ABCGCB classifier
+BAGS(affyRMA.sc)
+}
 }
 \author{
 Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau

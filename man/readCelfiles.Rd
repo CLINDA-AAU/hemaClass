@@ -35,7 +35,11 @@ Cel files given in the argument filenames are read into a matrix in R.
 Load cel files into a matrix.
 }
 \examples{
-2+2
+# Read hgu133plus2 .CEL files into R
+\donttest{
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+CEL.data <- readCelfiles(files)
+}
 }
 \author{
 Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
@@ -43,5 +47,8 @@ Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
 }
 \references{
 Reference to the hemaClass.com paper
+}
+\seealso{
+For preprocessing of the cel files see \code{\link{rmaPreprocessing}}.
 }
 
