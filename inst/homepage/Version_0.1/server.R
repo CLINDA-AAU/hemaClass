@@ -21,6 +21,7 @@ cat("done.\n")
 shinyServer(function(input, output, session) {
   # Initialzing the normalized.data and results object
   normalized.data <- NULL
+  normalized.data.mean <- NULL
   normalized.data.RMA <- NULL
   user.reference  <- NULL
   user.reference.affy <- NULL
