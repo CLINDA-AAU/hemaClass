@@ -99,7 +99,7 @@ scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/homepage/. m_boegste
 ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
 
 # After you have logged in you can copy the file into the shiny server
-sudo cp -r  ~/hemaClass/ /srv/shiny-server/hemaClass/homepage/
+sudo cp -r  ~/hemaClass/. /srv/shiny-server/hemaClass/homepage/
 
 
 ##########################################
@@ -137,5 +137,6 @@ sudo a2ensite oncoclass.conf
 # restarting the apache server
 sudo service apache2 restart
 
+# restarting the shiny server
 
-
+sudo restart shiny-server
