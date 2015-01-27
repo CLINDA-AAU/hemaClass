@@ -18,7 +18,7 @@ shinyUI(
                           includeHTML("www/News.html")
                  ),
                  tabPanel("Authors"
-                          ,includeHTML("www/Authors.html")
+                          ,includeHTML("www/Authors2.html")
                  ),
                  tabPanel("Citation"),
                  tabPanel("Papers"),
