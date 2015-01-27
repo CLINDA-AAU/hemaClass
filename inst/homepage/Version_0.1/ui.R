@@ -9,10 +9,15 @@ shinyUI(
                'Home',   
                navlistPanel(
                  "Information:",
-                 tabPanel("hemaClass", h3("GEP Based Classification of DLBCL Patients"),
-                          
-                          p("This homepage is dedicated to classification of DLBCL", 
-                            "patients according various classifications algorithms." )),
+                 tabPanel("hemaClass", h1("Welcome to hemaClass"),
+                          p("This homepage is dedicated to GEP based classification of DLBCL", 
+                            "patients according to various classifications algorithms. The server
+                            currently supports gene expressions profiled by the 
+                            Affymetrix GeneChip Human Genome U133 Plus 2.0 Array"),
+                          h4("Load Data"),
+                          h4("ABC/GCB Classification"),
+                          h4("BAGS Classification"),
+                          h4("REGS Classification")),
                  
                  tabPanel("News",
                           includeHTML("www/News.html")
