@@ -9,6 +9,7 @@ shinyUI(
                'Home',   
                navlistPanel(
                  "Information:",
+<<<<<<< HEAD
                  tabPanel("hemaClass", h1("Welcome to hemaClass"),
                           p("This homepage is dedicated to GEP based classification of DLBCL", 
                             "patients according to various classifications algorithms. The server
@@ -18,12 +19,18 @@ shinyUI(
                           h4("ABC/GCB Classification"),
                           h4("BAGS Classification"),
                           h4("REGS Classification")),
+=======
+                 tabPanel("hemaClass", h2("GEP Based Classification of DLBCL Patients"),
+                          
+                          p("This homepage is dedicated to classification of DLBCL", 
+                            "patients according various classifications algorithms." )),
+>>>>>>> FETCH_HEAD
                  
                  tabPanel("News",
                           includeHTML("www/News.html")
                  ),
                  tabPanel("Authors"
-                          ,includeHTML("www/Authors.html")
+                          ,includeHTML("www/Authors2.html")
                  ),
                  tabPanel("Citation"),
                  tabPanel("Papers"),
