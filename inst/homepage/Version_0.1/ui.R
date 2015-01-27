@@ -9,7 +9,7 @@ shinyUI(
                'Home',   
                navlistPanel(
                  "Information:",
-                 tabPanel("hemaClass", h3("GEP Based Classification of DLBCL Patients"),
+                 tabPanel("hemaClass", h2("GEP Based Classification of DLBCL Patients"),
                           
                           p("This homepage is dedicated to classification of DLBCL", 
                             "patients according various classifications algorithms." )),
