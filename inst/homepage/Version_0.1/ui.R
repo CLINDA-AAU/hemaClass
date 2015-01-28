@@ -20,7 +20,8 @@ shinyUI(
                           h4("REGS Classification")),
                  tabPanel("hemaClass",
                           includeHTML("www/hemaClass.html")
-                 ),            
+                 ),  
+                          h4("REGS Classification")),    
                  tabPanel("News",
                           includeHTML("www/News.html")
                  ),
