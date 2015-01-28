@@ -18,10 +18,6 @@ shinyUI(
                           h4("ABC/GCB Classification"),
                           h4("BAGS Classification"),
                           h4("REGS Classification")),
-                 tabPanel("hemaClass", h2("GEP Based Classification of DLBCL Patients"),
-                          
-                          p("This homepage is dedicated to classification of DLBCL", 
-                            "patients according various classifications algorithms." )),
                  tabPanel("hemaClass",
                           includeHTML("www/hemaClass.html")
                  ),            
