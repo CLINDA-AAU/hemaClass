@@ -22,7 +22,9 @@ shinyUI(
                           
                           p("This homepage is dedicated to classification of DLBCL", 
                             "patients according various classifications algorithms." )),
-                 
+                 tabPanel("hemaClass",
+                          includeHTML("www/hemaClass.html")
+                 ),            
                  tabPanel("News",
                           includeHTML("www/News.html")
                  ),
