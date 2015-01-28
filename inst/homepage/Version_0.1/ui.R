@@ -18,8 +18,12 @@ shinyUI(
                  tabPanel("Authors"
                           ,includeHTML("www/Authors2.html")
                  ),
-                 tabPanel("Citation"),
-                 tabPanel("Papers"),
+                 tabPanel("Citation"
+                          ,includeHTML("www/Citation.html")
+                 ),
+                 tabPanel("Papers"
+                          ,includeHTML("www/Papers.html")
+                 ),
                  "-----",
                  tabPanel("Disclaimer"
                           ,includeHTML("www/Disclaimer.html")
