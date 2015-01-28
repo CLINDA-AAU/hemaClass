@@ -30,8 +30,6 @@ shinyUI(
                  ),
                  tabPanel("Citation"),
                  tabPanel("Papers"),
-                 
-                 "-----",
                  tabPanel("Disclaimer")
                )),
              tabPanel( 
