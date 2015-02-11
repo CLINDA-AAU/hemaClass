@@ -34,7 +34,7 @@ install.packages("RcppEigen")
 install.packages("testthat")
 
 # From GitHub 
-install.packages("devtools")  # Uncomment if devtools is not installed
+install.packages("devtools")
 devtools::install_github("AnalytixWare/ShinySky")
 
 # Finally the package is installed.
