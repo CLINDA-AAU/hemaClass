@@ -8,31 +8,34 @@
 #'   BAGSclassifier 
 #' @param new.data An expression matrix.
 #' @param cut.spec A numeric value for which the probabilities should be cut.
-#' @param percent.classified A numeric value indicating the percentage of patients the should be classified.
+#' @param percent.classified A numeric value indicating the percentage of 
+#'   patients the should be classified.
 #' @return Probabilities regarding each patients association with each class.
-#' @details The function BAGS classifies DLBCL patients according to the cell of origin for the tumor.
+#' @details The function BAGS classifies DLBCL patients according to the cell 
+#'   of origin for the tumor.
 #' @references Reference to the BAGS and hemaClass paper.
-#' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-#' (at) math.aau.dk>
+#' @author 
+#'   Steffen Falgreen <sfl (at) rn.dk> \cr 
+#'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 #' @examples
 #' \donttest{
-#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), 
+#'              full.names = TRUE)
 #' affyBatch <- readCelfiles(filenames = files)
 #' 
 #' # The cel files are pre-processed
 #' affyRMA <- rmaPreprocessing(affyBatch)
 #' 
-#' # the function \code{rmaPreprocessing} returns median centered and scaled 
-#' #  expression values in the slot exprs.sc. 
+#' # The function rmaPreprocessing returns median centered and scaled
+#' # expression values in the slot exprs.sc.
 #' 
-#' # The slot exprs.sc.mean contains mean cetered and scaled expression values.
-#' # This scaling can also be achieved using the function \code{microarrayScale}.
+#' # The slot exprs.sc.mean contains mean centered and scaled expression values.
+#' # This scaling can also be achieved using the function microarrayScale.
 #' affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 #' 
 #' # We may now use the ABCGCB classifier
-#' BAGS(affyRMA.sc) 
-#' }        
-#'                                                                                                                       
+#' BAGS(affyRMA.sc)
+#' }                                                                                                                  
 #' @export
 BAGS <- function(new.data, cut.spec = NULL,
                  percent.classified = 85){

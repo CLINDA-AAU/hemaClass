@@ -13,7 +13,8 @@ BAGS(new.data, cut.spec = NULL, percent.classified = 85)
 
 \item{cut.spec}{A numeric value for which the probabilities should be cut.}
 
-\item{percent.classified}{A numeric value indicating the percentage of patients the should be classified.}
+\item{percent.classified}{A numeric value indicating the percentage of
+patients the should be classified.}
 }
 \value{
 Probabilities regarding each patients association with each class.
@@ -22,30 +23,17 @@ Probabilities regarding each patients association with each class.
 B-cell associated gene signatures (BAGS).
 }
 \details{
-The function BAGS classifies DLBCL patients according to the cell of origin for the tumor.
+The function BAGS classifies DLBCL patients according to the cell
+  of origin for the tumor.
 }
 \examples{
 \donttest{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
-affyBatch <- readCelfiles(filenames = files)
-
-# The cel files are pre-processed
-affyRMA <- rmaPreprocessing(affyBatch)
-
-# the function \\code{rmaPreprocessing} returns median centered and scaled
-#  expression values in the slot exprs.sc.
-
-# The slot exprs.sc.mean contains mean cetered and scaled expression values.
-# This scaling can also be achieved using the function \\code{microarrayScale}.
-affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
-
-# We may now use the ABCGCB classifier
-BAGS(affyRMA.sc)
+2+2
 }
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
 Reference to the BAGS and hemaClass paper.
