@@ -21,17 +21,11 @@ If you wish to install the latest version of `hemaClass` directly from the maste
 
 # First from bioconductor
 source("http://bioconductor.org/biocLite.R")
-biocLite("affy")
-biocLite("affyio")
-biocLite("preprocessCore")
+biocLite(c("affy", "affyio", "preprocessCore"))
 
 # Then from CRAN
-install.packages("shiny")
-install.packages("matrixStats")
-install.packages("Rcpp")
-install.packages("RcppArmadillo")
-install.packages("RcppEigen")
-install.packages("testthat")
+install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", 
+                   "RcppEigen", "testthat", "WriteXLS"))
 
 # From GitHub 
 install.packages("devtools")
