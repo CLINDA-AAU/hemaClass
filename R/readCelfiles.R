@@ -1,32 +1,36 @@
 #' Read cell files into a matrix
 #' 
-#' Cel files given in the argument filenames are read into a matrix in R.
+#' Affymetrix \code{.CEL} files given in the argument filenames are read 
+#' into a \code{matrix} in R.
 #' 
 #' @param filenames File names in a character vector.
 #' @param cdfname Used to specify the name of an alternative cdf package. If set
-#'   to NULL, then the usual cdf package based on Affymetrix' mappings will be
-#'   used.
-#' @param rm.mask Should the spots marked as 'MASKS' set to NA?
-#' @param rm.outliers Should the spots marked as 'OUTLIERS' set to NA?
-#' @param rm.extra If TRUE, then overrides what is in rm.mask and rm.oultiers.
-#' @param verbose Should file names be written as they are read into R.
+#'   to \code{NULL}, then the usual cdf package based on Affymetrix' mappings 
+#'   will be used.
+#' @param rm.mask Should the spots marked as 'MASKS' set to \code{NA}?
+#' @param rm.outliers Should the spots marked as 'OUTLIERS' set to \code{NA}?
+#' @param rm.extra If \code{TRUE}, then overrides what is in \code{rm.mask} and 
+#'   \code{rm.oultiers}.
+#' @param verbose logical. Should file names be written as they are read into R.
 #' @param which should the pm, mm, or both be stored in matrices.
 #'   
 #' @return Expression matrix consisting of all pm probes.
-#' @details Load cel files into a matrix.
+#' @details Load \code{.CEL} files into a matrix.
 #' @references Reference to the hemaClass.com paper
-#' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-#' (at) math.aau.dk>
+#' @author 
+#'   Steffen Falgreen <sfl (at) rn.dk> \cr 
+#'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 #' @examples
 #' 
 #' # Read hgu133plus2 .CEL files into R 
 #' \donttest{
-#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), 
+#'              full.names = TRUE)
 #' CEL.data <- readCelfiles(files) 
 #' }
 #' 
-#' @seealso For preprocessing of the cel files see \code{\link{rmaPreprocessing}}.
-#' 
+#' @seealso For preprocessing of the cel files see 
+#'   \code{\link{rmaPreprocessing}}.
 #' @import affy
 #' @export
 readCelfiles <- function(filenames, cdfname = NULL, rm.mask = FALSE, 

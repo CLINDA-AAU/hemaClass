@@ -12,16 +12,17 @@ readCelfiles(filenames, cdfname = NULL, rm.mask = FALSE,
 \item{filenames}{File names in a character vector.}
 
 \item{cdfname}{Used to specify the name of an alternative cdf package. If set
-to NULL, then the usual cdf package based on Affymetrix' mappings will be
-used.}
+to \code{NULL}, then the usual cdf package based on Affymetrix' mappings
+will be used.}
 
-\item{rm.mask}{Should the spots marked as 'MASKS' set to NA?}
+\item{rm.mask}{Should the spots marked as 'MASKS' set to \code{NA}?}
 
-\item{rm.outliers}{Should the spots marked as 'OUTLIERS' set to NA?}
+\item{rm.outliers}{Should the spots marked as 'OUTLIERS' set to \code{NA}?}
 
-\item{rm.extra}{If TRUE, then overrides what is in rm.mask and rm.oultiers.}
+\item{rm.extra}{If \code{TRUE}, then overrides what is in \code{rm.mask} and
+\code{rm.oultiers}.}
 
-\item{verbose}{Should file names be written as they are read into R.}
+\item{verbose}{logical. Should file names be written as they are read into R.}
 
 \item{which}{should the pm, mm, or both be stored in matrices.}
 }
@@ -29,26 +30,29 @@ used.}
 Expression matrix consisting of all pm probes.
 }
 \description{
-Cel files given in the argument filenames are read into a matrix in R.
+Affymetrix \code{.CEL} files given in the argument filenames are read
+into a \code{matrix} in R.
 }
 \details{
-Load cel files into a matrix.
+Load \code{.CEL} files into a matrix.
 }
 \examples{
 # Read hgu133plus2 .CEL files into R
 \donttest{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
+             full.names = TRUE)
 CEL.data <- readCelfiles(files)
 }
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
 Reference to the hemaClass.com paper
 }
 \seealso{
-For preprocessing of the cel files see \code{\link{rmaPreprocessing}}.
+For preprocessing of the cel files see
+  \code{\link{rmaPreprocessing}}.
 }
 
