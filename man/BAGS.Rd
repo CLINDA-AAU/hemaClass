@@ -28,7 +28,22 @@ The function BAGS classifies DLBCL patients according to the cell
 }
 \examples{
 \donttest{
-2+2
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
+             full.names = TRUE)
+affyBatch <- readCelfiles(filenames = files)
+
+# The cel files are pre-processed
+affyRMA <- rmaPreprocessing(affyBatch)
+
+# The function rmaPreprocessing returns median centered and scaled
+# expression values in the slot exprs.sc.
+
+# The slot exprs.sc.mean contains mean centered and scaled expression values.
+# This scaling can also be achieved using the function microarrayScale.
+affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
+
+# We may now use the ABCGCB classifier
+BAGS(affyRMA.sc)
 }
 }
 \author{
