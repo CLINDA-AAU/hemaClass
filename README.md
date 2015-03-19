@@ -9,8 +9,7 @@ The packages is features (or, is planned to feature):
 
 The currently featured platforms are:
 * Affymetrix GeneChip HG-U133 Plus 2.0 (`"u133plus2"`)
-Many more are to come...
-
+* But many more are to come... (hopefully)
 
 Installation
 ------------
@@ -18,7 +17,6 @@ If you wish to install the latest version of `hemaClass` directly from the maste
 
 ```R
 # Install necessary packages 
-
 # First from bioconductor
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("affy", "affyio", "preprocessCore"))
@@ -32,11 +30,10 @@ install.packages("devtools")
 devtools::install_github("AnalytixWare/ShinySky")
 
 # Finally the package is installed.
-devtools::install_github("oncoclass/hemaClass",
-                         dependencies = TRUE)
+devtools::install_github("oncoclass/hemaClass", dependencies = TRUE)
 ```
 
-`hemaClass` is still under heavy development and should be considered unstable. Be sure that you have the [package development prerequisites](http://www.rstudio.com/ide/docs/packages/prerequisites) if you wish to install the package from the source.
+`hemaClass` is still under development and should be considered unstable. Be sure that you have the [package development prerequisites](http://www.rstudio.com/ide/docs/packages/prerequisites) if you wish to install the package from the source.
 
 **Note:** The interface and function names may still see significant changes and
 modifications!
