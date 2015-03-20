@@ -13,16 +13,15 @@ runHemaClass(Version = 0.1)
 Starts a shiny server for the analysis
 }
 \description{
-Run the shiny server for hemaClass.
-}
-\details{
-This is a local version of the server running on hemaclass.com
+Run a local version of the server running on \code{hemaclass.com}.
 }
 \examples{
-#require(gdata)
-#require(survival)
-#require(shinysky)
-#runHemaClass()
+\dontrun{
+require(gdata)
+require(survival)
+require(shinysky)
+runHemaClass()
+}
 }
 \author{
 Steffen Falgreen Larsen
