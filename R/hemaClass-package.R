@@ -1,6 +1,6 @@
 #' hemaClass: Classification tool for haematological cancers
 #'
-#' An R-package for DNA micro array classification.
+#' An R-package for DNA microarray classification.
 #' @author 
 #'   Steffen Falgreen Larsen <sfl (at) rn.dk> \cr
 #'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
@@ -13,6 +13,12 @@
 #' @examples
 #' # See the following for all exported functions
 #' ls("package:hemaClass")
+#' 
+#' # To run the hemaClass web-interface:
+#' require(gdata)
+#' require(survival)
+#' require(shinysky)
+#' runHemaClass()
 NULL
 
 # About "importFrom Rcpp evalCpp": and RcppArmadillo

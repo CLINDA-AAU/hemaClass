@@ -7,11 +7,17 @@
 \alias{hemaclass}
 \title{hemaClass: Classification tool for haematological cancers}
 \description{
-An R-package for DNA micro array classification.
+An R-package for DNA microarray classification.
 }
 \examples{
 # See the following for all exported functions
 ls("package:hemaClass")
+
+# To run the hemaClass web-interface:
+require(gdata)
+require(survival)
+require(shinysky)
+runHemaClass()
 }
 \author{
 Steffen Falgreen Larsen <sfl (at) rn.dk> \cr
