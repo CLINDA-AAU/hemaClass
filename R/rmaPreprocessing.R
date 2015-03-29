@@ -1,22 +1,25 @@
-#' RMA pre-process cel files read into R using readCelfiles
+#' RMA pre-process \code{.CEL} files read into R using readCelfiles
 #' 
-#' Pre-process cel files according to the RMA method and create a reference for later use.
+#' Pre-process \code{.CEL} files according to the RMA method and create a 
+#' reference for later use.
 #' 
-#' @param affy.batch An object created by readCelfiles.
-#' @param test Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.
-#' @param quantile Specify a vector of quantiles that the data should be normalized to.
+#' @param affy.batch An object created by \code{readCelfiles}.
+#' @param test Should the \code{.CEL} files be tested. When set to \code{TRUE}  
+#'   bad \code{.CEL} files are automatically discarded.
+#' @param quantile Specify a vector of quantiles that the data should be 
+#'   normalized to.
 #' @return Expression matrix consisting of normalised array.
-#' @details Load cel files into a matrix.
-#' @references Reference to the hemaClass.com paper
-#' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-#' (at) math.aau.dk>
+#' @details Load \code{.CEL} files into a matrix.
+#' @references 
+#'   \code{hemaClass.com}
+#' @author Steffen Falgreen <sfl (at) rn.dk> \cr 
+#'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 #' @examples
-#' 
-#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), 
+#'              full.names = TRUE)
 #' affyBatch <- readCelfiles(filenames = files[1])
 #' 
 #' affyRMA <- rmaPreprocessing(affyBatch)
-#' 
 #' @import preprocessCore
 #' @importFrom matrixStats rowMedians
 #' @export
@@ -89,7 +92,7 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL){
     return(list(exprs = tmp$exprs, exprs.sc = exprs.sc, exprs.sc.mean = exprs.sc.mean, 
                 quantile = affy.batch$quantile, alpha = tmp$alpha, 
                 sd = ref.sd, median = ref.median, mean = ref.mean, bad = bad))
-  }else{
+  } else {
     return(bad)
   }
 }

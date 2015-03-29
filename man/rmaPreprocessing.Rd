@@ -2,37 +2,41 @@
 % Please edit documentation in R/rmaPreprocessing.R
 \name{rmaPreprocessing}
 \alias{rmaPreprocessing}
-\title{RMA pre-process cel files read into R using readCelfiles}
+\title{RMA pre-process \code{.CEL} files read into R using readCelfiles}
 \usage{
 rmaPreprocessing(affy.batch, test = FALSE, quantile = NULL)
 }
 \arguments{
-\item{affy.batch}{An object created by readCelfiles.}
+\item{affy.batch}{An object created by \code{readCelfiles}.}
 
-\item{test}{Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.}
+\item{test}{Should the \code{.CEL} files be tested. When set to \code{TRUE}
+bad \code{.CEL} files are automatically discarded.}
 
-\item{quantile}{Specify a vector of quantiles that the data should be normalized to.}
+\item{quantile}{Specify a vector of quantiles that the data should be
+normalized to.}
 }
 \value{
 Expression matrix consisting of normalised array.
 }
 \description{
-Pre-process cel files according to the RMA method and create a reference for later use.
+Pre-process \code{.CEL} files according to the RMA method and create a
+reference for later use.
 }
 \details{
-Load cel files into a matrix.
+Load \code{.CEL} files into a matrix.
 }
 \examples{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
+             full.names = TRUE)
 affyBatch <- readCelfiles(filenames = files[1])
 
 affyRMA <- rmaPreprocessing(affyBatch)
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
-Reference to the hemaClass.com paper
+\code{hemaClass.com}
 }
 
