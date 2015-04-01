@@ -13,18 +13,19 @@ runHemaClass(Version = 0.1)
 Starts a shiny server for the analysis
 }
 \description{
-Run a local version of the server running on \code{hemaclass.com}.
+Run a local version of the server running on \code{hemaclass.com}. Provides
+an easy web-based interface for the \pkg{hemaClass} package.
 }
 \examples{
 \dontrun{
-require(gdata)
-require(survival)
-require(shinysky)
+library("gdata")
+library("survival")
+library("shinysky")
 runHemaClass()
 }
 }
 \author{
-Steffen Falgreen Larsen
+Steffen Falgreen Larsen \cr
   Anders Ellern Bilgrau
 }
 

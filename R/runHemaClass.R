@@ -1,25 +1,22 @@
 #' Run the shiny server for hemaClass.
 #' 
-#' Run a local version of the server running on \code{hemaclass.com}.
+#' Run a local version of the server running on \code{hemaclass.com}. Provides
+#' an easy web-based interface for the \pkg{hemaClass} package.
 #' 
 #' @aliases 
 #'   runHemaClass
 #' @param Version What version of hemaClass should be run.
 #' @return Starts a shiny server for the analysis
 #' @author 
-#'   Steffen Falgreen Larsen
+#'   Steffen Falgreen Larsen \cr
 #'   Anders Ellern Bilgrau
 #' @export
-#' @import tools
-#' @import shiny
-#' @import shinysky
-#' @import gdata
-#' @import WriteXLS
+#' @import tools shiny shinysky gdata WriteXLS
 #' @examples
 #' \dontrun{
-#' require(gdata)
-#' require(survival)
-#' require(shinysky)
+#' library("gdata")
+#' library("survival")
+#' library("shinysky")
 #' runHemaClass()
 #' }
 runHemaClass<- function(Version = 0.1){
