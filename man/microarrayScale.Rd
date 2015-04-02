@@ -7,29 +7,35 @@
 microarrayScale(x, center = "median", scale = "sd")
 }
 \arguments{
-\item{x}{matrix containing expression values. May also be of class ExpressionSet.}
+\item{x}{matrix containing expression values. May also be of class
+\code{ExpressionSet}.}
 
-\item{center}{How should the data be centered. Can be either "median", "mean", or "FALSE".}
+\item{center}{How should the data be centered. Can be either \code{"median"},
+\code{"mean"}, or \code{"FALSE"}.}
 
-\item{scale}{How should the data be scaled. Can be either "sd" or "FALSE".}
+\item{scale}{How should the data be scaled. Can be either \code{"sd"} or
+\code{"FALSE"}.}
 }
 \value{
-Expression matrix consisting of genewise median centred and scaled genes.
+Expression matrix consisting of genewise median centred and scaled
+  genes.
 }
 \description{
 Scale expression values prior to use of classification algorithms.
 }
 \details{
-First each probe-set is median centred. Next, each probe-set is scaled to have unit-variance.
+First each probe-set is median centred. Next, each probe-set is
+  scaled to have unit-variance.
 }
 \examples{
 2+2
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau
 (at) math.aau.dk>
 }
 \references{
-Reference to the hemaClass.com paper
+Reference to the \code{hemaClass.com} paper
 }
 
