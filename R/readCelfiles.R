@@ -1,4 +1,4 @@
-#' Read cell files into a matrix
+#' Read \code{.CEL} files into a matrix
 #' 
 #' Affymetrix \code{.CEL} files given in the argument filenames are read 
 #' into a \code{matrix} in R.
@@ -7,14 +7,16 @@
 #' @param cdfname Used to specify the name of an alternative cdf package. If set
 #'   to \code{NULL}, then the usual cdf package based on Affymetrix' mappings 
 #'   will be used.
-#' @param rm.mask Should the spots marked as 'MASKS' set to \code{NA}?
-#' @param rm.outliers Should the spots marked as 'OUTLIERS' set to \code{NA}?
+#' @param rm.mask Should the spots marked as \code{'MASKS'} set to \code{NA}?
+#' @param rm.outliers Should the spots marked as \code{'OUTLIERS'} set to 
+#'   \code{NA}?
 #' @param rm.extra If \code{TRUE}, then overrides what is in \code{rm.mask} and 
 #'   \code{rm.oultiers}.
 #' @param verbose logical. Should file names be written as they are read into R.
-#' @param which should the pm, mm, or both be stored in matrices.
+#' @param which A \code{character} determining if \code{pm}, \code{mm}, or 
+#'   \code{both} probes be stored in matrices.
 #'   
-#' @return Expression matrix consisting of all pm probes.
+#' @return Expression matrix consisting of all \code{pm} probes.
 #' @details Load \code{.CEL} files into a matrix.
 #' @references Reference to the hemaClass.com paper
 #' @author 
