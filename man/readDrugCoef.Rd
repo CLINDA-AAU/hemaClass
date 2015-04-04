@@ -56,7 +56,7 @@ readMelphalanClasCoef()
 readMelphalanPredCoef()
 }
 \value{
-A matrix with coefficients
+A \code{matrix} of coefficients.
 }
 \description{
 Functions to read coefficients for REGS classifiers and predictors.

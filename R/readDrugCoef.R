@@ -12,7 +12,7 @@
 #'   readCyclophosphamidePredCoef 
 #'   readDoxorubicinPredCoef
 #'   readVincristinePredCoef
-#' @return A matrix with coefficients
+#' @return A \code{matrix} of coefficients.
 #' @examples
 #' head(readPredCoef())
 #' @export
