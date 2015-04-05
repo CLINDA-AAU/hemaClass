@@ -58,15 +58,21 @@ MelphalanPredictor(new.data)
 
 \item{drugs}{An RMA reference object created by rmaPreprocessing.}
 
-\item{cut}{Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.}
+\item{cut}{Should the \code{.cel} files be tested. When set to \code{TRUE}
+bad \code{.cel} files are automatically discarded.}
 
-\item{type}{For Rituximab, What type of classifier or predictor should be used. Current choices are corrected, uncorrected, lysis, and lysis2.}
+\item{type}{For Rituximab, What type of classifier or predictor should be
+used. Current choices are corrected, uncorrected, lysis, and lysis2.}
 
-\item{calc.cut}{For Rituximab, calculate the cutpoints according to proportions in the data. E.g. calc.cut = c(0.33, 0.66) means that a third is deemed sensitive, intermediate, and resistant respectively.}
+\item{calc.cut}{For Rituximab, calculate the cutpoints according to
+ proportions in the data. E.g. \code{calc.cut = c(0.33, 0.66)} means that a
+third is deemed sensitive, intermediate, and resistant respectively.}
 
-\item{cut.spec}{For the lysis type rituximab classifier specify the cut point for unclassified.}
+\item{cut.spec}{For the lysis type rituximab classifier specify the cut
+point for unclassified.}
 
-\item{percent.classified}{For the lysis type rituximab classifier specify the percentage of unclassified.}
+\item{percent.classified}{For the lysis type rituximab classifier specify
+the percentage of unclassified.}
 }
 \value{
 Expression matrix consisting of normalised array.
@@ -79,17 +85,18 @@ Load cel files into a matrix.
 }
 \examples{
 \donttest{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
+             full.names = TRUE)
 affyBatch <- readCelfiles(filenames = files)
 
 # The cel files are pre-processed
 affyRMA <- rmaPreprocessing(affyBatch)
 
-# the function \\code{rmaPreprocessing} returns median centered and scaled
+# the function rmaPreprocessing returns median centered and scaled
 # expression values in the slot exprs.sc.
 
 # The slot exprs.sc.mean contains mean cetered and scaled expression values.
-# This scaling can also be achieved using the function \\code{microarrayScale}.
+# This scaling can also be achieved using the function microarrayScale.
 affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 
 # We may now use the predictors
@@ -120,10 +127,10 @@ MelphalanPredictor(affyRMA$exprs)
 }
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
+Steffen Falgreen <sfl (at) rn.dk> \cr
+Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
-Reference to the hemaClass.com paper.
+Reference to the \code{hemaClass.com} paper.
 }
 
