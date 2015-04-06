@@ -5,7 +5,7 @@
 \alias{colVars}
 \alias{rowSds}
 \alias{rowVars}
-\title{Calculation of Standard deveations.}
+\title{Calculation of standard deviations and variance}
 \usage{
 rowSds(x, ...)
 
@@ -16,27 +16,27 @@ rowVars(x, ...)
 colVars(x, ...)
 }
 \arguments{
-\item{x}{A matrix.}
+\item{x}{A \code{matrix}.}
 
 \item{...}{Addtional parameters}
 }
 \value{
-The standard deviation of each row or column of matrix x.
+A \code{vector} of variances or standard deviations of each
+  row or column of matrix \code{x}.
 }
 \description{
-Calculation of Standard deveations.
-}
-\details{
-The function calculates the standard deviation row wise for matrix x.
+Calculate standard deviations and variance for each row or column of a
+matrix.
 }
 \examples{
-2+2
+x <- matrix(rnorm(30), 5, 6)
+rowSds(x)
+colSds(x)
+rowVars(x)
+colVars(x)
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
-}
-\references{
-Reference to the hemaClass paper.
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 

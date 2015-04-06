@@ -1,21 +1,22 @@
-#' Calculation of Standard deveations.
+#' Calculation of standard deviations and variance
 #' 
-#' Calculation of Standard deveations.
+#' Calculate standard deviations and variance for each row or column of a 
+#' matrix.
 #' @rdname rowSds
-#' @aliases 
-#'   colSds
-#'   rowVars
-#'   colVars
-#' @param x A matrix.
+#' @aliases colSds rowVars colVars
+#' @param x A \code{matrix}.
 #' @param ... Addtional parameters
-#' @return The standard deviation of each row or column of matrix x.
-#' @details The function calculates the standard deviation row wise for matrix x. 
-#' @references Reference to the hemaClass paper.
-#' @author Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-#' (at) math.aau.dk>
+#' @return A \code{vector} of variances or standard deviations of each 
+#'   row or column of matrix \code{x}.
+#' @author  
+#'   Steffen Falgreen <sfl (at) rn.dk> \cr 
+#'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 #' @examples
-#' 2+2
-#'                                                                                                                       
+#' x <- matrix(rnorm(30), 5, 6)
+#' rowSds(x)
+#' colSds(x)
+#' rowVars(x)
+#' colVars(x)                                                                                                             
 #' @export
 rowSds <- function (x, ...) {
   n = rowSums(!is.na(x))
