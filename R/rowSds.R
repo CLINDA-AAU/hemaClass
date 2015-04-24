@@ -16,34 +16,31 @@
 #' rowSds(x)
 #' colSds(x)
 #' rowVars(x)
-#' colVars(x)                                                                                                             
+#' colVars(x)         
 #' @export
 rowSds <- function (x, ...) {
-  n = rowSums(!is.na(x))
-  n[n <= 1] = NA
-  return(sqrt(rowSums((x - rowMeans(x, ...))^2, ...)/(n - 1)))
+  return(sqrt(rowVars(x)))
 }
 
 #' @rdname rowSds
 #' @export
 colSds <- function (x, ...) {
-  n = colSums(!is.na(x))
-  n[n <= 1] = NA
-  return(sqrt(colSums((x - colMeans(x, ...))^2, ...)/(n - 1)))
+  return(rowSds(t(x)))
 }
 
 #' @rdname rowSds
 #' @export
 rowVars <- function (x, ...) {
-  n = rowSums(!is.na(x))
-  n[n <= 1] = NA
-  return((rowSums((x - rowMeans(x, ...))^2, ...)/(n - 1)))
+  if (ncol(x) == 0L) {
+    return(rep(NA_real_, nrow(x)))
+  }
+  n <- rowSums(!is.na(x))
+  n[n <= 1] <- NA_real_
+  return(rowSums((x - rowMeans(x, ...))^2, ...)/(n - 1))
 }
 
 #' @rdname rowSds
 #' @export
 colVars <- function (x, ...) {
-  n = colSums(!is.na(x))
-  n[n <= 1] = NA
-  return((colSums((x - colMeans(x, ...))^2, ...)/(n - 1)))
+  return(rowVars(t(x)))
 }
