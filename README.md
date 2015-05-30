@@ -49,7 +49,7 @@ configuration. I.e. we have features in the rows and samples in columns.
 
 Benchmark 
 ---------
-A small bencmark goes here!
+A small benchmark goes here!
 
 References
 ----------
