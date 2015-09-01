@@ -5,31 +5,27 @@ library(RLumShiny)
 #library(shinyIncubator)
 
 shinyUI(
-  navbarPage(title = "hemaClass", 
+  navbarPage(title = "hemaClass",
              tabPanel( 
                'Home',   
-               navlistPanel(
-                 "Information:",
-                 tabPanel("hemaClass",
-                          includeHTML("www/hemaClass.html")
-                 ),    
-                 tabPanel("News",
-                          includeHTML("www/News.html")
-                 ),
-                 tabPanel("Authors"
-                          ,includeHTML("www/Authors2.html")
-                 ),
-                 tabPanel("Citation"
-                          ,includeHTML("www/Citation.html")
-                 ),
-                 tabPanel("Papers"
-                          ,includeHTML("www/Papers.html")
-                 ),
-                 "-----",
-                 tabPanel("Disclaimer"
-                          ,includeHTML("www/Disclaimer.html")
-                 )
-               )),
+               sidebarLayout(
+                sidebarPanel(
+                  navlistPanel(
+                    "Information:",
+                    tabPanel("hemaClass", value="tp1"),    
+                    tabPanel("News", value="tp2"),
+                    tabPanel("Authors", value="tp3"),
+                    tabPanel("Citation", value="tp4"),
+                    tabPanel("Papers", value="tp5"),
+                    tabPanel("Disclaimer", value="tp6"),
+                    well=FALSE,
+                    id="nlp",
+                    widths=c(12,1)
+                )),
+                  mainPanel(
+                  htmlOutput("mpContent")
+                ))),
+             
              tabPanel( 
                'Load data',
                navbarPage( 

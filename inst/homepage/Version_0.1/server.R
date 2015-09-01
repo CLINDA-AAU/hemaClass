@@ -1670,4 +1670,30 @@ shinyServer(function(input, output, session) {
     }
   )
   
+  #################################
+  ##
+  ## Generate webpages
+  ##
+  #################################
+  
+  output$mpContent <- renderUI({
+    input$nlp
+    x <- NULL
+    if(!is.null(input$nlp)){
+      if(input$nlp=="tp1"){
+        x <- tabPanel("hemaClass", includeHTML("www/hemaClass.html"))
+      } else if(input$nlp=="tp2") {
+        x <- tabPanel("News", includeHTML("www/News.html"))
+      } else if(input$nlp=="tp3") {
+        x <- tabPanel("Auhtors", includeHTML("www/Authors2.html"))
+      } else if(input$nlp=="tp4") {
+        x <- tabPanel("Citation", includeHTML("www/Citation.html"))
+      } else if(input$nlp=="tp5") {
+        x <- tabPanel("Papers", includeHTML("www/Papers.html"))
+      } else if(input$nlp=="tp6") {
+        x <- tabPanel("Disclaimer", includeHTML("www/Disclaimer.html"))
+      }
+    }
+    x
+  })
 })
