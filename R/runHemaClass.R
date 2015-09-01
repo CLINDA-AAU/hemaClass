@@ -11,7 +11,7 @@
 #'   Steffen Falgreen Larsen \cr
 #'   Anders Ellern Bilgrau
 #' @export
-#' @import tools shiny shinysky gdata WriteXLS
+#' @import tools shiny shinysky gdata WriteXLS RLumShiny
 #' @examples
 #' \dontrun{
 #' library("gdata")

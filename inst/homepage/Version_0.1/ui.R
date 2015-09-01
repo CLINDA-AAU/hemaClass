@@ -1,6 +1,7 @@
 library(shiny)
 #devtools::install_github("AnalytixWare/ShinySky")
 library(shinysky)
+library(RLumShiny)
 #library(shinyIncubator)
 
 shinyUI(
@@ -121,13 +122,12 @@ shinyUI(
                        
                      ), 
                      mainPanel(
+                       shinyalert("shinyalertUploadCel", click.hide = FALSE),
+                       shinyalert("shinyalertSelectReference", click.hide = FALSE),
                        #helpText("The instructions below will aid you through the normalization process"), 
                        shinyalert("shinyalertUploadCelSucces", auto.close.after = 10),
                        shinyalert("shinyalertSelectReferenceSucess", auto.close.after = 10),
                        shinyalert("shinyalertNormalizationSuccess", click.hide = FALSE, auto.close.after = 10),
-                       
-                       shinyalert("shinyalertUploadCel", click.hide = FALSE),
-                       shinyalert("shinyalertSelectReference", click.hide = FALSE),
                        
                        
                        dataTableOutput("normalizedData"),
@@ -396,7 +396,7 @@ shinyUI(
                        tags$hr() ,
                        # uiOutput("patientSumCols"),
                        helpText("Select the colors used for the predicted survival curves"),
-                       jscolorInput("jscolorInputPS"),
+                       jscolorInput("jscolorInputPS", value = "#333333"),
                        br(),br(),
                        actionButton(inputId = "SelectColourPS", "Add the color"),
                        br(),

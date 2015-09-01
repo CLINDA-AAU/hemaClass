@@ -1141,40 +1141,19 @@ shinyServer(function(input, output, session) {
   observe({
     
     input$SelectColourPS
-    
-    
-    
-    
     output$SelectedColoursPS <- renderUI({
       
       isolate({
-        #print(input$jscolorInputPS)
-        if(is.null(input$jscolorInputPS)){
-          list(
-            select2Input(inputId = "SelectedColoursPSw", 
-                         label = "The selected colours", 
-                         selected = "333333")
-          )
-        }else{
-          if(is.null(input$jscolorInputPS)){
-            new.col <- "333333"
-          }else{
-            if(input$jscolorInputPS == ""){
-              new.col <- "333333"
-            }else{
-              new.col <- ifelse(input$jscolorInputPS == "FFFFFF", "333333", input$jscolorInputPS) 
-            }
-          }
-          selected.colors <- c(input$SelectedColoursPSw, new.col)
+              new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#333333", input$jscolorInputPS) 
+              selected.colors <- c(input$SelectedColoursPSw, new.col)
           
-         # print(selected.colors)
-          list(
-            select2Input(inputId = "SelectedColoursPSw", 
-                         label = "The selected colours", 
-                         selected = selected.colors)
+              # print(selected.colors)
+              list(
+              select2Input(inputId = "SelectedColoursPSw", 
+                           label = "The selected colours", 
+                           selected = selected.colors)
           )
-        }
-      })
+        })
     })   
   })
   
@@ -1247,14 +1226,14 @@ shinyServer(function(input, output, session) {
     if(is.null(input$SelectedColoursPSw))
       return(NULL)
     
-    
+    #print(input$SelectedColoursPSw)
     plot(prog.surv[["Survfit.OS"]],
-         xlab = "Years", ylab="Survival", main = "Overall survival", col = paste0("#", input$SelectedColoursPSw))
+         xlab = "Years", ylab="Survival", main = "Overall survival", col = input$SelectedColoursPSw)
     
-    legend("bottomleft", fill = rep(paste0("#", input$SelectedColoursPSw), 50), legend = input$patientSummarySelectW)
+    legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), legend = input$patientSummarySelectW)
     
     plot(prog.surv[["Survfit.PFS"]],
-         xlab = "Years", ylab="Survival", main = "Progression free survival", col = paste0("#", input$SelectedColoursPSw))
+         xlab = "Years", ylab="Survival", main = "Progression free survival", col = input$SelectedColoursPSw)
     
   })
   #   
