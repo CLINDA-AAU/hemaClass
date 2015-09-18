@@ -5,24 +5,24 @@ library(RLumShiny)
 #library(shinyIncubator)
 
 shinyUI(
-  navbarPage(title = "hemaClass",
+  navbarPage(theme = "bootstrap.css",
+             title = "hemaClass",
              tabPanel( 
                'Home',   
                sidebarLayout(
                 sidebarPanel(
                   navlistPanel(
                     "Information:",
-                    tabPanel("hemaClass", value="tp1"),    
-                    tabPanel("News", value="tp2"),
-                    tabPanel("Authors", value="tp3"),
-                    tabPanel("Citation", value="tp4"),
-                    tabPanel("Papers", value="tp5"),
-                    tabPanel("Disclaimer", value="tp6"),
+                    tabPanel("hemaClass"),    
+                    tabPanel("News"),
+                    tabPanel("Help"),
+                    tabPanel("Publications"),
+                    tabPanel("About"),
                     well=FALSE,
                     id="nlp",
-                    widths=c(12,1)
-                )),
-                  mainPanel(
+                    widths=c(12,1)),
+                  width=4),
+                mainPanel(
                   htmlOutput("mpContent")
                 ))),
              
@@ -111,7 +111,7 @@ shinyUI(
                        conditionalPanel(
                          #condition = "input.ChooseMethod != 'blah'",
                          condition = "output.showNormButton!=0",
-                         helpText("Normalise the files according to the chosen reference"),
+                         helpText("Normalize the files according to the chosen reference"),
                          actionButton("normalizeButton", "Normalize files", icon = icon("refresh"))
                        )
                        
@@ -144,10 +144,10 @@ shinyUI(
                  
                  
                  navbarMenu( 
-                   'Meta data', 
-                   tabPanel('Upload meta data', 
+                   'Metadata', 
+                   tabPanel('Upload metadata', 
                             sidebarPanel(
-                              h4("Upload file containing meta data"),
+                              h4("Upload file containing metadata"),
                               busyIndicator("Processing the metadata", wait = 1000),
                               fileInput("usrMeta", "Please upload the file storing the metadata", 
                                         accept = "", multiple = FALSE),

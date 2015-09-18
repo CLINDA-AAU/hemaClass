@@ -272,6 +272,12 @@ shinyServer(function(input, output, session) {
           return(NULL)
         }
       }
+      else{
+        showshinyalert(session, "shinyalertUploadMetaData",  
+                       HTML(paste("The choosen file is not of a supported type! Please upload a file of a supported type",
+                                  sep="<br/>")),
+                       styleclass = "error")  
+      }
     }
   })
   
@@ -384,7 +390,7 @@ shinyServer(function(input, output, session) {
       data.list[[data.iter]] <- data.iter
     
     selectInput(inputId = "choosebuildidDataset", 
-                label   = "Choose a data set",
+                label   = "Choose a dataset",
                 choices = data.list)
     
   })
@@ -529,12 +535,12 @@ shinyServer(function(input, output, session) {
       
       if(!is.null(choosenDataset) && choosenDataset %in% available.datasets){
         selectInput(inputId  = "chooseMetaDataset", 
-                    label    = "Choose a data set",
+                    label    = "Choose a dataset",
                     choices  = data.list,
                     selected = choosenDataset)
       }else{
         selectInput(inputId  = "chooseMetaDataset", 
-                    label    = "Choose a data set",
+                    label    = "Choose a dataset",
                     choices  = data.list)
       }
     })
@@ -1214,6 +1220,16 @@ shinyServer(function(input, output, session) {
     })
   })
   
+  output$patientSummarySelect <- renderUI({
+    
+    classify()
+    
+    list(
+      select2Input(inputId = "patientSummarySelectW", "Select the patients to summarize", 
+                   results$files, selected =  results$files[1] )
+    )
+  })
+  
   output$patientSummaryPlot <- renderPlot({
     
     prog.surv <- prognosisR()
@@ -1226,7 +1242,6 @@ shinyServer(function(input, output, session) {
     if(is.null(input$SelectedColoursPSw))
       return(NULL)
     
-    #print(input$SelectedColoursPSw)
     plot(prog.surv[["Survfit.OS"]],
          xlab = "Years", ylab="Survival", main = "Overall survival", col = input$SelectedColoursPSw)
     
@@ -1269,27 +1284,13 @@ shinyServer(function(input, output, session) {
   #       hideshinyalert(session, "shinyalertUploadMeta")
   #       hideshinyalert(session, "shinyalertResults")
   #     }
-  #   })
-  
-  
-  output$patientSummarySelect <- renderUI({
-    
-    classify()
-    
-    list(
-      select2Input(inputId = "patientSummarySelectW", "Select the patients to summarize", 
-                   results$files, selected =  results$files[1] )
-    )    
-  })
-  
+  #   }
   
   output$patientSummaryIPI <- renderUI({
     
     metadata.in.use <- MetaDataInUse()
     
     select = NULL
-    
-    
     
     if(any(colnames(metadata.in.use) == "ipi"))
       select = "ipi"
@@ -1435,6 +1436,8 @@ shinyServer(function(input, output, session) {
                                       "&#160 LLMPP R-CHOP:",
                                       "&#160 IDRC:",
                                       "&#160 MDFCI:",
+                                      "&#160 CHEPRETRO:",
+                                      "&#160 UAMS:",
                                       "",
                                       "When chosen:",
                                       "Press 'normalize files' to start the RMA normalization.",
@@ -1672,27 +1675,29 @@ shinyServer(function(input, output, session) {
   
   #################################
   ##
-  ## Generate webpages
+  ## Pages
   ##
   #################################
+  
+  observeEvent(input$linkHelp, ({
+      updateTabsetPanel(session, "nlp", selected = "Help")
+  }))
   
   output$mpContent <- renderUI({
     input$nlp
     x <- NULL
     if(!is.null(input$nlp)){
-      if(input$nlp=="tp1"){
+      if(input$nlp=="hemaClass"){
         x <- tabPanel("hemaClass", includeHTML("www/hemaClass.html"))
-      } else if(input$nlp=="tp2") {
+      } else if(input$nlp=="News") {
         x <- tabPanel("News", includeHTML("www/News.html"))
-      } else if(input$nlp=="tp3") {
-        x <- tabPanel("Auhtors", includeHTML("www/Authors2.html"))
-      } else if(input$nlp=="tp4") {
-        x <- tabPanel("Citation", includeHTML("www/Citation.html"))
-      } else if(input$nlp=="tp5") {
+      } else if(input$nlp=="Help") {
+        x <- tabPanel("Help", includeHTML("www/howto.html"))
+      } else if(input$nlp=="Publications") {
         x <- tabPanel("Papers", includeHTML("www/Papers.html"))
-      } else if(input$nlp=="tp6") {
-        x <- tabPanel("Disclaimer", includeHTML("www/Disclaimer.html"))
-      }
+      } else if(input$nlp=="About") {
+        x <- tabPanel("About", includeHTML("www/Authors2.html"))
+      } 
     }
     x
   })
