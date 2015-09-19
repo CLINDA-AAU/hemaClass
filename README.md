@@ -23,7 +23,7 @@ biocLite(c("affy", "affyio", "preprocessCore"))
 
 # Then from CRAN
 install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", 
-                   "RcppEigen", "testthat", "WriteXLS", "RLumShiny"))
+                   "RcppEigen", "testthat", "WriteXLS", "RLumShiny", "gdata"))
 
 # From GitHub 
 install.packages("devtools")
