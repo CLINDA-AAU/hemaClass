@@ -7,6 +7,7 @@
 #' head(readABCGCBCoef())
 #' @export
 readABCGCBCoef <- function() {
-  file <- system.file("extdata/ABCGCB/ABCGCB.coef.rda", package = "hemaClass")
+  # Function to read the ABC/GCB coefficients
+  file <- system.file("extdata/ABCGCB/ABCGCB.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
