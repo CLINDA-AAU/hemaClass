@@ -268,7 +268,7 @@ shinyServer(function(input, output, session) {
           showshinyalert(session, "shinyalertUploadMetaData",  
                          HTML(paste("The selected sheet could not be found in the metadata!",
                                     sep="<br/>")),
-                         styleclass = "error") 
+                         styleclass = "danger") 
           return(NULL)
         }
       }
@@ -276,7 +276,7 @@ shinyServer(function(input, output, session) {
         showshinyalert(session, "shinyalertUploadMetaData",  
                        HTML(paste("The choosen file is not of a supported type! Please upload a file of a supported type",
                                   sep="<br/>")),
-                       styleclass = "error")  
+                       styleclass = "danger")  
       }
     }
   })
@@ -322,7 +322,7 @@ shinyServer(function(input, output, session) {
       showshinyalert(session, "shinyalertUploadMetaData",  
                      HTML(paste("The uploaded metafile could was neither a data.frame or matrix",
                                 sep="<br/>")),
-                     styleclass = "error")  
+                     styleclass = "danger")  
     }
     
   })
@@ -360,7 +360,7 @@ shinyServer(function(input, output, session) {
                        HTML(paste("The column selected to include .CEL file names includes duplicates.",
                                   "Please choose another column or upload a new dataset",
                                   sep="<br/>")),
-                       styleclass = "error") 
+                       styleclass = "danger") 
       }else{
         new.names <- gsub("\\.CEL$", "", metadata.upload[, input$metadataUploadCelfiles], 
                           ignore.case = TRUE)
@@ -659,7 +659,7 @@ shinyServer(function(input, output, session) {
         if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
           
           showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.")),
-                         styleclass = "error")
+                         styleclass = "danger")
           stop("Not all chosen files are .CEL files.")
         }
         hideshinyalert(session, "shinyalertSelectReference")
@@ -1332,7 +1332,7 @@ shinyServer(function(input, output, session) {
         
         showshinyalert(session, "shinyalertUploadCel",  HTML(paste("Not all chosen files are .CEL files.",
                                                                    "Please upload your CEL files again.", sep="<br/>")),
-                       styleclass = "error")
+                       styleclass = "danger")
         return(0)
       }else{
         hideshinyalert(session, "shinyalertUploadCel")
@@ -1377,24 +1377,28 @@ shinyServer(function(input, output, session) {
                 
                 showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.",
                                                                                  "Please upload your reference CEL files again.", sep="<br/>")),
-                               styleclass = "error")
+                               styleclass = "danger")
                 return(0)
               }else{
                 if(length(input$refFiles$name) == 1){
                   showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected 1 .CEL file for building the reference.",
                                                                                    "Please upload more than 1 CEL file before you continue.", sep="<br/>")),
-                                 styleclass = "error")
-                  
+                                 styleclass = "danger")
                   return(0)
-                }else{                
-                  if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
-                    showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
-                                   styleclass = "info")
-                    
-                    return(0)
+                }else{
+                  if(length(input$refFiles$name) < 30){
+                    showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected less than 30 .CEL files for building the reference.",
+                                                                                     "The performance is not documented for less than 30 .CEL files.", sep="<br/>")),
+                                   styleclass = "warning")
                   }else{
-                    if(is.null(normalized.data) || any(fileInfo$name != attr(normalized.data, "files"))){
-                      showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.",
+                    if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
+                      showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
+                                     styleclass = "info")
+                    
+                      return(0)
+                    }else{
+                      if(is.null(normalized.data) || any(fileInfo$name != attr(normalized.data, "files"))){
+                        showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.",
                                                                                        "You can download the established reference by clicking 'Download reference for later use'", sep="<br/>")),
                                      styleclass = "info")  
                       return(1)
@@ -1403,7 +1407,7 @@ shinyServer(function(input, output, session) {
                 }            
               }
             }
-          }
+          }}
           if(input$ChooseMethod == "upload"){
             if(is.null(input$refUpload)){
               showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Please upload a reference.", sep="<br/>")),
@@ -1412,7 +1416,7 @@ shinyServer(function(input, output, session) {
             }else{
               if(file_ext(input$refUpload$name) != "rds"){
                 showshinyalert(session, "shinyalertSelectReference",  HTML(paste("The uploaded file is not an 'rds' file.", "Please upload a correct reference", sep="<br/>")),
-                               styleclass = "error")
+                               styleclass = "danger")
                 return(0)
               }
               RefUpload()
@@ -1422,7 +1426,7 @@ shinyServer(function(input, output, session) {
                 return(1)            
               }else{   
                 showshinyalert(session, "shinyalertSelectReference",  HTML(paste("The uploaded file cannot be used as a reference.", "Please upload a correct reference", sep="<br/>")),
-                               styleclass = "error")
+                               styleclass = "danger")
                 return(0)
               }
             }
