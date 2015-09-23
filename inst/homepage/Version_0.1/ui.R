@@ -50,7 +50,7 @@ shinyUI(
                          selectInput(
                            "ChooseMethod", "Choose method",
                            list("Please select" = "blah",
-                                "Use build in reference" = "standardReference",  
+                                "Use build-in reference" = "standardReference",  
                                 "Build a new reference" = "build", 
                                 "Upload a reference" = "upload",
                                 "Cohort based RMA" = "RMA"
