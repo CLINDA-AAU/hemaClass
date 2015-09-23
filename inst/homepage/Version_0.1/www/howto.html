@@ -17,148 +17,6 @@ window.onload = function() {
 };
 </script>
 
-
-
-<!--
-<style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
-}
-
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
-}
-
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
-}
-
-h1 {
-   font-size:2.2em;
-}
-
-h2 {
-   font-size:1.8em;
-}
-
-h3 {
-   font-size:1.4em;
-}
-
-h4 {
-   font-size:1.0em;
-}
-
-h5 {
-   font-size:0.9em;
-}
-
-h6 {
-   font-size:0.8em;
-}
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
-}
-
-pre, img {
-  max-width: 100%;
-}
-pre {
-  overflow-x: auto;
-}
-pre code {
-   display: block; padding: 0.5em;
-}
-
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
-}
-
-code[class] {
-  background-color: #F8F8F8;
-}
-
-table, td, th {
-  border: none;
-}
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
-}
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
-}
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
-}
-</style>
--->
-
-
 </head>
 
 <body>
@@ -169,20 +27,11 @@ hr {
 
 <h1>Introduction</h1>
 
-<p>The purpose of this guide is to help you use the hemaClass webpage and
-the hemaClass R-package. The guide is divided into two parts. The
-first part focuses on the hemaClass.org webpage, and the second part
-is about the hemaClass package.</p>
+<p>The purpose of this guide is to help you use the hemaClass webpage and the hemaClass R-package. The guide is divided into two parts. The first part focuses on the hemaClass.org webpage, and the second part is about the hemaClass package.</p>
 
-<p>We want to stress that we disclaim against responsibility for the
-effects of the classifications. For instance we neither accept liability for
-the classifications performed, nor for the consequences of any actions
-taken on the basis of the information provided.</p>
+<p>We want to stress that we disclaim against responsibility for the effects of the classifications. For instance we neither accept liability for the classifications performed, nor for the consequences of any actions taken on the basis of the information provided.</p>
 
-<p>hemaClass provides access to GEP based
-classification schemes of diffuse large B-cell lymphoma (DLBCL). The
-classification schemes are currently available for gene expressions
-profiled by the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.</p>
+<p>hemaClass provides access to GEP based classification schemes of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available for gene expressions profiled by the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.</p>
 
 <p>The classification schemes available are:</p>
 
@@ -202,154 +51,120 @@ profiled by the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.</p>
 </ul></li>
 </ul>
 
-<p>In addition we also provide REGS for Rituximab &#40;R), Dexamethasone (P) and
-Melphalan (M). But the predictions of these schemes have not been
-properly documented yet, and we take no responsibility for the predictions.</p>
+<p>In addition we also provide REGS for Rituximab &#40;R), Dexamethasone (P) and Melphalan (M). But the predictions of these schemes have not been properly documented yet, and we take no responsibility for the predictions.</p>
 
 <p><br> <br></p>
 
 <h1>Using hemaClass.org</h1>
 
-<p>The purpose of the webpage <a href="http://www.hemaclass.org">hemaClass.org</a>
-is to provide online and userfriendly access to the DLBCL
-classification schemes we have developed.</p>
+<p>The purpose of the webpage <a href="http://www.hemaclass.org">hemaClass.org</a> is to provide online and userfriendly access to the DLBCL classification schemes we have developed.</p>
 
 <h2>Navigating the page</h2>
 
-<p>Navigation on the hemaClass webpage is done using the tab panel on the
-top of the page.</p>
+<p>Navigation on the hemaClass webpage is done using the tab panel on the top of the page.</p>
 
-<p><img src="figures/tabpanel.png" alt="tabpanel"/></p>
+<p><img src="../figures/tabpanel.png" alt="tabpanel"/></p>
 
-<p>Three options are available to you <code>Home</code>, <code>Load data</code> and
-<code>Results</code>. Choosing <code>Home</code> simply takes you to the start page, where
-there is access to some miscellaneous information. The information is
-accessible through the navigation panel on the left.</p>
+<p>Three options are available to you <code>Home</code>, <code>Load data</code> and <code>Results</code>. Choosing <code>Home</code> simply takes you to the start page, where there is access to some miscellaneous information. The information is accessible through the navigation panel on the left.</p>
 
-<p><img src="figures/information.png" alt="information"/></p>
+<p><img src="../figures/information.png" alt="information"/></p>
 
-<p>As an example, if you want to have a look at the publications regarding
-hemaClass go to <code>Home</code> and choose <code>Publications</code> in the information
-panel. We will go into more detail with the options <code>Load data</code> and
-<code>Results</code> in the following two sections.</p>
+<p>As an example, if you want to have a look at the publications regarding hemaClass go to <code>Home</code> and choose <code>Publications</code> in the information panel. We will go into more detail with the options <code>Load data</code> and <code>Results</code> in the following two sections.</p>
 
 <h2>Loading data</h2>
 
-<p>To use the classifcation schemes available on hemaClass.org, we need
-to load some data. To do this select <code>Load data</code> in the tab panel on
-the top of the page.</p>
+<p>To use the classifcation schemes available on hemaClass.org, we need to load some data. To do this select <code>Load data</code> in the tab panel on the top of the page.</p>
 
 <p>As you do this, the following second tab panel is made available.</p>
 
-<p><img src="figures/load_data.png" alt="load_data"/></p>
+<p><img src="../figures/load_data.png" alt="load_data"/></p>
 
-<p>To use your own data choose <code>CEL files</code>, or if you want to use the
-test data provided by us choose <code>Build-in data</code>.</p>
+<p>To use your own data choose <code>CEL files</code>, or if you want to use the test data provided by us choose <code>Build-in data</code>.</p>
 
 <h3>CEL files</h3>
 
-<p>In case you want to classify your own data choose <code>CEL files</code> in the
-tab panel. Here you have the possibility of uploading your data using
-the panel on the left hand side of the page.</p>
+<p>In case you want to classify your own data choose <code>CEL files</code> in the tab panel. Here you have the possibility of uploading your data using the panel on the left hand side of the page.</p>
 
-<p><img src="figures/choose_cel.png" alt="choose_cel"/></p>
+<p><img src="../figures/choose_cel.png" alt="choose_cel"/></p>
 
-<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files
-  makes it impossible to upload more than one file on some older
-  browsers, including Internet Explorer 9 and older.</p>
+<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file on some older browsers, including Internet Explorer 9 and older.</p>
 
-<p>After you have uploaded the samples you want to classify they need to
-be normalized. hemaClass provides different methods for
-normalization of your samples, and you have to choose which method you
-want to use.</p>
+<p>After you have uploaded the samples you want to classify they need to be normalized. hemaClass provides different methods for normalization of your samples, and you have to choose which method you want to use.</p>
 
-<p><img src="figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
+<p><img src="../figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
 
 <p>The methods for normalization is:</p>
 
 <ul>
-<li><p>Use build in reference: This method normalizes your samples
-according to a build in reference dataset. There is currently 6 build
-in reference datasets available.</p></li>
-<li><p>Build a reference: With this method you build a reference of atleast
-?? .CEL files that you upload. When the samples you want to use as a
-reference has been uploaded press <code>Build the reference</code>.</p></li>
-<li><p>Upload a reference: With this method you normalize your samples to a
-reference that you upload. The reference that you upload has to be
-of the filetype .rds.</p></li>
-<li><p>Cohort based RMA: The final method is Cohort based normalization,
-where all the samples you provide are used for normalization. This method
-is best for when you have a large collection of samples.</p></li>
+<li><p>Use build in reference: This method normalizes your samples according to a build in reference dataset. There is currently 6 build in reference datasets available.</p></li>
+<li><p>Build a reference: With this method you build a reference of .CEL files that you upload. Be aware that the performance for this method of normalization has only been documented for references consisting of 30 .CEL files.  When the samples you want to use as a reference has been uploaded press <code>Build the reference</code>.</p></li>
+<li><p>Upload a reference: With this method you normalize your samples to a reference that you upload. The reference that you upload has to be of the filetype .rds.</p></li>
+<li><p>Cohort based RMA: The final method is Cohort based normalization, where all the samples you provide are used for normalization. This method is best for when you have a large collection of samples.</p></li>
 </ul>
 
-<p>Choose the normalization method which is most suitable for the samples
-you have and that you want to classify. When you have choosen a
-normalization method follow the onscreen instructions to normalize
-your samples.</p>
+<p>Choose the normalization method which is most suitable for the samples you have and that you want to classify. When you have choosen a normalization method follow the onscreen instructions to normalize your samples.</p>
 
-<p>When you have finished the preprocessing of your samples you will be
-able to see the data on the page.</p>
+<p>When you have finished the preprocessing of your samples you will be able to see the data on the page.</p>
 
-<p><img src="figures/probeset.png" alt="probeset"/></p>
+<p><img src="../figures/probeset.png" alt="probeset"/></p>
 
 <h3>Metadata</h3>
 
-<p>In <code>Metadata</code> you can provide metadata for your dataset by either entering
-the metadata manually or uploading a file with metadata.</p>
+<p>In <code>Metadata</code> you can provide metadata for your dataset by either entering the metadata manually or uploading a file with metadata.</p>
 
-<p>Currently hemaClass supports the following filetypes for uploading
-metadata: .txt, .rds, .RData and .xls.</p>
+<p>Currently hemaClass supports the following filetypes for uploading metadata: .txt, .rds, .RData and .xls.</p>
 
-<p>If you type in the metadata manually you are also able to download it
-afterwards as .xls file.</p>
+<p>If you type in the metadata manually you are also able to download it afterwards as .xls file.</p>
 
-<p><img src="figures/manual_metadata.png" alt="manual_metadata"/></p>
+<p><img src="../figures/manual_metadata.png" alt="manual_metadata"/></p>
 
 <p>Using the metadata you are able to calculate the IPI score of the patient.</p>
 
 <h3>Build-in data</h3>
 
-<p>If you want to use the build-in data provided by us to test the system
-go to <code>Build-in-data</code>. We have provided two datasets which you can
-choose from in the panel on the left hand side of the page.</p>
+<p>If you want to use the build-in data provided by us to test the system go to <code>Build-in-data</code>. We have provided two datasets which you can choose from in the panel on the left hand side of the page.</p>
 
-<p><img src="figures/build_in_data.png" alt="build_in_data"/></p>
+<p><img src="../figures/build_in_data.png" alt="build_in_data"/></p>
 
-<p>The two datasets provided by us consists of&hellip; . Also, metadata is
-available for both datasets.</p>
+<p>The two datasets provided by us consists of&hellip; . Also, metadata is available for both datasets.</p>
 
 <h3>Metadata in use</h3>
 
-<p>In the final tab of the <code>Load data</code> page you are able to see the
-metadata that is either available or that you have provided.</p>
+<p>In the final tab of the <code>Load data</code> page you are able to see the metadata that is either available or that you have provided.</p>
 
-<p><img src="figures/metadata.png" alt="metadata"/></p>
+<p><img src="../figures/metadata.png" alt="metadata"/></p>
 
 <h2>Getting the results</h2>
 
-<p>To see the results of the classification of the data you have choosen
-go to the <code>Results</code> tab on the main tab panel. In the <code>Estimated
-probabilities</code> tab you can see the results of the classifications, and
-in the <code>Patient summaries</code> tab plots of survival curves and IPI scores
-are available.</p>
+<p>To see the results of the classification of the data you have choosen go to the <code>Results</code> tab on the main tab panel. In the <code>Estimated probabilities</code> tab you can see the results of the classifications, and in the <code>Patient summaries</code> tab plots of survival curves and IPI scores are available.</p>
 
-<p><img src="figures/results_tab.png" alt="results_tab"/></p>
+<p><img src="../figures/results_tab.png" alt="results_tab"/></p>
 
 <h3>Estimated probabilities</h3>
 
-<p><img src="figures/results.png" alt="results"/></p>
+<p>In the <code>Estimated probabilities</code> you can see the results of the classification of your data. In the panel on the left hand side of the page you can choose which classification results you want to display.</p>
+
+<p><img src="../figures/results.png" alt="results"/></p>
+
+<p>On the right hand side of the screen the results of the chosen classifications are shown. You can also download the results as a .txt file by pressing the <code>Download classification results</code> button in the panel on the left.</p>
+
+<p><img src="../figures/class_results.png" alt="class_results"/></p>
+
+<p>In the results table the probabilities of the chosen classifications are shown, and the actual result of the classification. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cutpoints for the classification.</p>
+
+<p><img src="../figures/slider.png" alt="slider"/></p>
 
 <h3>Patient summaries</h3>
 
-<p><img src="figures/patient_summaries.png" alt="patient_summaries"/></p>
+<p>In the <code>Patient summaries</code> we have made a short summary of the patients available. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.</p>
+
+<p><img src="../figures/patient_summaries.png" alt="patient_summaries"/></p>
 
 <p><br> <br></p>
 
 <h1>Using the hemaClass R-package</h1>
 
-<p>The purpose of the hemaClass R-package is to make our classification
-schemes and the source code available to anyone interested. With the hemaClass
-R-package you can also run a local version of the hemaClass webpage.</p>
+<p>The purpose of the hemaClass R-package is to make our classification schemes and the source code available to anyone interested. With the hemaClass R-package you can also run a local version of the hemaClass webpage.</p>
 
 <h2>Installing the package</h2>
 
@@ -374,19 +189,51 @@ devtools::install_github(&quot;oncoclass/hemaClass&quot;, dependencies = TRUE)
 
 <p><code>hemaClass</code> is still under development and should be considered unstable. Be sure that you have the <a href="http://www.rstudio.com/ide/docs/packages/prerequisites">package development prerequisites</a> if you wish to install the package from the source.</p>
 
-<p><strong>Note:</strong> The interface and function names may still see significant changes and
-modifications!</p>
+<p><strong>Note:</strong> The interface and function names may still see significant changes and modifications!</p>
 
-<h2>Functions included in hemaClass</h2>
+<h2>Classifications with the hemaClass package</h2>
+
+<p>Here we provide a short example of a script using the functions implemented in <code>hemaClass</code>.</p>
+
+<pre><code class="R"># Load package
+library(hemaClass)
+
+# Load the files
+files &lt;- dir(system.file(&quot;path_to_files&quot;), full.names = TRUE)
+batch &lt;- readCelfiles(filenames = files)
+
+# Pre-processing the .CEL files
+ref &lt;- readLLMPPCHOPreference()
+data &lt;- rmaReference(batch, reference = ref)
+data.sc &lt;- data$exprs.sc
+
+# BAGS Classification
+BAGS(data.sc)
+</code></pre>
+
+<p>Four .CEL files is provided with the hemaClass package for testing. To use these swap the load files line with:</p>
+
+<pre><code class="R">files &lt;- dir(system.file(&quot;extdata/celfiles&quot;, package = &quot;hemaClass&quot;), full.names = TRUE)
+</code></pre>
+
+<p>The script uses the build-in one-by-one normalization with the build-in LLMPPCHOP dataset as reference. If you want to use a different build-in reference swap out the reference line with one of the following:</p>
+
+<pre><code class="R">ref &lt;- readCHEPRETROreference()
+ref &lt;- readIDRCreference()
+ref &lt;- readLLMPPRCHOPreference()
+ref &lt;- readMDFCIreference()
+ref &lt;- readUAMSreference()
+</code></pre>
+
+<p>If you want to use cohort based normalization you can instead use the function <code>rmaPreprocessing</code>, which is also supplied in the package.</p>
+
+<p>To do a different classification than BAGS, use the functions <code>REGS</code> or <code>ABCGCB</code> instead of <code>BAGS</code>.</p>
 
 <p><br><br></p>
 
 <h1>Questions</h1>
 
-<p>If you encounter any issues or bugs using either the hemaClass webpage
-or the hemaClass R-package, or if you have suggestions for
-improvements please report it to us at <a href="https://github.com/oncoclass/hemaClass/issues">GitHub</a>.
-You are also welcome to send us questions or comments on <a href="mailto:martin.boegsted@rn.dk">mail</a>.</p>
+<p>If you encounter any issues or bugs using either the hemaClass webpage or the hemaClass R-package, or if you have suggestions for improvements please report it to us at <a href="https://github.com/oncoclass/hemaClass/issues">GitHub</a>. You are also welcome to send us questions or comments on <a href="mailto:martin.boegsted@rn.dk">mail</a>.</p>
 
 </body>
 

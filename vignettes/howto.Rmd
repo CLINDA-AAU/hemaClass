@@ -173,7 +173,39 @@ devtools::install_github("oncoclass/hemaClass", dependencies = TRUE)
 
 **Note:** The interface and function names may still see significant changes and modifications!
 
-## Functions included in hemaClass
+## Classifications with the hemaClass package
+Here we provide a short example of a script using the functions implemented in `hemaClass`.
+```R
+# Load package
+library(hemaClass)
+
+# Load the files
+files <- dir(system.file("path_to_files"), full.names = TRUE)
+batch <- readCelfiles(filenames = files)
+
+# Pre-processing the .CEL files
+ref <- readLLMPPCHOPreference()
+data <- rmaReference(batch, reference = ref)
+data.sc <- data$exprs.sc
+
+# BAGS Classification
+BAGS(data.sc)
+```
+Four .CEL files is provided with the hemaClass package for testing. To use these swap the load files line with:
+```R
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+```
+The script uses the build-in one-by-one normalization with the build-in LLMPPCHOP dataset as reference. If you want to use a different build-in reference swap out the reference line with one of the following:
+```R
+ref <- readCHEPRETROreference()
+ref <- readIDRCreference()
+ref <- readLLMPPRCHOPreference()
+ref <- readMDFCIreference()
+ref <- readUAMSreference()
+```
+If you want to use cohort based normalization you can instead use the function `rmaPreprocessing`, which is also supplied in the package.
+
+To do a different classification than BAGS, use the functions `REGS` or `ABCGCB` instead of `BAGS`.
 
 <br><br>
 # Questions
