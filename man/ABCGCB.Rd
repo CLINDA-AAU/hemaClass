@@ -11,26 +11,30 @@ ABCGCB(new.data, NC.range = c(0.1, 0.9))
 \arguments{
 \item{new.data}{An expression matrix.}
 
-\item{NC.range}{A numeric vector with values for which the probabilities should be cut.}
+\item{NC.range}{A \code{numeric} vector with values for which the
+probabilities should be cut.}
 }
 \value{
-Probabilities regarding each patients association with each class.
+A \code{list} of probabilities and classes regarding each patients
+  association with the classes.
 }
 \description{
-Classification according to ABC/GCB.
+Classification of DLBCL samples according to the ABC/GCB classifier.
 }
 \details{
-The function ABC/GCB classifies DLBCL patients according to the cell of origin for the tumor.
+The function ABC/GCB classifies DLBCL patients according to the
+  cell of origin for the tumor.
 }
 \examples{
 \donttest{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
+files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
+             full.names = TRUE)
 affyBatch <- readCelfiles(filenames = files)
 
 # The cel files are pre-processed
 affyRMA <- rmaPreprocessing(affyBatch)
 
-# the function rmaPreprocessing returns median centered and scaled
+# The function rmaPreprocessing returns median centered and scaled
 # expression values in the slot exprs.sc.
 
 # The slot exprs.sc.mean contains mean cetered and scaled expression values.
@@ -42,8 +46,8 @@ ABCGCB(affyRMA.sc)
 }
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
 Reference to the ABC/GCB and hemaClass paper.

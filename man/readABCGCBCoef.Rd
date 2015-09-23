@@ -7,12 +7,15 @@
 readABCGCBCoef()
 }
 \value{
-A matrix with coefficients
+A \code{matrix} with the coefficients.
 }
 \description{
-Function to read coefficients for the ABC/GCB classifier.
+Function to read or get the coefficients used in the linear predictor score
+of the ABC/GCB classifier.
 }
 \examples{
-head(readABCGCBCoef())
+coefs <- readABCGCBCoef()
+head(coefs)
+str(coefs)
 }
 

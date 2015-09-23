@@ -9,22 +9,29 @@
 BAGS(new.data, cut.spec = NULL, percent.classified = 85)
 }
 \arguments{
-\item{new.data}{An expression matrix.}
+\item{new.data}{An expression \code{matrix}.}
 
-\item{cut.spec}{A numeric value for which the probabilities should be cut.}
+\item{cut.spec}{A \code{numeric} value used to threshold the probabilities
+and determine the class.}
 
-\item{percent.classified}{A numeric value indicating the percentage of
-patients the should be classified.}
+\item{percent.classified}{A \code{numeric} value indicating the percentage of
+patients that should be classified. An alternative to \code{cut.spec}.}
 }
 \value{
-Probabilities regarding each patients association with each class.
+A \code{list} of probabilities regarding each patients association
+  with each class, the determined class, and the used cut-off thresholds.
 }
 \description{
-B-cell associated gene signatures (BAGS).
+Classification using the B-cell associated gene signatures (BAGS) classifier
+of Dybkaer et al. [1]. The BAGS classifier attemps to assign the given
+supplied Diffuse Large B-Cell Lymphomas (DLBCL)
+samples to one of five classes according to their resembalace to normal
+Naive (N), Centrocytes (CC), Centroblasts (CB), Memory (M), and
+Plasmablasts (PB) cells.
 }
 \details{
 The function BAGS classifies DLBCL patients according to the cell
-  of origin for the tumor.
+  of origin for the tumor [1].
 }
 \examples{
 \donttest{
@@ -51,6 +58,12 @@ Steffen Falgreen <sfl (at) rn.dk> \cr
   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
-Reference to the BAGS and hemaClass paper.
+[1] Dybkaer, Karen, Martin Boegsted, Steffen Falgreen, Julie S. Boedker,
+Malene K. Kjeldsen, Alexander Schmitz, Anders E. Bilgrau et al.
+"Diffuse large B-cell lymphoma classification system that associates
+normal B-cell subset phenotypes with prognosis."
+Journal of Clinical Oncology 33, no. 12 (2015): 1379-1388.
+
+[Add hemaclass.org reference]
 }
 
