@@ -1,12 +1,17 @@
 #' Read coefficients for the ABC/GCB classifier
 #' 
-#' Function to read coefficients for the ABC/GCB classifier.
+#' Function to read or get the coefficients used in the linear predictor score 
+#' of the ABC/GCB classifier.
+#' 
 #' @rdname readABCGCBCoef
-#' @return A matrix with coefficients
+#' @return A \code{matrix} with the coefficients.
 #' @examples
-#' head(readABCGCBCoef())
+#' coefs <- readABCGCBCoef()
+#' head(coefs)
+#' str(coefs)
 #' @export
 readABCGCBCoef <- function() {
-  file <- system.file("extdata/ABCGCB/ABCGCB.coef.rda", package = "hemaClass")
+  # Function to read the ABC/GCB coefficients
+  file <- system.file("extdata/ABCGCB/ABCGCB.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
