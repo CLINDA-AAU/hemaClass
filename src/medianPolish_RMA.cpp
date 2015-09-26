@@ -86,7 +86,7 @@ Rcpp::List RMA_sum(arma::mat x2, Rcpp::List probesets, CharacterVector order, Ch
       eps2 = eps*newsum;
       if (newsum==0)
       break;
-      if (abs(newsum-oldsum)<eps2)
+      if (std::abs(newsum-oldsum)<eps2)
       break;
       
       oldsum = newsum;
