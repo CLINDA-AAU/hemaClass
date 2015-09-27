@@ -14,10 +14,12 @@ An R-package for DNA microarray classification.
 ls("package:hemaClass")
 
 # To run the hemaClass web-interface:
+\dontrun{
 require(gdata)
 require(survival)
 require(shinysky)
 runHemaClass()
+}
 }
 \author{
 Steffen Falgreen Larsen <sfl (at) rn.dk> \cr

@@ -12,17 +12,18 @@ License: file LICENSE
 Depends:
     affy
 Imports:
-    shinysky,
+    Biobase,
     shiny,
+    shinysky,
     RLumShiny,
     matrixStats,
     preprocessCore,
     affyio,
     Rcpp (>= 0.10.6),
     RcppArmadillo,
-    Biobase,
     gdata,
     WriteXLS
 LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 Suggests:
-    testthat (>= 0.3)
+    testthat (>= 0.3),
+    survival

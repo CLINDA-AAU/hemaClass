@@ -19,7 +19,7 @@
 #' (at) math.aau.dk>
 #' @examples
 #' 2+2
-#' @importFrom Biobase exprs "exprs<-"
+#' @importMethodsFrom Biobase exprs "exprs<-"
 #' @importFrom matrixStats rowMedians
 #' @export
 microarrayScale <- function(x, center = "median", scale = "sd") {

@@ -15,10 +15,12 @@
 #' ls("package:hemaClass")
 #' 
 #' # To run the hemaClass web-interface:
+#' \dontrun{
 #' require(gdata)
 #' require(survival)
 #' require(shinysky)
 #' runHemaClass()
+#' }
 NULL
 
 # About "importFrom Rcpp evalCpp": and RcppArmadillo
