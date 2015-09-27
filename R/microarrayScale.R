@@ -19,12 +19,11 @@
 #' (at) math.aau.dk>
 #' @examples
 #' 2+2
-#' @importMethodsFrom Biobase exprs "exprs<-"
 #' @importFrom matrixStats rowMedians
 #' @export
 microarrayScale <- function(x, center = "median", scale = "sd") {
   if (class(x) == "ExpressionSet") {
-    x.m <- Biobase::exprs(x)
+    x.m <- affy::exprs(x)
   } else {
     x.m <- x
   }

@@ -11,8 +11,10 @@
 #'   Steffen Falgreen Larsen \cr
 #'   Anders Ellern Bilgrau
 #' @export
-#' @import tools shiny gdata WriteXLS RLumShiny
+#' @import tools gdata WriteXLS
 #' @importFrom shinysky busyIndicator
+#' @importFrom shiny runApp
+#' @importFrom RLumShiny jscolorInput
 #' @examples
 #' \dontrun{
 #' library("gdata")
