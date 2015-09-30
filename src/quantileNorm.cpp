@@ -56,9 +56,9 @@ Rcpp::List RMA_norm(const NumericMatrix x2, arma::vec quantile2, int generateQua
     std::reverse(revmatch2.begin(), revmatch2.end());
     
 //  max  
-        for(int i = 0; i < n; ++i){
-          xsort(i, j) = quantile(revh3(revmatch2(i)-1)-1) ;
-        }
+//         for(int i = 0; i < n; ++i){
+//           xsort(i, j) = quantile(revh3(revmatch2(i)-1)-1) ;
+//         }
 
 //    min
 //    match2 = match(x(_, j), h2);
@@ -67,10 +67,10 @@ Rcpp::List RMA_norm(const NumericMatrix x2, arma::vec quantile2, int generateQua
 //    }
 
 //   mean of min og max
-// match2 = match(x(_, j), h2);
-//   for(int i = 0; i < n; ++i){
-//          xsort(i, j) = (quantile(revh3(revmatch2(i)-1)-1) + quantile(h3(match2(i)-1)-1))/2 ;
-//        }
+match2 = match(x(_, j), h2);
+  for(int i = 0; i < n; ++i){
+         xsort(i, j) = (quantile(revh3(revmatch2(i)-1)-1) + quantile(h3(match2(i)-1)-1))/2 ;
+       }
         
         
   }  
