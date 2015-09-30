@@ -5,18 +5,6 @@
 
 <title>Introduction</title>
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
-  }
-};
-</script>
-
 </head>
 
 <body>
@@ -31,7 +19,7 @@ window.onload = function() {
 
 <p>We want to stress that we disclaim against responsibility for the effects of the classifications. For instance we neither accept liability for the classifications performed, nor for the consequences of any actions taken on the basis of the information provided.</p>
 
-<p>hemaClass provides access to GEP based classification schemes of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available for gene expressions profiled by the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.</p>
+<p>hemaClass provides access to GEP based classification of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available for gene expressions profiled by the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.</p>
 
 <p>The classification schemes available are:</p>
 
@@ -63,11 +51,11 @@ window.onload = function() {
 
 <p>Navigation on the hemaClass webpage is done using the tab panel on the top of the page.</p>
 
-<p><img src="../figures/tabpanel.png" alt="tabpanel"/></p>
+<p><img src="/figures/tabpanel.png" alt="tabpanel"/></p>
 
 <p>Three options are available to you <code>Home</code>, <code>Load data</code> and <code>Results</code>. Choosing <code>Home</code> simply takes you to the start page, where there is access to some miscellaneous information. The information is accessible through the navigation panel on the left.</p>
 
-<p><img src="../figures/information.png" alt="information"/></p>
+<p><img src="/figures/information.png" alt="information"/></p>
 
 <p>As an example, if you want to have a look at the publications regarding hemaClass go to <code>Home</code> and choose <code>Publications</code> in the information panel. We will go into more detail with the options <code>Load data</code> and <code>Results</code> in the following two sections.</p>
 
@@ -77,7 +65,7 @@ window.onload = function() {
 
 <p>As you do this, the following second tab panel is made available.</p>
 
-<p><img src="../figures/load_data.png" alt="load_data"/></p>
+<p><img src="/figures/load_data.png" alt="load_data"/></p>
 
 <p>To use your own data choose <code>CEL files</code>, or if you want to use the test data provided by us choose <code>Build-in data</code>.</p>
 
@@ -85,28 +73,33 @@ window.onload = function() {
 
 <p>In case you want to classify your own data choose <code>CEL files</code> in the tab panel. Here you have the possibility of uploading your data using the panel on the left hand side of the page.</p>
 
-<p><img src="../figures/choose_cel.png" alt="choose_cel"/></p>
+<p><img src="/figures/choose_cel.png" alt="choose_cel"/></p>
 
-<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file on some older browsers, including Internet Explorer 9 and older.</p>
+<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file in some older browsers, including Internet Explorer 9 and older.</p>
 
-<p>After you have uploaded the samples you want to classify they need to be normalized. hemaClass provides different methods for normalization of your samples, and you have to choose which method you want to use.</p>
+<p>After you have uploaded the samples you want to classify, they need to be normalized. hemaClass provides different methods for normalization of your samples, and you have to choose which method you want to use.</p>
 
-<p><img src="../figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
+<p><img src="/figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
 
-<p>The methods for normalization is:</p>
+<p>There is two types of methods available, one-by-one normalization and cohort normalization. With one-by-one normalization you can normalize a single sample according to some chosen reference. With corhort based normalization you need a cohort of samples, and normalization is done according to the samples. The one-by-one normalization methods available are:</p>
 
 <ul>
 <li><p>Use build in reference: This method normalizes your samples according to a build in reference dataset. There is currently 6 build in reference datasets available.</p></li>
 <li><p>Build a reference: With this method you build a reference of .CEL files that you upload. Be aware that the performance for this method of normalization has only been documented for references consisting of 30 .CEL files.  When the samples you want to use as a reference has been uploaded press <code>Build the reference</code>.</p></li>
 <li><p>Upload a reference: With this method you normalize your samples to a reference that you upload. The reference that you upload has to be of the filetype .rds.</p></li>
-<li><p>Cohort based RMA: The final method is Cohort based normalization, where all the samples you provide are used for normalization. This method is best for when you have a large collection of samples.</p></li>
+</ul>
+
+<p>Finally to do cohort based normalization choose:</p>
+
+<ul>
+<li>Cohort based RMA: The final method is Cohort based normalization, where all the samples you provide are used for normalization. This method is best for when you have a large collection of samples.</li>
 </ul>
 
 <p>Choose the normalization method which is most suitable for the samples you have and that you want to classify. When you have choosen a normalization method follow the onscreen instructions to normalize your samples.</p>
 
 <p>When you have finished the preprocessing of your samples you will be able to see the data on the page.</p>
 
-<p><img src="../figures/probeset.png" alt="probeset"/></p>
+<p><img src="/figures/probeset.png" alt="probeset"/></p>
 
 <h3>Metadata</h3>
 
@@ -116,7 +109,7 @@ window.onload = function() {
 
 <p>If you type in the metadata manually you are also able to download it afterwards as .xls file.</p>
 
-<p><img src="../figures/manual_metadata.png" alt="manual_metadata"/></p>
+<p><img src="/figures/manual_metadata.png" alt="manual_metadata"/></p>
 
 <p>Using the metadata you are able to calculate the IPI score of the patient.</p>
 
@@ -124,47 +117,47 @@ window.onload = function() {
 
 <p>If you want to use the build-in data provided by us to test the system go to <code>Build-in-data</code>. We have provided two datasets which you can choose from in the panel on the left hand side of the page.</p>
 
-<p><img src="../figures/build_in_data.png" alt="build_in_data"/></p>
+<p><img src="/figures/build_in_data.png" alt="build_in_data"/></p>
 
-<p>The two datasets provided by us consists of&hellip; . Also, metadata is available for both datasets.</p>
+<p>The two build-in datasets LLMPP CHOP and LLMPP R-CHOP consists of 181 and 233 samples respectively. LLMPP CHOP provides gene expression data from patients treated with CHOP, and LLMPP R-CHOP provides gene expression data from patients treated with R-CHOP. Metadata is available for both datasets.</p>
 
 <h3>Metadata in use</h3>
 
 <p>In the final tab of the <code>Load data</code> page you are able to see the metadata that is either available or that you have provided.</p>
 
-<p><img src="../figures/metadata.png" alt="metadata"/></p>
+<p><img src="/figures/metadata.png" alt="metadata"/></p>
 
 <h2>Getting the results</h2>
 
-<p>To see the results of the classification of the data you have choosen go to the <code>Results</code> tab on the main tab panel. In the <code>Estimated probabilities</code> tab you can see the results of the classifications, and in the <code>Patient summaries</code> tab plots of survival curves and IPI scores are available.</p>
+<p>To see the results of the classification go to the <code>Results</code> tab on the main tab panel. The results are first avalable when you have correctly uploaded and preprocessed data, or if you have chosen the build-in data. In the <code>Estimated probabilities</code> tab you can see the results of the classifications, and in the <code>Patient summaries</code> tab plots of survival curves and IPI scores are available.</p>
 
-<p><img src="../figures/results_tab.png" alt="results_tab"/></p>
+<p><img src="/figures/results_tab.png" alt="results_tab"/></p>
 
 <h3>Estimated probabilities</h3>
 
 <p>In the <code>Estimated probabilities</code> you can see the results of the classification of your data. In the panel on the left hand side of the page you can choose which classification results you want to display.</p>
 
-<p><img src="../figures/results.png" alt="results"/></p>
+<p><img src="/figures/results.png" alt="results"/></p>
 
 <p>On the right hand side of the screen the results of the chosen classifications are shown. You can also download the results as a .txt file by pressing the <code>Download classification results</code> button in the panel on the left.</p>
 
-<p><img src="../figures/class_results.png" alt="class_results"/></p>
+<p><img src="/figures/class_results.png" alt="class_results"/></p>
 
-<p>In the results table the probabilities of the chosen classifications are shown, and the actual result of the classification. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cutpoints for the classification.</p>
+<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cutpoints for the classification.</p>
 
-<p><img src="../figures/slider.png" alt="slider"/></p>
+<p><img src="/figures/slider.png" alt="slider"/></p>
 
 <h3>Patient summaries</h3>
 
-<p>In the <code>Patient summaries</code> we have made a short summary of the patients available. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.</p>
+<p>In the <code>Patient summaries</code> we have made a short summary of the data and the classification. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.</p>
 
-<p><img src="../figures/patient_summaries.png" alt="patient_summaries"/></p>
+<p><img src="/figures/patient_summaries.png" alt="patient_summaries"/></p>
 
 <p><br> <br></p>
 
 <h1>Using the hemaClass R-package</h1>
 
-<p>The purpose of the hemaClass R-package is to make our classification schemes and the source code available to anyone interested. With the hemaClass R-package you can also run a local version of the hemaClass webpage.</p>
+<p>The purpose of the hemaClass R-package is to make the functionality of the hemaClass webpage available programmatically. The hemaClass R-package also provides the opportunity to run a local version of the hemaClass webpage.</p>
 
 <h2>Installing the package</h2>
 
