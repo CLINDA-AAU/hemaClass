@@ -278,6 +278,11 @@ shinyServer(function(input, output, session) {
                                   sep="<br/>")),
                        styleclass = "danger")  
       }
+    }else{
+      showshinyalert(session, "shinyalertUploadMetaData",  
+                     HTML(paste("Upload the file containing metadata. The supported file types are:","&#160.rds","&#160.RData",
+                                "&#160.txt","&#160.xls", sep="<br/>")),
+                     styleclass = "info")  
     }
   })
   
