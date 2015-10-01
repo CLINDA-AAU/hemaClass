@@ -1392,8 +1392,10 @@ shinyServer(function(input, output, session) {
                   return(0)
                 }else{
                   if(length(input$refFiles$name) < 30){
-                    showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected less than 30 .CEL files for building the reference.",
-                                                                                     "The performance is not documented for less than 30 .CEL files.", sep="<br/>")),
+                    showshinyalert(session, "shinyalertSelectReference", 
+                                   HTML(paste("You selected less than 30 .CEL files for building the reference.",
+                                              "The performance is not documented for less than 30 .CEL files.", 
+                                              sep = "<br/>")),
                                    styleclass = "warning")
                   }else{
                     if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
