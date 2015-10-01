@@ -1,14 +1,13 @@
-#install.packages("devtools")
-#devtools::install_github("shiny", "rstudio")
-#devtools::install_github("shiny-incubator", "rstudio")
-library(shiny)
-library(tools)
-library(hemaClass)
-#devtools::install_github("AnalytixWare/ShinySky")
-library(shinysky)
-library(gdata)
-require(survival)
-require(WriteXLS)
+# Load packages
+library("shiny")
+library("tools")
+library("hemaClass")
+library("shinysky")
+library("gdata")
+library("survival")
+library("WriteXLS")
+cat("Packages loaded\n")
+
 # Changing maximum file size
 options(shiny.maxRequestSize = 30*1024^2)
 
@@ -17,7 +16,6 @@ options(shiny.maxRequestSize = 30*1024^2)
 # Run the shiny server
 #
 
-cat("done.\n")
 shinyServer(function(input, output, session) {
   # Initialzing the normalized.data and results object
   normalized.data <- NULL
@@ -29,114 +27,89 @@ shinyServer(function(input, output, session) {
   results <- list()
   
   LoadAnnotation <- reactive({
-    HGU133Plus2 <<- readRDS("../Database/V1/Annotation/HGU133Plus2.na33.annot.RDSData")
+    HGU133Plus2 <<- 
+      readRDS("../Database/V1/Annotation/HGU133Plus2.na33.annot.RDSData")
   })
   
   buildin.data <- list()
-  buildin.datasets <- setdiff(dir("../Database/V1/"), c("Annotation", "Classification"))
+  buildin.datasets <- 
+    setdiff(dir("../Database/V1/"), c("Annotation", "Classification"))
   
-  choosenDataset <- NULL
+  chosenDataset <- NULL
   
-  ##################################
+  ##############################################################################
   ##
   ## Create metadata manually
   ##
-  ##################################
+  ##############################################################################
   
   # outputOptions(output, "hotableMetadataManual", suspendWhenHidden = FALSE)
   
   observe({
     currentMetadataManual()
-    #print("hotstart")
     
     output$hotableMetadataManual <- renderHotable({ 
       
-      # print("hotstart2")
       input$IPIcalc # should IPI be calculated
       
       fileInfo <- input$usrFiles
       
-      if(!is.null(fileInfo$name)){
+      if (!is.null(fileInfo$name)) {
         new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
-        if(input$IPIcalc){
+        if (input$IPIcalc) {
           old.data <- currentMetadataManual()
-          
-          # print(old.data)
+
           cols <- c("CEL.files", "Age", "ECOG", "LDH", "N.Extra.Nodal", 
                     "Stage", "IPI", input$Additionalcolumns)
           
-          data <- matrix(NaN, ncol =  length(cols), nrow = length(fileInfo$name), 
+          data <- matrix(NaN, ncol =  length(cols), 
+                         nrow = length(fileInfo$name), 
                          dimnames = list(new.names, cols))
           
           data <- as.data.frame(data)
           data$CEL.files <- new.names      
           
-          if(!is.null(old.data) && !any(is.na(old.data$CEL.files))){
+          if (!is.null(old.data) && !any(is.na(old.data$CEL.files))) {
             int.names <- intersect(colnames(old.data), colnames(data))
-            int.cels <- intersect(rownames(old.data), rownames(data))
+            int.cels  <- intersect(rownames(old.data), rownames(data))
             
-            if(length(int.names) && length(int.cels))
-              for(name in int.names)
+            if (length(int.names) && length(int.cels)) {
+              for (name in int.names) {
                 data[int.cels, name] <- old.data[int.cels, name]
-            
-            # if(!is.null(hot.to.df(input$hotableClinical))){
+              }
+            }
+  
             IPI <- IPIreactive()
-            
             data[names(IPI), "IPI"] <- IPI
-            #}
           }
           
           as.data.frame(data)
           
-        }else{    
+        } else {    
+          
           old.data <- currentMetadataManual()
-          # print(old.data)
+
           cols <- c("CEL.files", "IPI", input$Additionalcolumns)
           
-          data <- matrix(NaN, ncol =  length(cols), nrow = length(fileInfo$name), 
+          data <- matrix(NaN, ncol =  length(cols), 
+                         nrow = length(fileInfo$name), 
                          dimnames = list(new.names, cols))
           data <- as.data.frame(data)
           data$CEL.files <- new.names
           
-          if(!is.null(old.data) && !any(is.na(old.data$CEL.files))){
+          if (!is.null(old.data) && !any(is.na(old.data$CEL.files))) {
             int.names <- intersect(colnames(old.data), colnames(data))
             int.cels  <- intersect(rownames(old.data), rownames(data))
-            
-            
-            if(length(int.names) && length(int.cels))
-              for(name in int.names)
-                data[int.cels, name] <- old.data[int.cels, name]
+          
+            if (length(int.names) && length(int.cels)) {
+              for (name in int.names) {
+                data[int.cels, name] <- old.data[int.cels, name] 
+              }
+            }
           }
           as.data.frame(data)
         }
-#         output$metadataselector <- renderUI({
-#           
-#           available.datasets <- vector()
-#           
-#           metadata.upload <- metadataUploaded() 
-#           if(!is.null(metadata.upload))
-#             available.datasets <- c(available.datasets, "Uploaded metadata")
-#           
-#           metadata.manual <- currentMetadataManual()
-#           if(!is.null(metadata.manual))
-#             available.datasets <- c(available.datasets, "Manually input metadata")
-#           
-#           metadata.buildin <- buildInMetadata()
-#           if(!is.null(metadata.buildin))
-#             available.datasets <- c(available.datasets, "Build-in dataset")
-#           
-#           data.list <- list()
-#           
-#           for(data.iter in c( available.datasets))
-#             data.list[[data.iter]] <- data.iter
-#           
-#           selectInput(inputId = "chooseMetaDataset",  
-#                       label   = "Choose a data set",
-#                       choices = data.list,
-#                       selected = "Manually input metadata")
-#         }) 
-      }else{
-        
+      } else {
         cols <- c("CEL.files", "IPI", input$Additionalcolumns)
         
         data <- matrix(NaN, ncol =  length(cols), nrow = length(fileInfo$name), 
@@ -149,20 +122,16 @@ shinyServer(function(input, output, session) {
   
   currentMetadataManual <- reactive({   
     old.data <- NULL
-    
-    #isolate({
+
     fileInfo <- (input$usrFiles) 
-    #})
     
-    
-    if(!is.null(fileInfo$name)){
+    if (!is.null(fileInfo$name)) {
       old.data <- hot.to.df(input$hotableMetadataManual)  
-      if(!is.null( old.data )){
-        if("CEL.files" %in% colnames(old.data)){
-          
-          if(any(is.na(old.data$CEL.files)))
+      if (!is.null( old.data )) {
+        if ("CEL.files" %in% colnames(old.data)) {
+          if (any(is.na(old.data$CEL.files))) {
             return(NULL)
-          
+          }
           new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
           
           old.data$CEL.files[is.na(old.data$CEL.files)] <- paste("a", 1:sum(is.na(old.data$CEL.files)))
@@ -170,7 +139,7 @@ shinyServer(function(input, output, session) {
           rownames(old.data) <- old.data$CEL.files
           old.data <- old.data[new.names, , drop = FALSE] 
         }
-      }else{
+      } else {
         cols <- c("CEL.files", "IPI", input$Additionalcolumns)
         new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
         data <- matrix(NA, ncol =  length(cols), nrow = length(fileInfo$name), 
@@ -182,7 +151,7 @@ shinyServer(function(input, output, session) {
       }
       createData() 
       if (!is.null(normalized.data)) {
-        choosenDataset <<- "Manually input metadata"
+        chosenDataset <<- "Manually input metadata"
       }   
     }
     old.data 
@@ -193,12 +162,11 @@ shinyServer(function(input, output, session) {
     
     dataC <- currentMetadataManual()
     
-    if(!all(c("Age", "ECOG", "LDH", "N.Extra.Nodal", 
-              "Stage") %in% colnames(dataC)) && !any(is.na(dataC$CEL.files))){
+    if (!all(c("Age", "ECOG", "LDH", "N.Extra.Nodal", "Stage") %in% 
+             colnames(dataC)) && !any(is.na(dataC$CEL.files))) {
       
       IPI <- rep(NaN, nrow(dataC))
-      
-    }else{
+    } else {
       
       a <- ifelse(dataC$Age            >   as.numeric(input$AGE.cut), 1, 0)
       b <- ifelse(dataC$ECOG           >   as.numeric(input$ECOG.cut), 1, 0)
@@ -215,8 +183,6 @@ shinyServer(function(input, output, session) {
   })
   
   
-  
-  
   output$downloadMetadataManual <- downloadHandler(
     
     filename = paste0("HemaClass-Metadata", Sys.Date(), ".xls"),
@@ -231,57 +197,57 @@ shinyServer(function(input, output, session) {
   )
   
   
-  ##################################
+  ##############################################################################
   ##
   ## Read metadata
   ##
-  ##################################
+  ##############################################################################
   
   uploadMetaData <- reactive({
     
     hideshinyalert(session, "shinyalertUploadMetaData")
     metadata.upload <<- NULL
-    if(!is.null(input$usrMeta)){
-      if(grepl("rds", file_ext(input$usrMeta$name), ignore.case = TRUE)){
+    if (!is.null(input$usrMeta)) {
+      if (grepl("rds", file_ext(input$usrMeta$name), ignore.case = TRUE)) {
         metadata.upload <<- readRDS(input$usrMeta$datapath) 
       }
-      if(grepl("RData", file_ext(input$usrMeta$name), ignore.case = TRUE)){
+      if (grepl("RData", file_ext(input$usrMeta$name), ignore.case = TRUE)) {
         load(input$usrMeta$datapath, ex <- new.env())
         name <- ls(ex)[1]
         metadata.upload <<- ex[[name]]
       }
       
-      if(grepl("txt", file_ext(input$usrMeta$name), ignore.case = TRUE)){
-        if(input$ExttxtSep == "Other"){
+      if (grepl("txt", file_ext(input$usrMeta$name), ignore.case = TRUE)) {
+        if (input$ExttxtSep == "Other") {
           sep <- input$ExttxtSepOther
-        }else{
+        } else {
           sep <- input$ExttxtSep
         }
-        metadata.upload <<- read.table(input$usrMeta$datapath, header = input$ExttxtHeader, sep = sep)
+        metadata.upload <<- read.table(input$usrMeta$datapath, 
+                                       header = input$ExttxtHeader, sep = sep)
       }
       
-      if(grepl("xls", file_ext(input$usrMeta$name), ignore.case = TRUE)){
+      if (grepl("xls", file_ext(input$usrMeta$name), ignore.case = TRUE)) {
         names <- sheetNames(input$usrMeta$datapath)
-        if(input$ExtXLSsheet %in% names || input$ExtXLSsheet %in% as.character(1:length(names) )){
-          metadata.upload <<- gdata::read.xls(input$usrMeta$datapath, sheet = input$ExtXLSsheet)
-        }else{
+        if (input$ExtXLSsheet %in% names || 
+            input$ExtXLSsheet %in% as.character(1:length(names))) {
+          metadata.upload <<- gdata::read.xls(input$usrMeta$datapath, 
+                                              sheet = input$ExtXLSsheet)
+        } else {
           showshinyalert(session, "shinyalertUploadMetaData",  
-                         HTML(paste("The selected sheet could not be found in the metadata!",
-                                    sep="<br/>")),
+                         HTML("The selected sheet could not be found in the metadata!"),
                          styleclass = "danger") 
           return(NULL)
         }
-      }
-      else{
+      } else {
         showshinyalert(session, "shinyalertUploadMetaData",  
-                       HTML(paste("The choosen file is not of a supported type! Please upload a file of a supported type",
-                                  sep="<br/>")),
+                       HTML("The choosen file is not of a supported type! Please upload a file of a supported type."),
                        styleclass = "danger")  
       }
-    }else{
+    } else {
       showshinyalert(session, "shinyalertUploadMetaData",  
-                     HTML(paste("Upload the file containing metadata. The supported file types are:","&#160.rds","&#160.RData",
-                                "&#160.txt","&#160.xls", sep="<br/>")),
+                     HTML(paste("Upload the file containing metadata. The supported file types are:",
+                                "&#160.rds", "&#160.RData", "&#160.txt", "&#160.xls", sep = "<br/>")),
                      styleclass = "info")  
     }
   })
@@ -289,44 +255,46 @@ shinyServer(function(input, output, session) {
   output$MetaUploadCelFileNames <- renderUI({
     uploadMetaData()
     selected <- NULL
-    if(is.null(metadata.upload))
+    if (is.null(metadata.upload)) {
       return(NULL)
+    }
     
-    
-    if(!is.null(input$usrFiles))  {  
+    if (!is.null(input$usrFiles))  {  
       
       fileInfo <- (input$usrFiles) 
       
       new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
       
       
-      if(any(apply(metadata.upload, 2, 
-                   FUN = function(x) any( gsub("\\.CEL$", "", x, ignore.case = TRUE) %in% new.names)))){
+      if (any(apply(metadata.upload, 2, FUN = function(x) 
+        any( gsub("\\.CEL$", "", x, ignore.case = TRUE) %in% new.names)))) {
         
-        names <- apply(metadata.upload, 2, 
-                       FUN = function(x) any( gsub("\\.CEL$", "", x, ignore.case = TRUE) %in% new.names))      
+        names <- apply(metadata.upload, 2, FUN = function(x) 
+          any( gsub("\\.CEL$", "", x, ignore.case = TRUE) %in% new.names))      
         
         selected <- names(names)[names][1]
       }
     }
     list(
-      selectInput(inputId = "metadataUploadCelfiles", "Column containg CEL file names", colnames(metadata.upload), selected = selected)
+      selectInput(inputId = "metadataUploadCelfiles", 
+                  "Column containg CEL file names", 
+                  colnames(metadata.upload), selected = selected)
     )    
   })
   
   output$uploadMetaData <- renderDataTable({ 
     
     uploadMetaData()
-    if(is.null(metadata.upload))
+    if (is.null(metadata.upload)) {
       return(NULL)
+    }
     #metadata.upload <- metadata.upload[[1]]
     showReadMetaMethodsExtFun()
-    if(class(metadata.upload) %in% c("data.frame", "matrix")){
+    if (class(metadata.upload) %in% c("data.frame", "matrix")) {
       as.data.frame(metadata.upload)
-    }else{
+    } else {
       showshinyalert(session, "shinyalertUploadMetaData",  
-                     HTML(paste("The uploaded metafile could was neither a data.frame or matrix",
-                                sep="<br/>")),
+                     HTML("The uploaded metafile could was neither a data.frame or matrix."),
                      styleclass = "danger")  
     }
     
@@ -336,8 +304,9 @@ shinyServer(function(input, output, session) {
   
   
   showReadMetaMethodsExtFun <- reactive({
-    if(is.null(input$usrMeta))
+    if (is.null(input$usrMeta)) {
       return("none")
+    }
     tolower(file_ext(input$usrMeta$name))
   })
   
@@ -349,50 +318,50 @@ shinyServer(function(input, output, session) {
     0
   })
   
-  outputOptions(output, "showReadMetaPrint", suspendWhenHidden = FALSE)
-  
+  outputOptions(output, "showReadMetaPrint",   suspendWhenHidden = FALSE)
   outputOptions(output, "showReadMetaMethods", suspendWhenHidden = FALSE)
-  
   
   
   metadataUploaded <- reactive({
     fileInfo <- input$usrFiles
     uploadMetaData()
-    if(!is.null(metadata.upload)) 
-      
-      if(any(duplicated(metadata.upload[, input$metadataUploadCelfiles]))){
+    if (!is.null(metadata.upload)) {
+      if (any(duplicated(metadata.upload[, input$metadataUploadCelfiles]))) {
         showshinyalert(session, "shinyalertUploadMetaData",  
                        HTML(paste("The column selected to include .CEL file names includes duplicates.",
                                   "Please choose another column or upload a new dataset",
-                                  sep="<br/>")),
+                                  sep = "<br/>")),
                        styleclass = "danger") 
-      }else{
-        new.names <- gsub("\\.CEL$", "", metadata.upload[, input$metadataUploadCelfiles], 
-                          ignore.case = TRUE)
+      } else {
+        new.names <- 
+          gsub("\\.CEL$", "", metadata.upload[, input$metadataUploadCelfiles], 
+               ignore.case = TRUE)
         rownames(metadata.upload) <-  new.names
         isolate({
           fileInfo <- input$usrFiles
         })
         new.names2 <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
         metadata.upload <- metadata.upload[new.names2, , drop = FALSE] 
-        choosenDataset <<- "Uploaded metadata"
+        chosenDataset <<- "Uploaded metadata"
       }
+    }
     metadata.upload
   })
   
   
-  ##################################
+  ##############################################################################
   ##
   ## Build in data
   ##
-  ##################################
+  ##############################################################################
   
   
   output$buildindataselector <- renderUI({
     data.list <- list()
     
-    for(data.iter in c("Choose", buildin.datasets))
+    for (data.iter in c("Choose", buildin.datasets)) {
       data.list[[data.iter]] <- data.iter
+    }
     
     selectInput(inputId = "choosebuildidDataset", 
                 label   = "Choose a dataset",
@@ -403,63 +372,41 @@ shinyServer(function(input, output, session) {
   
   loadbuildinData <- reactive({     
     
-    if(is.null(buildin.data)){
+    if (is.null(buildin.data)) {
       buildin.data <<- list()
     }
     dataset <- input$choosebuildidDataset
     
-    if(is.null(dataset) || dataset == "Choose")
+    if (is.null(dataset) || dataset == "Choose") {
       return(buildin.data)
+    }
     
     # LoadAnnotation()
     
-    if(dataset %in% buildin.datasets){
-      if(!dataset %in% names(buildin.data)){
+    if (dataset %in% buildin.datasets) {
+      if (!dataset %in% names(buildin.data)) {
         hideshinyalert(session, "shinyalertResults")
-        GEP.file <- dir(file.path("../Database/V1/", dataset, "GEP"), full.names=TRUE, pattern = ".RDSData")
+        GEP.file <- dir(file.path("../Database/V1/", dataset, "GEP"), 
+                        full.names = TRUE, pattern = ".RDSData")
         GEP.data.temp <- readRDS(GEP.file)
         GEP <- microarrayScale(exprs(GEP.data.temp))
-        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP), ignore.case = TRUE)
+        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP),
+                              ignore.case = TRUE)
         buildin.data[[dataset]][["GEP"]] <<- GEP
         
         GEP.mean <- microarrayScale(exprs(GEP.data.temp), center = "mean")
-        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP.mean), ignore.case = TRUE)
+        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP.mean), 
+                              ignore.case = TRUE)
         buildin.data[[dataset]][["GEP.mean"]] <<- GEP.mean
         
         
-        Meta.file <- dir(file.path("../Database/V1/", dataset, "Metadata"), full.names=TRUE, pattern = ".RDSData")
+        Meta.file <- dir(file.path("../Database/V1/", dataset, "Metadata"), 
+                         full.names = TRUE, pattern = ".RDSData")
         meta <- readRDS(Meta.file)  
-        rownames(meta) <- gsub("\\.CEL$", "", rownames(meta), ignore.case = TRUE)
+        rownames(meta) <- gsub("\\.CEL$", "", rownames(meta),
+                               ignore.case = TRUE)
         buildin.data[[dataset]][["metadata"]] <<- meta
       }
-    
-#       output$metadataselector <- renderUI({
-#         
-#         available.datasets <- vector()
-#         
-#         metadata.upload <- metadataUploaded() 
-#         if(!is.null(metadata.upload))
-#           available.datasets <- c(available.datasets, "Uploaded metadata")
-#         
-#         metadata.manual <- currentMetadataManual()
-#         if(!is.null(metadata.manual))
-#           available.datasets <- c(available.datasets, "Manually input metadata")
-#         
-#         metadata.buildin <- buildInMetadata()
-#         if(!is.null(metadata.buildin))
-#           available.datasets <- c(available.datasets, "Build-in dataset")
-#         
-#         data.list <- list()
-#         
-#         for(data.iter in c( available.datasets))
-#           data.list[[data.iter]] <- data.iter
-#         
-#         selectInput(inputId = "chooseMetaDataset",  
-#                     label   = "Choose a data set",
-#                     choices = data.list,
-#                     selected = "Build-in dataset")
-#       }) 
-    
     }      
     return(buildin.data)
   })
@@ -470,15 +417,15 @@ shinyServer(function(input, output, session) {
     loadbuildinData()
     dataset <- input$choosebuildidDataset
     
-    if(is.null(dataset) || dataset == "Choose")
+    if (is.null(dataset) || dataset == "Choose") {
       return(NULL)
+    }
     
-   # print(names(buildin.data))
-    if(dataset %in% buildin.datasets)
-      if(dataset %in% names(buildin.data)){
-  #      print(buildin.data[[dataset]][["metadata"]])
+    if (dataset %in% buildin.datasets) {
+      if (dataset %in% names(buildin.data)) {
         as.data.frame(buildin.data[[dataset]][["metadata"]])
       }
+    }
   })
   
   output$buildinGEP <- renderDataTable({ 
@@ -486,12 +433,15 @@ shinyServer(function(input, output, session) {
     loadbuildinData()
     
     dataset <- input$choosebuildidDataset
-    if(is.null(dataset) || dataset == "Choose")
+    if (is.null(dataset) || dataset == "Choose") {
       return(NULL)
+    }
     
-    if(dataset %in% buildin.datasets)
-      if(dataset %in% names(buildin.data))
+    if (dataset %in% buildin.datasets) {
+      if (dataset %in% names(buildin.data)) {
         as.data.frame(buildin.data[[dataset]][["GEP"]]) 
+      }
+    }
   })
   
   
@@ -499,51 +449,54 @@ shinyServer(function(input, output, session) {
     loadbuildinData()
     dataset <- input$choosebuildidDataset
     
-    if(is.null(dataset) || dataset == "Choose")
+    if (is.null(dataset) || dataset == "Choose") {
       return(NULL)
+    }
     
-    if(dataset %in% buildin.datasets)
-      if(dataset %in% names(buildin.data)){   
+    if (dataset %in% buildin.datasets) {
+      if (dataset %in% names(buildin.data)) {   
         data <- as.data.frame(buildin.data[[dataset]][["metadata"]])
         #print("I was here")
-        choosenDataset <<- "Build-in dataset"
+        chosenDataset <<- "Build-in dataset"
         return(data)   
       } 
+    }
   })
   
-  ##################################
+  ##############################################################################
   ##
   ## The used metadata
   ##
-  ##################################
+  ##############################################################################
   
     output$metadataselector <- renderUI({
       
       available.datasets <- vector()
       
       metadata.upload <- metadataUploaded() 
-      if(!is.null(metadata.upload))
+      if (!is.null(metadata.upload)) {
         available.datasets <- c(available.datasets, "Uploaded metadata")
-      
+      }
       metadata.manual <- currentMetadataManual()
-      if(!is.null(metadata.manual))
+      if (!is.null(metadata.manual)) {
         available.datasets <- c(available.datasets, "Manually input metadata")
-      
+      }
       metadata.buildin <- buildInMetadata()
-      if(!is.null(metadata.buildin))
+      if (!is.null(metadata.buildin)) {
         available.datasets <- c(available.datasets, "Build-in dataset")
-      
+      }
       data.list <- list()
       
-      for(data.iter in c( available.datasets))
+      for (data.iter in c( available.datasets)) {
         data.list[[data.iter]] <- data.iter
+      }
       
-      if(!is.null(choosenDataset) && choosenDataset %in% available.datasets){
+      if (!is.null(chosenDataset) && chosenDataset %in% available.datasets) {
         selectInput(inputId  = "chooseMetaDataset", 
                     label    = "Choose a dataset",
                     choices  = data.list,
-                    selected = choosenDataset)
-      }else{
+                    selected = chosenDataset)
+      } else {
         selectInput(inputId  = "chooseMetaDataset", 
                     label    = "Choose a dataset",
                     choices  = data.list)
@@ -551,48 +504,21 @@ shinyServer(function(input, output, session) {
     })
   
   
-#   output$metadataselector <- renderUI({
-#     
-#     available.datasets <- vector()
-#     
-#     #   metadata.upload <- metadataUploaded() 
-#     #   if(!is.null(metadata.upload))
-#     #     available.datasets <- c(available.datasets, "Uploaded metadata")
-#     #   
-#     #   metadata.manual <- currentMetadataManual()
-#     #   if(!is.null(metadata.manual))
-#     #     available.datasets <- c(available.datasets, "Manually input metadata")
-#     #   
-#     #   metadata.buildin <- buildInMetadata()
-#     #   if(!is.null(metadata.buildin))
-#     #     available.datasets <- c(available.datasets, "Build-in dataset")
-#     
-#     data.list <- list()
-#     
-#     for(data.iter in c( available.datasets))
-#       data.list[[data.iter]] <- data.iter
-#     
-#     selectInput(inputId = "chooseMetaDataset", 
-#                 label   = "Choose a data set",
-#                 choices = data.list)
-#   })
-  
-  
   outputOptions(output, "metadataselector", suspendWhenHidden = FALSE)
   
   MetaDataInUse <- reactive({ 
     fileInfo <- input$usrFiles
     metadata.in.use <- NULL
-    if(!is.null(input$chooseMetaDataset)){
-      if(input$chooseMetaDataset == "Uploaded metadata")
+    if (!is.null(input$chooseMetaDataset)) {
+      if (input$chooseMetaDataset == "Uploaded metadata") {
         metadata.in.use <- metadataUploaded()
-      
-      if(input$chooseMetaDataset == "Manually input metadata")
+      }
+      if (input$chooseMetaDataset == "Manually input metadata") {
         metadata.in.use <- currentMetadataManual()
-      
-      
-      if(input$chooseMetaDataset == "Build-in dataset")
+      }
+      if (input$chooseMetaDataset == "Build-in dataset") {
         metadata.in.use <- buildInMetadata()
+      }
     }
     
     return(metadata.in.use)
@@ -609,13 +535,13 @@ shinyServer(function(input, output, session) {
     MetaDataInUse()
     GEP.in.use <- NULL    
     
-    if(!is.null(input$chooseMetaDataset))
-      if(input$chooseMetaDataset == "Build-in dataset"){
+    if (!is.null(input$chooseMetaDataset)) {
+      if (input$chooseMetaDataset == "Build-in dataset") {
         dataset <- input$choosebuildidDataset
         GEP.in.use <- as.data.frame(buildin.data[[dataset]][["GEP"]])
         return(GEP.in.use)
       }
-    
+    }
     
     createData() 
     if (!is.null(normalized.data)) {
@@ -629,13 +555,13 @@ shinyServer(function(input, output, session) {
     MetaDataInUse()
     GEP.in.use <- NULL    
     
-    if(!is.null(input$chooseMetaDataset))
-      if(input$chooseMetaDataset == "Build-in dataset"){
+    if (!is.null(input$chooseMetaDataset)) {
+      if (input$chooseMetaDataset == "Build-in dataset") {
         dataset <- input$choosebuildidDataset
         GEP.in.use <- as.data.frame(buildin.data[[dataset]][["GEP.mean"]])
         return(GEP.in.use)
       }
-    
+    }
     
     createData() 
     if (!is.null(normalized.data.mean)) {
@@ -646,24 +572,22 @@ shinyServer(function(input, output, session) {
     return(GEP.in.use)
   })
   
-  ##################################
+  ##############################################################################
   ##
   ## Upload .CEL files
   ##
-  ##################################
-  
-  
-  
+  ##############################################################################
   
   createReferenceAffy <- reactive({
     # Use isolate() to avoid dependency on input$refFiles
     input$buildreferenceButton
     isolate({
-      if(!is.null(input$refFiles)){
+      if (!is.null(input$refFiles)) {
         fileInfo <- input$refFiles
-        if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+        if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
           
-          showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.")),
+          showshinyalert(session, "shinyalertSelectReference",  
+                         HTML(paste("Not all chosen files are .CEL files.")),
                          styleclass = "danger")
           stop("Not all chosen files are .CEL files.")
         }
@@ -676,24 +600,23 @@ shinyServer(function(input, output, session) {
   createReference <- reactive({
     # Take a dependency on createReferenceAffy by calling it
     #input$buildreferenceButton
-    
-    
+
     createReferenceAffy()
     # Use isolate() to avoid dependency on input$usrFiles
     isolate({
       
+      if (!is.null(user.reference.affy)) {
       
-      if(!is.null(user.reference.affy)){
-        
-        
         user.reference <<- rmaPreprocessing(user.reference.affy)
         user.reference$files <<- input$refFiles$name
         user.reference$exprs <<- NULL
         user.reference$exprs.sc <<- NULL
         
-        showshinyalert(session, "shinyalertSelectReferenceSucess",  HTML(paste("The reference was successfully build!")),
+        showshinyalert(session, "shinyalertSelectReferenceSucess",  
+                       HTML(paste("The reference was successfully build!")),
                        styleclass = "success")
-        showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.", sep="<br/>")),
+        showshinyalert(session, "shinyalertSelectReference",  
+                       HTML("Press 'normalize files' to start the RMA normalization."),
                        styleclass = "info")
       }
     })
@@ -706,12 +629,12 @@ shinyServer(function(input, output, session) {
     input$normalizeButton
     isolate({
       fileInfo <- input$usrFiles
-      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
         stop("Not all chosen files are .CEL files.")
       }
       
       
-      if(!is.null(input$usrFiles)){
+      if (!is.null(input$usrFiles)) {
         hideshinyalert(session, "shinyalertSelectReference") 
         user.affy <<- readCelfiles(input$usrFiles$datapath)
       }
@@ -720,10 +643,12 @@ shinyServer(function(input, output, session) {
   
   RefUpload <- reactive({
     input$refUpload
-    if(is.null(input$refUpload$name))
+    if (is.null(input$refUpload$name)) {
       return(NULL)
-    if(file_ext(input$refUpload$name) != "rds")
+    }
+    if (file_ext(input$refUpload$name) != "rds") {
       return(NULL)
+    }
     ref <<- readRDS(input$refUpload$datapath)
   })
   
@@ -737,9 +662,9 @@ shinyServer(function(input, output, session) {
     isolate({
       fileInfo <- input$usrFiles
       
-      if(!is.null(user.affy)){
+      if (!is.null(user.affy)) {
         # LoadAnnotation()
-        if(input$ChooseMethod == "standardReference")       
+        if (input$ChooseMethod == "standardReference") {       
           ref <- switch(EXPR = input$ChooseReference,
                         "LLMPPCHOP"  = readLLMPPCHOPreference(),
                         "LLMPPRCHOP" = readLLMPPRCHOPreference(),
@@ -747,20 +672,23 @@ shinyServer(function(input, output, session) {
                         "IDRC"       = readIDRCreference(),
                         "CHEPRETRO"  = readCHEPRETROreference(),
                         "UAMS"       = readUAMSreference())
-        
-        if(input$ChooseMethod == "build") 
+        }
+        if (input$ChooseMethod == "build") {
           ref <- user.reference
-        
-        if(input$ChooseMethod == "upload") 
+        }
+        if (input$ChooseMethod == "upload") {
           RefUpload()
-        
-        if(input$ChooseMethod != "RMA"){ 
+        }
+        if (input$ChooseMethod != "RMA") { 
           normalized.data.RMA <<- rmaReference(user.affy, reference = ref)
-        }else{
+        } else {
           normalized.data.RMA <<- rmaPreprocessing(user.affy)
         }
-        colnames(normalized.data.RMA$exprs) <<- gsub("\\.CEL$", "", input$usrFiles$name, ignore.case = TRUE)
-        colnames(normalized.data.RMA$exprs.sc) <<- gsub("\\.CEL$", "", input$usrFiles$name, ignore.case = TRUE)
+        
+        colnames(normalized.data.RMA$exprs) <<- 
+          gsub("\\.CEL$", "", input$usrFiles$name, ignore.case = TRUE)
+        colnames(normalized.data.RMA$exprs.sc) <<-
+          gsub("\\.CEL$", "", input$usrFiles$name, ignore.case = TRUE)
         
         normalized.data <<- normalized.data.RMA$exprs.sc
         attr(normalized.data, "files") <<- input$usrFiles$name
@@ -769,17 +697,18 @@ shinyServer(function(input, output, session) {
         attr(normalized.data.mean, "files") <<- input$usrFiles$name
         
         hideshinyalert(session, "shinyalertResults")
-        showshinyalert(session, "shinyalertNormalizationSuccess",  HTML(paste("The normalization was successful!")),
+        showshinyalert(session, "shinyalertNormalizationSuccess",  
+                       HTML(paste("The normalization was successful!")),
                        styleclass = "success")
       }
     })
   })
   
-  ############################
+  ##############################################################################
   ##
   ## The classification
   ##
-  ############################
+  ##############################################################################
   
   
   MelphalanClassifierR <- reactive({
@@ -789,7 +718,7 @@ shinyServer(function(input, output, session) {
   
   BAGSR <- reactive({
     normalized.data <- GEPInUse()
-    BAGS(normalized.data, cut.spec=0)
+    BAGS(normalized.data, cut.spec = 0)
   })
   
   ABCGCBR <- reactive({
@@ -810,20 +739,20 @@ shinyServer(function(input, output, session) {
   RituximabClassifierR <- reactive({
     normalized.data <- GEPInUse()
     type <- "uncorrected"
-    if(input$HSCorrected)
+    if (input$HSCorrected) {
       type <- "corrected"
-    
-    if(input$Lysis)
+    }
+    if (input$Lysis) {
       type <- "lysis2"
-    
+    }
     
     rit <- RituximabClassifier(normalized.data, type = type, 
                                cut = input$Rituximab.range, cut.spec = 0)
     
-    if(input$Lysis){
+    if (input$Lysis) {
       probs <-  apply(rit$prob, 1, max)
       class <-  rit$class[,1]
-    }else{
+    } else {
       probs <- rit$prob[,1]
       class <- rit$class[,1]
     }
@@ -834,23 +763,14 @@ shinyServer(function(input, output, session) {
   ResistanceClassifierR <- reactive({
     normalized.data <- GEPInUse()
     av.drugs <<- c("Cyclophosphamide", "Doxorubicin", "Vincristine") 
-    
-    #     drugs2 <- c("Cyclophosphamide", "Doxorubicin", "Vincristine", "Combined")
-    #     
-    #     names(drugs2) <- c("Cyclophosphamide (C)", "Doxorubicin (H)", 
-    #                      "Vincristine (O)",      "Combined (CHO)") 
-    # 
-    #     drugs <<- drugs2[input$getClassifications] 
-    #     
-    #     drugs <<- drugs[drugs %in% c(av.drugs, "Combined")]
-    
-    
+
     cut <- list(Cyclophosphamide = input$Cyclophosphamide.range,
                 Doxorubicin = input$Doxorubicin.range,
                 Vincristine = input$Vincristine.range,
                 Combined    = input$Combined.range)
     
-    ResistanceClassifier(normalized.data, drugs=c(av.drugs, "Combined"), cut = cut)
+    ResistanceClassifier(normalized.data, drugs = c(av.drugs, "Combined"), 
+                         cut = cut)
   })
   
   classify <- reactive({
@@ -895,7 +815,6 @@ shinyServer(function(input, output, session) {
     
     
     results$ABCGCB2 <<- results$ABCGCB
-    
     results$ABCGCB2 <<- as.character(results$ABCGCB2)
     
     results$ABCGCB2[results$ABCGCB2 == "GCB" & results$BAGS == "Centrocyte"] <<- "GCB-CC"
@@ -907,16 +826,6 @@ shinyServer(function(input, output, session) {
       chosen.names <<- setdiff(chosen.names, c("ABCGCB2"))
     }
     
-    
-    
-    
-    # if(length(intersect(av.drugs,input$getClassifications)) > 0)
-    #  CHO <- ResistanceClassifier(normalized.data, drugs=drugs, cut = cut)
-    
-    #     results <<- base::as.data.frame(results, row.names = NULL)
-    #     rownames(results) <<- NULL
-    #     return(NULL)
-    #     
     
     Rtx <- RituximabClassifierR()
     
@@ -930,9 +839,7 @@ shinyServer(function(input, output, session) {
     }
     
     
-    
     CHO.single <<- ResistanceClassifierR()
-    
     
     results$CycProb  <<- CHO.single$prob[,"Cyclophosphamide"]
     results$CycClass <<- CHO.single$class[,"Cyclophosphamide"]
@@ -979,14 +886,6 @@ shinyServer(function(input, output, session) {
       chosen.names <<- setdiff(chosen.names, c("CombProb", "CombClass"))
     }
     
-    #     if (!length(intersect(drugs2, drugs)) > 0) {
-    #       chosen.names <<- setdiff(chosen.names, c("CycProb", "CycClass", "DoxProb", "DoxClass",
-    #                                                "VinProb", "VinClass","CombProb", "CombClass"))
-    #     }
-    #     
-    
-    
-    
     Mel <- MelphalanClassifierR()
     results$"MelProb" <<- apply(Mel$probs, 1, max)
     results$"MelClass" <<- Mel$class
@@ -997,45 +896,11 @@ shinyServer(function(input, output, session) {
       chosen.names <<- setdiff(chosen.names, c("MelProb", "MelClass"))
     }
     
-    
-   
-    
     results <<- base::as.data.frame(results, row.names = NULL)
-   
-    #print(results)
+  
     rownames(results) <<- NULL
     
   })
-  
-  
-  
-  #   observe({  
-  #     
-  #     classifers.ch <- input$getClassifications
-  #     if(length(classifers.ch) > 0){
-  #       l<- list("ABCGCB" = "ABCGCB", 
-  #                "ABCGCB2" = "ABCGCB2",
-  #                "BAGS" = "BAGS",  
-  #                "Cyclophosphamide (C)" = "CycClass", 
-  #                "Doxorubicin (H)" = "DoxClass", 
-  #                "Vincristine (O)" = "VinClass",
-  #                "Dexamethasone (P)" = "DexClass",
-  #                "Combined (CHO)" = "CombClass"
-  #       )
-  #       l <- l[classifers.ch]
-  #       
-  #       updateSelectInput(session, "xtablechoose1",
-  #                         choices=l,
-  #                         select=classifers.ch[1])
-  #       
-  #       a <- ifelse(length(classifers.ch) > 1, 2, 1)
-  #       updateSelectInput(session, "xtablechoose2",
-  #                         choices=l,
-  #                         select=classifers.ch[a])
-  #       
-  #       
-  #     }
-  #   })
   
   #
   # Generate output
@@ -1058,96 +923,83 @@ shinyServer(function(input, output, session) {
   })
   
   
-  ##########################################
+  ##############################################################################
   ##
   ## Patient summaries
   ##
-  ##########################################
+  ##############################################################################
   
   
   observe({ 
     
     classify()
-    #print(as.character(results$files))
     rownames(results) <- results$files
     
     metadata.in.use <- MetaDataInUse()
     normalized.data <- GEPInUse()
     normalized.data.mean <- GEPInUse2()
     
-    
-    #print("P.sum")
-    #print(rownames(results))
-    #print(rownames(metadata.in.use))
-    #print(rownames(results) == rownames(metadata.in.use))
-    
     prog.list <- NULL
-    if(all(rownames(results) == rownames(metadata.in.use)) && !is.null(input$patientSummarySelectW)){
+    if (all(rownames(results) == rownames(metadata.in.use)) && 
+        !is.null(input$patientSummarySelectW)) {
       prog.list <- list()
       out.list <- list()
       
-      if(!is.null(input$patientSummaryIPIW) && input$patientSummaryIPIW != "Choose" && input$patientSummaryIPIW %in% colnames(metadata.in.use)){
+      if (!is.null(input$patientSummaryIPIW) && 
+         input$patientSummaryIPIW != "Choose" && 
+         input$patientSummaryIPIW %in% colnames(metadata.in.use)) {
         metadata.in.use$IPI <- metadata.in.use[, input$patientSummaryIPIW]   
-      }else{
+      } else {
         metadata.in.use$IPI <- NA
       }
       
-      for(patient in input$patientSummarySelectW){
+      for (patient in input$patientSummarySelectW) {
         
-        if(is.na(metadata.in.use[patient, "IPI"])){
+        if (is.na(metadata.in.use[patient, "IPI"])) {
           text2 <- paste0(" and the patient have an unknown IPI score.")
-        }else{
-          text2 <- paste0(" and the patient have an IPI score of ", metadata.in.use[patient, "IPI"], ".")
+        } else {
+          text2 <- paste0(" and the patient have an IPI score of ", 
+                          metadata.in.use[patient, "IPI"], ".")
         }
         
         prog.list[[patient]] <- paste(paste("Some Text about", patient),
-                                      paste0("The cancer is of the ", results[patient, "ABCGCB2"], " type,",
-                                             text2),
-                                      sep="<br/>")
-      } 
+                                      paste0("The cancer is of the ", 
+                                             results[patient, "ABCGCB2"], 
+                                             " type,", text2),
+                                      sep = "<br/>")
+      }
       
       
-      for(i in 1:length(input$patientSummarySelectW)){
+      for (i in 1:length(input$patientSummarySelectW)) {
         showshinyalert(session, paste(input$patientSummarySelectW[i]),  
                        HTML(prog.list[[input$patientSummarySelectW[i]]]))
         
       }
       
-      if(!exists(x = "PatientSummaryOpen")){
+      if (!exists("PatientSummaryOpen")) {
         PatientSummaryOpen <<- input$patientSummarySelectW
-      }else{
-        PatientSummaryOpen <<- unique(c(PatientSummaryOpen, input$patientSummarySelectW))
+      } else {
+        PatientSummaryOpen <<- unique(c(PatientSummaryOpen, 
+                                        input$patientSummarySelectW))
       }
       
-     # print(setdiff(PatientSummaryOpen, input$patientSummarySelectW))
-      if(length(setdiff(PatientSummaryOpen, input$patientSummarySelectW)) > 0)
-        for(patient in setdiff(PatientSummaryOpen, input$patientSummarySelectW))
+      if (length(setdiff(PatientSummaryOpen, input$patientSummarySelectW)) > 0) {
+        for (patient in setdiff(PatientSummaryOpen, input$patientSummarySelectW)) {
           hideshinyalert(session, patient)
+        }
+      }
       PatientSummaryOpen <<- input$patientSummarySelectW
     }
   })
   
-  output$patientSummaries <-  renderUI({ 
+  output$patientSummaries <- renderUI({ 
     classify()
     out.list <- list()
-    for(i in 1:nrow(results))
+    for (i in 1:nrow(results)) {
       out.list[[i]] <- shinyalert(paste(results$files[i]), click.hide = TRUE)
+    }
     out.list
   })
-  
-  #   output$patientSumCols <-  renderUI({   
-  #     out.list <- list()
-  #     for(i in 1:length(input$patientSummarySelectW))
-  #       out.list[[i]] <- div(class = "well container-fluid", 
-  #                            div(class = "row-fluid", 
-  #                                div(class = "row-fluid", 
-  #                                    div(helpText(paste(input$patientSummarySelectW[i]))),
-  #                                    div(class = "span3", jscolorInput(paste0("jscolorInput", input$patientSummarySelectW[i])))
-  #                                )
-  #                            )
-  #       )
-  #     out.list
-  #   })
   
   observe({
     
@@ -1155,10 +1007,10 @@ shinyServer(function(input, output, session) {
     output$SelectedColoursPS <- renderUI({
       
       isolate({
-              new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#333333", input$jscolorInputPS) 
+              new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#333333", 
+                                input$jscolorInputPS) 
               selected.colors <- c(input$SelectedColoursPSw, new.col)
           
-              # print(selected.colors)
               list(
               select2Input(inputId = "SelectedColoursPSw", 
                            label = "The selected colours", 
@@ -1177,14 +1029,11 @@ shinyServer(function(input, output, session) {
       
       rownames(results) <- results$files
       
-      
       metadata.in.use <- MetaDataInUse()
       
-      
-      
       prog.surv <- NULL
-      if(length(rownames(results)) == length(rownames(metadata.in.use)) && 
-           all(rownames(results) == rownames(metadata.in.use))){
+      if (length(rownames(results)) == length(rownames(metadata.in.use)) && 
+          all(rownames(results) == rownames(metadata.in.use))) {
         
         prog.surv <- list()
         
@@ -1192,16 +1041,17 @@ shinyServer(function(input, output, session) {
         pred.data <- as.data.frame(cbind(metadata.in.use, results))      
         
         fit.OS <<- 
-          readRDS(file = "../Database/V1/Classification//fit.ABCGCB2.OS.rds")
+          readRDS(file = "../Database/V1/Classification/fit.ABCGCB2.OS.rds")
         fit.PFS <<- 
-          readRDS(file = "../Database/V1/Classification//fit.ABCGCB2.PFS.rds")
+          readRDS(file = "../Database/V1/Classification/fit.ABCGCB2.PFS.rds")
         
         metadataCombined <<-
-          readRDS(file = "../Database/V1/Classification//metadataCombined.rds")
+          readRDS(file = "../Database/V1/Classification/metadataCombined.rds")
         
-        if(!is.null(input$patientSummaryIPIW) && input$patientSummaryIPIW != "Choose"){
+        if (!is.null(input$patientSummaryIPIW) && 
+            input$patientSummaryIPIW != "Choose") {
           pred.data$IPI <- pred.data[, input$patientSummaryIPIW]   
-        }else{
+        } else {
           pred.data$IPI <- NA
         }
         
@@ -1230,7 +1080,8 @@ shinyServer(function(input, output, session) {
     classify()
     
     list(
-      select2Input(inputId = "patientSummarySelectW", "Select the patients to summarize", 
+      select2Input(inputId = "patientSummarySelectW", 
+                   "Select the patients to summarize", 
                    results$files, selected =  results$files[1] )
     )
   })
@@ -1239,69 +1090,41 @@ shinyServer(function(input, output, session) {
     
     prog.surv <- prognosisR()
     
-    if(is.null(prog.surv))
+    if (is.null(prog.surv)) {
       return(NULL)
+    }
+    
+    if (is.null(input$SelectedColoursPSw)) {
+      return(NULL)
+    }
     
     par(mfrow = c(1, 2))
     
-    if(is.null(input$SelectedColoursPSw))
-      return(NULL)
-    
     plot(prog.surv[["Survfit.OS"]],
-         xlab = "Years", ylab="Survival", main = "Overall survival", col = input$SelectedColoursPSw)
+         xlab = "Years", ylab = "Survival", main = "Overall survival",
+         col = input$SelectedColoursPSw)
     
-    legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), legend = input$patientSummarySelectW)
+    legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), 
+           legend = input$patientSummarySelectW)
     
     plot(prog.surv[["Survfit.PFS"]],
-         xlab = "Years", ylab="Survival", main = "Progression free survival", col = input$SelectedColoursPSw)
+         xlab = "Years", ylab = "Survival", main = "Progression free survival",
+         col = input$SelectedColoursPSw)
     
   })
-  #   
-  #   observe({
-  #     if (is.null(input$usrFiles)) {
-  #       showshinyalert(session, "shinyalertUploadCel",  HTML(paste("No .CEL files chosen!", 
-  #                                                                  "Please press 'Choose files' and select the CEL files you want to classify.", sep="<br/>")), 
-  #                      styleclass = "info")
-  #       showshinyalert(session, "shinyalertInputMeta", paste("Warning: You need to upload CEL files first"), 
-  #                      styleclass = "warning")
-  #       showshinyalert(session, "shinyalertUploadMeta", paste("Warning: You need to upload CEL files first"), 
-  #                      styleclass = "warning")
-  #       showshinyalert(session, "shinyalertResults", paste('Warning: You need to upload CEL files first. You can do this at "Load data".'), 
-  #                      styleclass = "warning")
-  #     }else{
-  #       fileInfo <- input$usrFiles
-  #       if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
-  #         
-  #         showshinyalert(session, "shinyalertUploadCel",  HTML(paste("Not all chosen files are .CEL files.",
-  #                                                                    "Please upload your CEL files again.", sep="<br/>")),
-  #                        styleclass = "error")
-  #       }else{
-  #         hideshinyalert(session, "shinyalertUploadCel")
-  #         showshinyalert(session, "shinyalertUploadCelSucces", paste("You have succesfully uploaded", 
-  #                                                                    length(fileInfo$name), 
-  #                                                                    ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
-  #                        styleclass = "success")
-  #         
-  #         
-  #       }
-  #       
-  #       hideshinyalert(session, "shinyalertInputMeta")
-  #       hideshinyalert(session, "shinyalertUploadMeta")
-  #       hideshinyalert(session, "shinyalertResults")
-  #     }
-  #   }
-  
+
   output$patientSummaryIPI <- renderUI({
     
     metadata.in.use <- MetaDataInUse()
     
-    select = NULL
+    select <- NULL
     
-    if(any(colnames(metadata.in.use) == "ipi"))
-      select = "ipi"
-    
-    if(any(colnames(metadata.in.use) == "IPI"))
-      select = "IPI"
+    if (any(colnames(metadata.in.use) == "ipi")) {
+      select <- "ipi"
+    }
+    if (any(colnames(metadata.in.use) == "IPI")) {
+      select <- "IPI"
+    }
     
     list(
       selectInput(inputId = "patientSummaryIPIW", "Column containing IPI", 
@@ -1310,43 +1133,53 @@ shinyServer(function(input, output, session) {
   })
   
   
-  ###########################################
+  ##############################################################################
   ##
   ## Alerts and advancement in pre-processing
   ##
-  #############################################
+  ##############################################################################
   
   
   output$showNormMethods <- reactive({
     input$usrFiles
     if (is.null(input$usrFiles)) {
-      showshinyalert(session, "shinyalertUploadCel",  HTML(paste("No .CEL files chosen!", 
-                                                                 "Please press 'Choose files' and select the CEL files you want to classify.", sep="<br/>")), 
+      showshinyalert(session, "shinyalertUploadCel",  
+                     HTML(paste("No .CEL files chosen!", 
+                                "Please press 'Choose files' and select the CEL files you want to classify.", 
+                                sep = "<br/>")), 
                      styleclass = "info")
-      showshinyalert(session, "shinyalertInputMeta", paste("Warning: You need to upload CEL files first"), 
+      showshinyalert(session, "shinyalertInputMeta", 
+                     "Warning: You need to upload CEL files first", 
                      styleclass = "warning")
-      showshinyalert(session, "shinyalertUploadMeta", paste("Warning: You need to upload CEL files first"), 
+      showshinyalert(session, "shinyalertUploadMeta", 
+                     "Warning: You need to upload CEL files first", 
                      styleclass = "warning")
-      showshinyalert(session, "shinyalertResults", paste('Warning: You need to upload CEL files first. You can do this at "Load data".'), 
+      showshinyalert(session, "shinyalertResults", 
+                     'Warning: You need to upload CEL files first. You can do this at "Load data".', 
                      styleclass = "warning")
       
       return(0)
-    }else{
+    } else {
       fileInfo <- input$usrFiles
-      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
+      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
         
-        showshinyalert(session, "shinyalertUploadCel",  HTML(paste("Not all chosen files are .CEL files.",
-                                                                   "Please upload your CEL files again.", sep="<br/>")),
+        showshinyalert(session, "shinyalertUploadCel",  
+                       HTML(paste("Not all chosen files are .CEL files.",
+                                  "Please upload your CEL files again.", 
+                                  sep = "<br/>")),
                        styleclass = "danger")
         return(0)
-      }else{
+      } else {
         hideshinyalert(session, "shinyalertUploadCel")
-        showshinyalert(session, "shinyalertUploadCelSucces", paste("You have succesfully uploaded", 
-                                                                   length(fileInfo$name), 
-                                                                   ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
+        showshinyalert(session, "shinyalertUploadCelSucces",
+                       paste("You have succesfully uploaded", 
+                             length(fileInfo$name), 
+                             ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
                        styleclass = "success")   
         
-        showshinyalert(session, "shinyalertResults", paste('Warning: You need to pre-process the CEL files first. You can do this at "Load data".'), 
+        
+        showshinyalert(session, "shinyalertResults", 
+                       'Warning: You need to pre-process the CEL files first. You can do this at "Load data".', 
                        styleclass = "warning")
         
         hideshinyalert(session, "shinyalertInputMeta")
@@ -1362,52 +1195,62 @@ shinyServer(function(input, output, session) {
     input$usrFiles
     if (!is.null(input$usrFiles)) {
       fileInfo <- input$usrFiles
-      if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
-        if(input$ChooseMethod == "blah"){
-          showshinyalert(session, "shinyalertSelectReference",  HTML("Please select a reference for RMA-preprocessing"), 
+      if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
+        if (input$ChooseMethod == "blah") {
+          showshinyalert(session, "shinyalertSelectReference",  
+                         "Please select a reference for RMA-preprocessing", 
                          styleclass = "info")
           return(0) # don't show
-        }else{
-          if(input$ChooseMethod == "build"){
+        } else {
+          if (input$ChooseMethod == "build") {
             
-            if (is.null(input$refFiles)){
+            if (is.null(input$refFiles)) {
               showshinyalert(session, "shinyalertSelectReference",
                              HTML(paste("No .CEL files chosen for building the reference!",
                                         "Please press 'Choose files' and select the CEL files you want to use for building the classifier", 
-                                        sep = "<br/>" )),
+                                        sep = "<br/>")),
                              styleclass = "info")
               return(0)
-            }else{
-              if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))){
+            } else {
+              if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))) {
                 
-                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.",
-                                                                                 "Please upload your reference CEL files again.", sep="<br/>")),
+                showshinyalert(session, "shinyalertSelectReference",  
+                               HTML(paste("Not all chosen files are .CEL files.",
+                                          "Please upload your reference CEL files again.", 
+                                          sep = "<br/>")),
                                styleclass = "danger")
                 return(0)
-              }else{
-                if(length(input$refFiles$name) == 1){
-                  showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected 1 .CEL file for building the reference.",
-                                                                                   "Please upload more than 1 CEL file before you continue.", sep="<br/>")),
+              } else {
+                if (length(input$refFiles$name) == 1) {
+                  showshinyalert(session, "shinyalertSelectReference",  
+                                 HTML(paste("You only selected 1 .CEL file for building the reference.",
+                                            "Please upload more than 1 CEL file before you continue.", 
+                                            sep = "<br/>")),
                                  styleclass = "danger")
                   return(0)
-                }else{
-                  if(length(input$refFiles$name) < 30){
+                } else {
+                  if (length(input$refFiles$name) < 30) {
                     showshinyalert(session, "shinyalertSelectReference", 
                                    HTML(paste("You selected less than 30 .CEL files for building the reference.",
                                               "The performance is not documented for less than 30 .CEL files.", 
                                               sep = "<br/>")),
                                    styleclass = "warning")
-                  }else{
-                    if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
-                      showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
+                  } else {
+                    if (is.null(user.reference) || 
+                        any(input$refFiles$name != user.reference$files )) {
+                      showshinyalert(session, "shinyalertSelectReference",  
+                                     HTML("Press 'Build the reference' to start the RMA reference building."),
                                      styleclass = "info")
                     
                       return(0)
-                    }else{
-                      if(is.null(normalized.data) || any(fileInfo$name != attr(normalized.data, "files"))){
-                        showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.",
-                                                                                       "You can download the established reference by clicking 'Download reference for later use'", sep="<br/>")),
-                                     styleclass = "info")  
+                    } else {
+                      if (is.null(normalized.data) || 
+                          any(fileInfo$name != attr(normalized.data, "files"))) {
+                        showshinyalert(session, "shinyalertSelectReference",  
+                                       HTML(paste("Press 'normalize files' to start the RMA normalization.",
+                                                  "You can download the established reference by clicking 'Download reference for later use'", 
+                                                  sep = "<br/>")),
+                                       styleclass = "info")  
                       return(1)
                     }                  
                   }
@@ -1415,52 +1258,60 @@ shinyServer(function(input, output, session) {
               }
             }
           }}
-          if(input$ChooseMethod == "upload"){
-            if(is.null(input$refUpload)){
-              showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Please upload a reference.", sep="<br/>")),
+          if (input$ChooseMethod == "upload") {
+            if (is.null(input$refUpload)) {
+              showshinyalert(session, "shinyalertSelectReference",  
+                             HTML("Please upload a reference."),
                              styleclass = "info")  
               return(0)
-            }else{
-              if(file_ext(input$refUpload$name) != "rds"){
-                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("The uploaded file is not an 'rds' file.", "Please upload a correct reference", sep="<br/>")),
+            } else {
+              if (file_ext(input$refUpload$name) != "rds") {
+                showshinyalert(session, "shinyalertSelectReference",  
+                               HTML(paste("The uploaded file is not an 'rds' file.", 
+                                          "Please upload a correct reference", 
+                                          sep = "<br/>")),
                                styleclass = "danger")
                 return(0)
               }
               RefUpload()
-              if(!is.null(attributes(ref)) && "Version" %in% names(attributes(ref))  && attr(ref, "Version") %in% "hemaClass"){
-                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.", sep="<br/>")),
+              if (!is.null(attributes(ref)) && 
+                  "Version" %in% names(attributes(ref)) && 
+                  attr(ref, "Version") %in% "hemaClass") {
+                showshinyalert(session, "shinyalertSelectReference",  
+                               "Press 'normalize files' to start the RMA normalization.",
                                styleclass = "info")  
                 return(1)            
-              }else{   
-                showshinyalert(session, "shinyalertSelectReference",  HTML(paste("The uploaded file cannot be used as a reference.", "Please upload a correct reference", sep="<br/>")),
+              } else {   
+                showshinyalert(session, "shinyalertSelectReference",  
+                               HTML(paste("The uploaded file cannot be used as a reference.", 
+                                          "Please upload a correct reference", 
+                                          sep = "<br/>")),
                                styleclass = "danger")
                 return(0)
               }
             }
           }
-          if(input$ChooseMethod == "standardReference"){
+          if (input$ChooseMethod == "standardReference") {
             showshinyalert(session, "shinyalertSelectReference",  
                            HTML(paste("Select the cohort you want to use as a reference",
-                                      "",
-                                      "The possible references are:",
+                                      "", "The possible references are:",
                                       "&#160 LLMPP CHOP:",
                                       "&#160 LLMPP R-CHOP:",
                                       "&#160 IDRC:",
                                       "&#160 MDFCI:",
                                       "&#160 CHEPRETRO:",
                                       "&#160 UAMS:",
-                                      "",
-                                      "When chosen:",
+                                      "", "When chosen:",
                                       "Press 'normalize files' to start the RMA normalization.",
-                                      sep="<br/>")),
+                                      sep = "<br/>")),
                            styleclass = "info")  
             return(1)
           }
           
-          if(input$ChooseMethod == "RMA"){
+          if (input$ChooseMethod == "RMA") {
             showshinyalert(session, "shinyalertSelectReference",  
-                           HTML(paste("Press Normalize files to pre-process the uploaded CEL files according to the RMA method",
-                                      sep="<br/>")),
+                           HTML("Press Normalize files to pre-process the 
+                                uploaded CEL files according to the RMA method"),
                            styleclass = "info")  
             return(1)
           }
@@ -1468,64 +1319,10 @@ shinyServer(function(input, output, session) {
           1
         }
       }
-    }else{
+    } else {
       return(0)
     }
   })
-  
-  
-  #   observe({
-  #     input$usrFiles
-  #     input$refFiles
-  #     fileInfo <- input$usrFiles
-  #     if (!is.null(input$usrFiles)) {
-  #       fileInfo <- input$usrFiles
-  #       if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))){
-  #         if(input$ChooseMethod == "blah"){
-  #           showshinyalert(session, "shinyalertSelectReference",  HTML("Please select a reference for RMA-preprocessing"), 
-  #                          styleclass = "info")
-  #         }
-  #         
-  #         if (input$ChooseMethod == "build"){
-  #           if (is.null(input$refFiles)){
-  #             showshinyalert(session, "shinyalertSelectReference",
-  #                            HTML(paste("No .CEL files chosen for building the reference!",
-  #                                       "Please press 'Choose files' and select the CEL files you want to use for building the classifier", 
-  #                                       sep = "<br/>" )),
-  #                            styleclass = "info") 
-  #           }else{
-  #             if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))){
-  #               
-  #               showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Not all chosen files are .CEL files.",
-  #                                                                                "Please upload your reference CEL files again.", sep="<br/>")),
-  #                              styleclass = "error")
-  #               hideshinyalert(session, "shinyalertNormalizationSuccess")
-  #             }else{
-  #               if(length(input$refFiles$name) == 1){
-  #                 showshinyalert(session, "shinyalertSelectReference",  HTML(paste("You only selected 1 .CEL file for building the reference.",
-  #                                                                                  "Please upload more than 1 CEL file before you continue.", sep="<br/>")),
-  #                                styleclass = "error")
-  #               }else{                
-  #                 if(is.null(user.reference) ||  any(input$refFiles$name != user.reference$files )){
-  #                   showshinyalert(session, "shinyalertSelectReference",  HTML("Press 'Build the reference' to start the RMA reference building."),
-  #                                  styleclass = "info")
-  #                   hideshinyalert(session, "shinyalertNormalizationSuccess")
-  #                   
-  #                 }else{
-  #                   if(any(fileInfo$name != attr(normalized.data, "files"))){
-  #                     showshinyalert(session, "shinyalertSelectReference",  HTML(paste("Press 'normalize files' to start the RMA normalization.", sep="<br/>")),
-  #                                    styleclass = "info")  
-  #                     hideshinyalert(session, "shinyalertNormalizationSuccess")
-  #                   }                  
-  #                 }
-  #               }            
-  #             }
-  #           }
-  #         }
-  #       }
-  #     }  
-  #   })
-  
   
   output$showDownloadRefButton <- reactive({  
     createReference()
@@ -1537,11 +1334,12 @@ shinyServer(function(input, output, session) {
     
     input$refFiles
     
-    if(input$ChooseMethod != "build")
+    if (input$ChooseMethod != "build") {
       return(0) # don't show
-    if(is.null(input$refFiles) || length(input$refFiles$name) < 2)
+    }
+    if (is.null(input$refFiles) || length(input$refFiles$name) < 2) {
       return(0)
-    
+    }
     return(1)
     
   })
@@ -1560,33 +1358,32 @@ shinyServer(function(input, output, session) {
   outputOptions(output, "start2", suspendWhenHidden = FALSE)
   
   
-  #################################
+  ##############################################################################
   ##
   ## Generate results
   ##
-  #################################
+  ##############################################################################
   
   
   output$results <- renderDataTable({ 
     
     classify() # Classify
     
-    
-    if (length(chosen.names) == 0)
+    if (length(chosen.names) == 0) {
       return(NULL)
-    
+    }
     
     results2 <- results[, c("files", chosen.names)]
-    if(length(names(results2)) >0){
-      for(i in names(results2)){
-        if(class(results2[,i]) == "numeric")
+    if (length(names(results2)) > 0) {
+      for (i in names(results2)) {
+        if (class(results2[,i]) == "numeric") {
           results2[,i] <- round(results2[,i], 3)
+        }
       }
       return(results2)
-    }else{
+    } else { 
       return(NULL)
-    }  
-    
+    }
   })
   
   output$normalizedData <- renderDataTable({ 
@@ -1595,70 +1392,16 @@ shinyServer(function(input, output, session) {
     if (is.null(normalized.data))
       return(NULL)
     
-    data.frame(Probeset = row.names(normalized.data), normalized.data)[1:100, , drop = FALSE]
+    data.frame(Probeset = row.names(normalized.data), 
+               normalized.data)[1:100, , drop = FALSE]
   })
   
-  
-  #   
-  #   output$xtabs <- renderTable({ 
-  #     classify() # Classify
-  #     
-  #     #  if(length(results) == 0){
-  #     #    return(NULL)
-  #     
-  #     #  }else{
-  #     if( length(names(results)) >0){
-  #       xtabs <- table(results[, input$xtablechoose1], results[, input$xtablechoose2])
-  #       return(xtabs)
-  #     }else{
-  #       return(NULL)
-  #     }
-  #     # }
-  #   })
-  #   
-  #   # Generate density plot
-  #   output$plot <- renderPlot({
-  #     if (is.null(normalized.data.RMA$exprs))
-  #       return(NULL)
-  #     
-  #     createData() # Create or update data if necessary
-  #     
-  #     plot(1, type = "n", axes = FALSE,
-  #          xlim = input$xrange, ylim = input$yrange,
-  #          main = "Density of normalized CEL files", 
-  #          ylab = "Density", xlab = "Expression level")
-  #     grid(); axis(1); axis(2)
-  #     for (i in 1:ncol(normalized.data.RMA$exprs)) {
-  #       lines(density(normalized.data.RMA$exprs[,i]), 
-  #             col = colorRampPalette(c("Red", "Blue"))(ncol(normalized.data.RMA$exprs))[i])
-  #     }
-  #   })
-  #   
-  #   output$expression.matrix <- renderTable({
-  #     createData() # Create or update data if necessary
-  #     if (is.null(normalized.data.RMA))
-  #       return(NULL)
-  #     
-  #     return(as.data.frame(normalized.data.RMA$exprs[1:100, , drop = FALSE]))
-  #   })
-  #   
-  #   
-  #   # List all input
-  #   output$stuff <- renderPrint({
-  #     cat("> str(results)\n")
-  #     str(results)
-  #     cat("> getwd()\n")
-  #     getwd()
-  #     cat("> names(input)\n")
-  #     names(input)
-  #   })
-  #   
   # Render table of uploaded files
   output$usrFiles <- renderTable({  
-    # input$celFiles will be NULL initially. After the user selects and uploads a 
-    # file, it will be a data frame with 'name', 'size', 'type', and 'datapath' 
-    # columns. The 'datapath' column will contain the local filenames where the 
-    # data can be found.
+    # input$celFiles will be NULL initially. After the user selects and uploads 
+    # a file, it will be a data frame with 'name', 'size', 'type', and 
+    # 'datapath' columns. The 'datapath' column will contain the local filenames 
+    # where the data can be found.
     usrFiles <- input$usrFiles
     
     if (is.null(usrFiles)) 
@@ -1684,11 +1427,11 @@ shinyServer(function(input, output, session) {
     }
   )
   
-  #################################
+  ##############################################################################
   ##
   ## Pages
   ##
-  #################################
+  ##############################################################################
   
   observeEvent(input$linkHelp, ({
       updateTabsetPanel(session, "nlp", selected = "Help")
@@ -1697,16 +1440,16 @@ shinyServer(function(input, output, session) {
   output$mpContent <- renderUI({
     input$nlp
     x <- NULL
-    if(!is.null(input$nlp)){
-      if(input$nlp=="hemaClass"){
+    if (!is.null(input$nlp)) {
+      if (input$nlp == "hemaClass") {
         x <- tabPanel("hemaClass", includeHTML("www/hemaClass.html"))
-      } else if(input$nlp=="News") {
+      } else if (input$nlp == "News") {
         x <- tabPanel("News", includeHTML("www/News.html"))
-      } else if(input$nlp=="Help") {
+      } else if (input$nlp == "Help") {
         x <- tabPanel("Help", includeHTML("www/howto.html"))
-      } else if(input$nlp=="Publications") {
+      } else if (input$nlp == "Publications") {
         x <- tabPanel("Papers", includeHTML("www/Papers.html"))
-      } else if(input$nlp=="About") {
+      } else if (input$nlp == "About") {
         x <- tabPanel("About", includeHTML("www/Authors2.html"))
       } 
     }
