@@ -474,48 +474,44 @@ DexamethasoneClassifier <-
 
 #' @rdname REGS
 #' @export
-DexamethasonePredictor <- 
-  function(new.data){
-    coef <- readDexamethasonePredCoef()
-    
-    x <- rbind(1, new.data[names(coef)[-1],,drop= FALSE])
-    
-    t(x) %*% as.matrix((coef))
-  }
+DexamethasonePredictor <- function(new.data) {
+  coef <- readDexamethasonePredCoef()
 
-#' @rdname REGS
-#' @export
-MelphalanClassifier <-
-  function(new.data){
-    
-    coef <- readMelphalanClasCoef()
-    
-    x <- rbind(1, as.matrix(new.data)[colnames(coef)[-1],,drop= FALSE])
-    
-    probs <- t(tcrossprod(coef, t(x)))
-    probs <- exp(probs - probs[cbind(1:nrow(probs), max.col(probs, ties.method = "first"))])
-    probs <- zapsmall(probs/rowSums(probs))
-    class <- factor(rownames(coef)[max.col(probs)], 
-                    levels = c("Sensitive", "Intermediate", "Resistant"))
-    
-    
-  return(list(probs = probs, class = class))  
-    
+  x <- rbind(1, new.data[names(coef)[-1], , drop = FALSE])
   
-  }
+  return(t(x) %*% as.matrix((coef)))
+}
 
 #' @rdname REGS
 #' @export
-MelphalanPredictor <- 
-  function(new.data){
-    
-    fit <- readMelphalanPredCoef()
-    
-    newx <- t(as.matrix(new.data)[rownames(fit$beta)[-1],, drop= FALSE])
-    newx <- scale(newx, fit$center, fit$scale)
-    
-    cbind(1, newx) %*% fit$beta
+MelphalanClassifier <- function(new.data) {
+  warning("The Melpahalan classifier is still experimental! Use with caution.")
+  
+  coef <- readMelphalanClasCoef()
+  
+  x <- rbind(1, as.matrix(new.data)[colnames(coef)[-1], , drop = FALSE])
+  
+  probs <- t(tcrossprod(coef, t(x)))
+  probs <- exp(probs - probs[cbind(1:nrow(probs), 
+                                   max.col(probs, ties.method = "first"))])
+  probs <- zapsmall(probs/rowSums(probs))
+  class <- factor(rownames(coef)[max.col(probs)], 
+                  levels = c("Sensitive", "Intermediate", "Resistant"))
+  
+  return(list(probs = probs, class = class))
+}
 
-  }
+#' @rdname REGS
+#' @export
+MelphalanPredictor <- function(new.data) {
+  warning("The Melpahalan classifier is still experimental! Use with caution.")
+  
+  fit <- readMelphalanPredCoef()
+  
+  newx <- t(as.matrix(new.data)[rownames(fit$beta)[-1], , drop = FALSE])
+  newx <- scale(newx, fit$center, fit$scale)
+  
+  return(cbind(1, newx) %*% fit$beta)
+}
 
 
