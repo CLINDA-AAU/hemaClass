@@ -298,10 +298,10 @@ shinyUI(
                             "Doxorubicin (H)", 
                             "Vincristine (O)",
                             "Dexamethasone (P)", 
-                            "Combined (CHO)", 
-                            "Melphalan"),
+                            "Combined (CHO)" 
+                            # "Melphalan" 
+                            ),
                 selected = c("BAGS")),
-              
               
               conditionalPanel(
                 condition = "input.getClassifications.indexOf('ABCGCB') != -1",
