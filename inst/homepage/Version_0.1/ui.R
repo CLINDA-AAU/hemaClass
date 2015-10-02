@@ -401,6 +401,7 @@ shinyUI(
                        uiOutput("SelectedColoursPS")
                      ),
                      mainPanel(
+                       shinyalert("shinyalertSummaryPlot", click.hide = FALSE),
                        plotOutput("patientSummaryPlot"),
                        uiOutput("patientSummaries")
                      )

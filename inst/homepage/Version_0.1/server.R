@@ -1020,6 +1020,36 @@ shinyServer(function(input, output, session) {
     })   
   })
   
+  output$patientSummaryIPI <- renderUI({
+    
+    metadata.in.use <- MetaDataInUse()
+    
+    select <- NULL
+    
+    if (any(colnames(metadata.in.use) == "ipi")) {
+      select <- "ipi"
+    }
+    if (any(colnames(metadata.in.use) == "IPI")) {
+      select <- "IPI"
+    }
+    
+    list(
+      selectInput(inputId = "patientSummaryIPIW", "Column containing IPI", 
+                  c("Choose", colnames(metadata.in.use)), selected = select)
+    )    
+  })
+  
+  output$patientSummarySelect <- renderUI({
+    
+    classify()
+    
+    list(
+      select2Input(inputId = "patientSummarySelectW", 
+                   "Select the patients to summarize", 
+                   results$files, selected =  results$files[1] )
+    )
+  })
+  
   prognosisR <- reactive({
     input$patientSummaryIPIW
     input$patientSummarySelectW
@@ -1031,12 +1061,21 @@ shinyServer(function(input, output, session) {
       
       metadata.in.use <- MetaDataInUse()
       
+      if (is.null(input$patientSummarySelectW)) {
+        showshinyalert(session, "shinyalertSummaryPlot",  
+                       HTML(paste("Choose a patient to summarize.",
+                                  sep = "<br/>")),
+                       styleclass = "info")
+        return(NULL)
+      }
+      
       prog.surv <- NULL
       if (length(rownames(results)) == length(rownames(metadata.in.use)) && 
           all(rownames(results) == rownames(metadata.in.use))) {
         
-        prog.surv <- list()
+        hideshinyalert(session, "shinyalertSummaryPlot")
         
+        prog.surv <- list()
         
         pred.data <- as.data.frame(cbind(metadata.in.use, results))      
         
@@ -1075,17 +1114,6 @@ shinyServer(function(input, output, session) {
     })
   })
   
-  output$patientSummarySelect <- renderUI({
-    
-    classify()
-    
-    list(
-      select2Input(inputId = "patientSummarySelectW", 
-                   "Select the patients to summarize", 
-                   results$files, selected =  results$files[1] )
-    )
-  })
-  
   output$patientSummaryPlot <- renderPlot({
     
     prog.surv <- prognosisR()
@@ -1101,8 +1129,8 @@ shinyServer(function(input, output, session) {
     par(mfrow = c(1, 2))
     
     plot(prog.surv[["Survfit.OS"]],
-         xlab = "Years", ylab = "Survival", main = "Overall survival",
-         col = input$SelectedColoursPSw)
+        xlab = "Years", ylab = "Survival", main = "Overall survival",
+        col = input$SelectedColoursPSw)
     
     legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), 
            legend = input$patientSummarySelectW)
@@ -1110,26 +1138,6 @@ shinyServer(function(input, output, session) {
     plot(prog.surv[["Survfit.PFS"]],
          xlab = "Years", ylab = "Survival", main = "Progression free survival",
          col = input$SelectedColoursPSw)
-    
-  })
-
-  output$patientSummaryIPI <- renderUI({
-    
-    metadata.in.use <- MetaDataInUse()
-    
-    select <- NULL
-    
-    if (any(colnames(metadata.in.use) == "ipi")) {
-      select <- "ipi"
-    }
-    if (any(colnames(metadata.in.use) == "IPI")) {
-      select <- "IPI"
-    }
-    
-    list(
-      selectInput(inputId = "patientSummaryIPIW", "Column containing IPI", 
-                  c("Choose", colnames(metadata.in.use)), selected = select)
-    )    
   })
   
   
