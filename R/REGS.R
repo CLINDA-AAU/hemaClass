@@ -452,6 +452,8 @@ RituximabProbFun <- function(newx, type = "lysis") {
 #' @rdname REGS
 #' @export
 DexamethasoneClassifier <- function(new.data){
+  warning("The Dexamethasone classifier is still experimental! ",
+          "Use with caution.")
   coef <- readDexamethasoneClasCoef()
   
   x <- rbind(1, new.data[names(coef)[-1], , drop = FALSE])
@@ -465,6 +467,8 @@ DexamethasoneClassifier <- function(new.data){
 #' @rdname REGS
 #' @export
 DexamethasonePredictor <- function(new.data) {
+  warning("The Dexamethasone classifier is still experimental! ",
+          "Use with caution.")
   coef <- readDexamethasonePredCoef()
   
   x <- rbind(1, new.data[names(coef)[-1], , drop = FALSE])
@@ -475,8 +479,6 @@ DexamethasonePredictor <- function(new.data) {
 #' @rdname REGS
 #' @export
 MelphalanClassifier <- function(new.data) {
-  warning("The Melpahalan classifier is still experimental! Use with caution.")
-  
   coef <- readMelphalanClasCoef()
   
   x <- rbind(1, as.matrix(new.data)[colnames(coef)[-1], , drop = FALSE])
@@ -494,8 +496,6 @@ MelphalanClassifier <- function(new.data) {
 #' @rdname REGS
 #' @export
 MelphalanPredictor <- function(new.data) {
-  warning("The Melpahalan classifier is still experimental! Use with caution.")
-  
   fit <- readMelphalanPredCoef()
   
   newx <- t(as.matrix(new.data)[rownames(fit$beta)[-1], , drop = FALSE])
