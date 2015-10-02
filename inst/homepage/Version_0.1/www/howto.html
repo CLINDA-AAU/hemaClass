@@ -5,6 +5,197 @@
 
 <title>Introduction</title>
 
+<!--
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+-->
+
+<!-- Styles for R syntax highlighter -->
+<!--
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+-->
+
+<!-- R syntax highlighter -->
+<!--
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+-->
+
+<!--
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+-->
+
+
 </head>
 
 <body>
@@ -15,78 +206,90 @@
 
 <h1>Introduction</h1>
 
-<p>The purpose of this guide is to help you use the hemaClass webpage and the hemaClass R-package. The guide is divided into two parts. The first part focuses on the hemaClass.org webpage, and the second part is about the hemaClass package.</p>
+<p>The purpose of this guide is to help you use the hemaClass.org web application or the underlying the <strong>hemaClass</strong> package for R. The guide is divided into two parts. The first part focuses on the hemaClass.org website, and the second part is about the hemaClass package. The accompanying article to <strong>hemaClass</strong> can be found <a href="https://github.com/oncoclass/hemaClass-paper">here.</a></p>
 
-<p>We want to stress that we disclaim against responsibility for the effects of the classifications. For instance we neither accept liability for the classifications performed, nor for the consequences of any actions taken on the basis of the information provided.</p>
+<p>The <strong>hemaClass</strong> package/website provides easy and fast access to various gene expression profile (GEP) based classifications of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available only for GEPs using the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.
+The classification schemes available are:</p>
 
-<p>hemaClass provides access to GEP based classification of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available for gene expressions profiled by the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.</p>
-
-<p>The classification schemes available are:</p>
+<!-- &#40 is needed to avoid rendering (C) as copyright symbol and (R) as registered trademark symbol. &#40 is a left parenthesis: ( -->
 
 <ul>
 <li>Cell of origin classifiers:
 
 <ul>
-<li>B-cell associated signature (BAGS)</li>
-<li>Activated B-cell like or Germinal Center (ABC/GBC)</li>
+<li>B-cell associated signature (BAGS).</li>
+<li>Activated B-cell like or Germinal Center like (ABC/GBC) classification and the BAGS extended version hereof.</li>
 </ul></li>
-<li>Resistance Gene Signatures (REGS):
+<li>Resistance Gene Signature (REGS) classifiers:
 
 <ul>
-<li>Cyclophosphamide &#40;C)</li>
+<li>Cyclophosphamide &#40;C)<br/></li>
 <li>Doxorubicin (H)</li>
 <li>Vincristine (O)</li>
+<li>Rituximab &#40;R)</li>
+<li>Melphalan (M)</li>
 </ul></li>
 </ul>
 
-<p>In addition we also provide REGS for Rituximab &#40;R), Dexamethasone (P) and Melphalan (M). But the predictions of these schemes have not been properly documented yet, and we take no responsibility for the predictions.</p>
-
-<p><br> <br></p>
+<p>In addition we also provide a resistance classifier for Dexamethasone (P). However, this classifier is still considered experimental and is not yet available through the website nor properly documented.</p>
 
 <h1>Using hemaClass.org</h1>
 
-<p>The purpose of the webpage <a href="http://www.hemaclass.org">hemaClass.org</a> is to provide online and userfriendly access to the DLBCL classification schemes we have developed.</p>
+<p>The purpose of the <strong>hemaClass</strong> web application is to provide an online and user-friendly interface to the various developed DLBCL classification schemes available in the <strong>hemaClass</strong> package.</p>
 
-<h2>Navigating the page</h2>
+<p>To use the website, either go to <a href="http://hemaclass.org">http://hemaclass.org</a> or start a local instance of by running the following in R:</p>
 
-<p>Navigation on the hemaClass webpage is done using the tab panel on the top of the page.</p>
+<pre><code class="r">library(&quot;hemaClass&quot;)
+runHemaClass()
+</code></pre>
 
-<p><img src="/figures/tabpanel.png" alt="tabpanel"/></p>
+<p>This assumes that <strong>hemaClass</strong> is correctly installed. Instructions on installing <strong>hemaClass</strong> can be found below.
+Primarily, the local version can use to avoid uploading many large files.</p>
 
-<p>Three options are available to you <code>Home</code>, <code>Load data</code> and <code>Results</code>. Choosing <code>Home</code> simply takes you to the start page, where there is access to some miscellaneous information. The information is accessible through the navigation panel on the left.</p>
+<h2>Overview of the website</h2>
 
-<p><img src="/figures/information.png" alt="information"/></p>
+<p>Navigating the hemaClass website is primarily done using the tab panel on the top of the page.</p>
 
-<p>As an example, if you want to have a look at the publications regarding hemaClass go to <code>Home</code> and choose <code>Publications</code> in the information panel. We will go into more detail with the options <code>Load data</code> and <code>Results</code> in the following two sections.</p>
+<p><img src="figures/tabpanel.png" alt="tabpanel"/></p>
 
-<h2>Loading data</h2>
+<p>Three options are available to you 
+<strong>Home</strong>, 
+<strong>Load data</strong> and 
+<strong>Results</strong>. 
+Choosing <strong>Home</strong> simply takes you to the start page where access to various miscellaneous information is provided. The information is accessible through the navigation panel on the left.</p>
 
-<p>To use the classifcation schemes available on hemaClass.org, we need to load some data. To do this select <code>Load data</code> in the tab panel on the top of the page.</p>
+<p><img src="figures/information.png" alt="information"/></p>
+
+<p>As an example, if you want to have a look at all publications relevant to hemaClass go to <strong>Home</strong> and choose <strong>Publications</strong> in the information panel. In general, this box on the left side is context dependent providing additional settings or information. We now go into detail with <strong>Load data</strong> and <strong>Results</strong> in the following two sections.</p>
+
+<h2>Load data</h2>
+
+<p>To use the classification schemes available on hemaClass.org, we first need to upload some data. To do this select <strong>Load data</strong> in the tab panel at the top of the page.</p>
 
 <p>As you do this, the following second tab panel is made available.</p>
 
-<p><img src="/figures/load_data.png" alt="load_data"/></p>
+<p><img src="figures/load_data.png" alt="load_data"/></p>
 
-<p>To use your own data choose <code>CEL files</code>, or if you want to use the test data provided by us choose <code>Build-in data</code>.</p>
+<p>To use your own data, then the by default selected <strong>CEL files</strong> is of interest. However, if you want to get started quickly, use the test data provided by choosing <strong>Build-in data</strong>.</p>
 
 <h3>CEL files</h3>
 
-<p>In case you want to classify your own data choose <code>CEL files</code> in the tab panel. Here you have the possibility of uploading your data using the panel on the left hand side of the page.</p>
+<p>In case you want to classify your own data choose <strong>CEL files</strong> in the tab panel. Here you have the possibility of uploading your data using the panel on the left hand side box by pressing <strong>Choose Files</strong>.</p>
 
-<p><img src="/figures/choose_cel.png" alt="choose_cel"/></p>
+<p><img src="figures/choose_cel.png" alt="choose_cel"/></p>
 
-<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file in some older browsers, including Internet Explorer 9 and older.</p>
+<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file in some browsers, including Internet Explorer 9 and older.</p>
 
 <p>After you have uploaded the samples you want to classify, they need to be normalized. hemaClass provides different methods for normalization of your samples, and you have to choose which method you want to use.</p>
 
-<p><img src="/figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
+<p><img src="figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
 
-<p>There is two types of methods available, one-by-one normalization and cohort normalization. With one-by-one normalization you can normalize a single sample according to some chosen reference. With corhort based normalization you need a cohort of samples, and normalization is done according to the samples. The one-by-one normalization methods available are:</p>
+<p>There is two types of methods available, one-by-one normalization and cohort normalization. With one-by-one normalization you can normalize a single sample according to some chosen reference. With cohort based normalization you need a cohort of samples, and normalization is done according to the samples. The one-by-one normalization methods available are:</p>
 
 <ul>
 <li><p>Use build in reference: This method normalizes your samples according to a build in reference dataset. There is currently 6 build in reference datasets available.</p></li>
-<li><p>Build a reference: With this method you build a reference of .CEL files that you upload. Be aware that the performance for this method of normalization has only been documented for references consisting of 30 .CEL files.  When the samples you want to use as a reference has been uploaded press <code>Build the reference</code>.</p></li>
-<li><p>Upload a reference: With this method you normalize your samples to a reference that you upload. The reference that you upload has to be of the filetype .rds.</p></li>
+<li><p>Build a reference: With this method you build a reference of .CEL files that you upload. Be aware that the performance for this method of normalization has only been documented for references consisting of 30 .CEL files.  When the samples you want to use as a reference has been uploaded press <strong>Build the reference</strong>.</p></li>
+<li><p>Upload a reference: With this method you normalize your samples to a reference that you upload. The reference that you upload has to be of the file type <code>.rds</code>.</p></li>
 </ul>
 
 <p>Finally to do cohort based normalization choose:</p>
@@ -95,75 +298,71 @@
 <li>Cohort based RMA: The final method is Cohort based normalization, where all the samples you provide are used for normalization. This method is best for when you have a large collection of samples.</li>
 </ul>
 
-<p>Choose the normalization method which is most suitable for the samples you have and that you want to classify. When you have choosen a normalization method follow the onscreen instructions to normalize your samples.</p>
+<p>Choose the normalization method which is most suitable for the samples you have and that you want to classify. When you have chosen a normalization method follow the onscreen instructions to normalize your samples.</p>
 
 <p>When you have finished the preprocessing of your samples you will be able to see the data on the page.</p>
 
-<p><img src="/figures/probeset.png" alt="probeset"/></p>
+<p><img src="figures/probeset.png" alt="probeset"/></p>
 
 <h3>Metadata</h3>
 
-<p>In <code>Metadata</code> you can provide metadata for your dataset by either entering the metadata manually or uploading a file with metadata.</p>
+<p>In <strong>Metadata</strong> you can provide metadata for your dataset by either entering the metadata manually or uploading a file with metadata.
+Currently <strong>hemaClass</strong> supports the following file-types for uploading metadata: <code>.txt</code>, <code>.rds</code>, <code>.RData</code>, and <code>.xls</code>.
+If you type in the metadata manually you are also able to download it afterwards as <code>.xls</code> file for later use.</p>
 
-<p>Currently hemaClass supports the following filetypes for uploading metadata: .txt, .rds, .RData and .xls.</p>
-
-<p>If you type in the metadata manually you are also able to download it afterwards as .xls file.</p>
-
-<p><img src="/figures/manual_metadata.png" alt="manual_metadata"/></p>
+<p><img src="figures/manual_metadata.png" alt="manual_metadata"/></p>
 
 <p>Using the metadata you are able to calculate the IPI score of the patient.</p>
 
 <h3>Build-in data</h3>
 
-<p>If you want to use the build-in data provided by us to test the system go to <code>Build-in-data</code>. We have provided two datasets which you can choose from in the panel on the left hand side of the page.</p>
+<p>If you want to use the build-in data provided by us to test the system go to <strong>Build-in-data</strong>. We have provided two datasets which you can choose from in the panel on the left hand side of the page.</p>
 
-<p><img src="/figures/build_in_data.png" alt="build_in_data"/></p>
+<p><img src="figures/build_in_data.png" alt="build_in_data"/></p>
 
 <p>The two build-in datasets LLMPP CHOP and LLMPP R-CHOP consists of 181 and 233 samples respectively. LLMPP CHOP provides gene expression data from patients treated with CHOP, and LLMPP R-CHOP provides gene expression data from patients treated with R-CHOP. Metadata is available for both datasets.</p>
 
 <h3>Metadata in use</h3>
 
-<p>In the final tab of the <code>Load data</code> page you are able to see the metadata that is either available or that you have provided.</p>
+<p>In the final tab of the <strong>Load data</strong> page you are able to see the metadata that is either available or that you have provided.</p>
 
-<p><img src="/figures/metadata.png" alt="metadata"/></p>
+<p><img src="figures/metadata.png" alt="metadata"/></p>
 
 <h2>Getting the results</h2>
 
-<p>To see the results of the classification go to the <code>Results</code> tab on the main tab panel. The results are first avalable when you have correctly uploaded and preprocessed data, or if you have chosen the build-in data. In the <code>Estimated probabilities</code> tab you can see the results of the classifications, and in the <code>Patient summaries</code> tab plots of survival curves and IPI scores are available.</p>
+<p>To see the results of the classification go to the <strong>Results</strong> tab on the main tab panel. The results are first available when you have correctly uploaded and preprocessed data, or if you have chosen the build-in data. In the <strong>Estimated probabilities</strong> tab you can see the results of the classifications, and in the <strong>Patient summaries</strong> tab plots of survival curves and IPI scores are available.</p>
 
-<p><img src="/figures/results_tab.png" alt="results_tab"/></p>
+<p><img src="figures/results_tab.png" alt="results_tab"/></p>
 
 <h3>Estimated probabilities</h3>
 
-<p>In the <code>Estimated probabilities</code> you can see the results of the classification of your data. In the panel on the left hand side of the page you can choose which classification results you want to display.</p>
+<p>In the <strong>Estimated probabilities</strong> you can see the results of the classification of your data. In the panel on the left hand side of the page you can choose which classification results you want to display.</p>
 
-<p><img src="/figures/results.png" alt="results"/></p>
+<p><img src="figures/results.png" alt="results"/></p>
 
-<p>On the right hand side of the screen the results of the chosen classifications are shown. You can also download the results as a .txt file by pressing the <code>Download classification results</code> button in the panel on the left.</p>
+<p>On the right hand side of the screen the results of the chosen classifications are shown. You can also download the results as a <code>.txt</code> file by pressing the <strong>Download classification results</strong> button in the panel on the left.</p>
 
-<p><img src="/figures/class_results.png" alt="class_results"/></p>
+<p><img src="figures/class_results.png" alt="class_results"/></p>
 
-<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cutpoints for the classification.</p>
+<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cut-points for the classification.</p>
 
-<p><img src="/figures/slider.png" alt="slider"/></p>
+<p><img src="figures/slider.png" alt="slider"/></p>
 
 <h3>Patient summaries</h3>
 
-<p>In the <code>Patient summaries</code> we have made a short summary of the data and the classification. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.</p>
+<p>In the <strong>Patient summaries</strong> we have made a short summary of the data and the classification. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.</p>
 
-<p><img src="/figures/patient_summaries.png" alt="patient_summaries"/></p>
-
-<p><br> <br></p>
+<p><img src="figures/patient_summaries.png" alt="patient_summaries"/></p>
 
 <h1>Using the hemaClass R-package</h1>
 
-<p>The purpose of the hemaClass R-package is to make the functionality of the hemaClass webpage available programmatically. The hemaClass R-package also provides the opportunity to run a local version of the hemaClass webpage.</p>
+<p>One purpose of the <strong>hemaClass</strong> R-package is to make the functionality of the hemaClass website available programmatically. The <strong>hemaClass</strong> package also provides the opportunity to run a local version of the hemaClass website as explained above.</p>
 
 <h2>Installing the package</h2>
 
-<p>To install the latest version of <code>hemaClass</code> directly from <a href="https://github.com/oncoclass/hemaClass">GitHub</a>, in R run:</p>
+<p>To install the latest version of <strong>hemaClass</strong> directly from <a href="https://github.com/oncoclass/hemaClass">GitHub</a>, in R run:</p>
 
-<pre><code class="R"># Install necessary packages
+<pre><code class="r"># Install necessary packages
 # First from bioconductor
 source(&quot;http://bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;affy&quot;, &quot;affyio&quot;, &quot;preprocessCore&quot;))
@@ -177,56 +376,101 @@ install.packages(&quot;devtools&quot;)
 devtools::install_github(&quot;AnalytixWare/ShinySky&quot;)
 
 # Finally the package is installed.
-devtools::install_github(&quot;oncoclass/hemaClass&quot;, dependencies = TRUE)
+devtools::install_github(&quot;oncoclass/hemaClass&quot;, dependencies = TRUE,
+                         build_vignettes = TRUE)
 </code></pre>
 
-<p><code>hemaClass</code> is still under development and should be considered unstable. Be sure that you have the <a href="http://www.rstudio.com/ide/docs/packages/prerequisites">package development prerequisites</a> if you wish to install the package from the source.</p>
-
-<p><strong>Note:</strong> The interface and function names may still see significant changes and modifications!</p>
+<p><strong>hemaClass</strong> is still under development and may change from time to time. Be sure that you have the <a href="http://www.rstudio.com/ide/docs/packages/prerequisites">package development prerequisites</a> if you wish to install the package from the source.
+Check <code>news(package = &quot;hemaClass&quot;)</code> for all relevant news.</p>
 
 <h2>Classifications with the hemaClass package</h2>
 
-<p>Here we provide a short example of a script using the functions implemented in <code>hemaClass</code>.</p>
+<p>Here we provide a short example of a script using the functions implemented in <strong>hemaClass</strong>. First, we need to load the package and read in the <code>.CEL</code> files. Four <code>.CEL</code> files is provided with <strong>hemaClass</strong> for testing which we load </p>
 
-<pre><code class="R"># Load package
-library(hemaClass)
+<pre><code class="r">library(&quot;hemaClass&quot;)  # Load package (startup messages are not shown here)
 
-# Load the files
-files &lt;- dir(system.file(&quot;path_to_files&quot;), full.names = TRUE)
-batch &lt;- readCelfiles(filenames = files)
+# List and read your CEL files
+cel.files &lt;- list.files(system.file(&quot;extdata/celfiles&quot;, package = &quot;hemaClass&quot;), 
+                        full.names = TRUE)
+batch &lt;- readCelfiles(filenames = cel.files) 
+</code></pre>
 
-# Pre-processing the .CEL files
-ref &lt;- readLLMPPCHOPreference()
+<p>The data is now stored in the <code>batch</code> object.</p>
+
+<p>To use your own <code>.CEL</code> files, swap the second line of the code above with something like the following after substituting the correct path to your celfiles:</p>
+
+<pre><code class="r">cel.files &lt;- list.files(path = &quot;path/to/celfiles&quot;, pattern = &quot;\\.cel&quot;,
+                        ignore.case = TRUE, full.names = TRUE)
+</code></pre>
+
+<p>This creates a <code>character</code> vector of all <code>.CEL</code> files in the directory <code>path/to/celfiles</code>.</p>
+
+<p>Next, we proceed with the RMA pre-processing. To do this, we read one of the predefined references, do the RMA pre-processing using the reference, and then extracting the relevant data:</p>
+
+<pre><code class="r"># Pre-processing the .CEL files
+ref &lt;- readLLMPPCHOPreference()  # Use LLMPPCHOP as reference
 data &lt;- rmaReference(batch, reference = ref)
 data.sc &lt;- data$exprs.sc
-
-# BAGS Classification
-BAGS(data.sc)
 </code></pre>
 
-<p>Four .CEL files is provided with the hemaClass package for testing. To use these swap the load files line with:</p>
+<p>If you want to use cohort based normalization you can instead use the function <code>rmaPreprocessing</code>, which is also supplied in the package.</p>
 
-<pre><code class="R">files &lt;- dir(system.file(&quot;extdata/celfiles&quot;, package = &quot;hemaClass&quot;), full.names = TRUE)
+<p>We carry on and do the actual classification. Here we do the BAGS classification and print the results:</p>
+
+<pre><code class="r">bags.results &lt;- BAGS(data.sc)  # BAGS Classification
+print(bags.results)
 </code></pre>
+
+<pre><code>## $class
+## H333_(HG-U133_Plus_2).CEL H344_(HG-U133_Plus_2).CEL 
+##               Plasmablast               Plasmablast 
+## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
+##                    Memory              Unclassified 
+## 6 Levels: Naive Centroblast Centrocyte Memory ... Unclassified
+## 
+## $prob.mat
+##                                  Naive  Centroblast   Centrocyte    Memory
+## H333_(HG-U133_Plus_2).CEL 0.0130319058 6.394989e-03 0.0016748288 0.1226169
+## H344_(HG-U133_Plus_2).CEL 0.0183157464 1.060605e-03 0.1810256028 0.0787610
+## H345_(HG-U133_Plus_2).CEL 0.0007615859 4.903792e-05 0.0003515154 0.9514786
+## H371_(HG-U133_Plus_2).CEL 0.0078735547 2.152415e-03 0.0250446256 0.2448994
+##                           Plasmablast
+## H333_(HG-U133_Plus_2).CEL  0.85628133
+## H344_(HG-U133_Plus_2).CEL  0.72083704
+## H345_(HG-U133_Plus_2).CEL  0.04735924
+## H371_(HG-U133_Plus_2).CEL  0.72003003
+## 
+## $prob
+## H333_(HG-U133_Plus_2).CEL H344_(HG-U133_Plus_2).CEL 
+##                 0.8562813                 0.7208370 
+## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
+##                 0.9514786                 0.7200300 
+## 
+## $cut
+##       15% 
+## 0.7203932
+</code></pre>
+
+<p>To do a different classification than BAGS, use the functions <code>REGS</code> or <code>ABCGCB</code> instead of <code>BAGS</code>.
+The <code>ABCGCB</code> function performs the ABC/GCB cell of origin classification.
+For more information on how to use the drug resistance classifiers, run <code>?REGS</code>.</p>
 
 <p>The script uses the build-in one-by-one normalization with the build-in LLMPPCHOP dataset as reference. If you want to use a different build-in reference swap out the reference line with one of the following:</p>
 
-<pre><code class="R">ref &lt;- readCHEPRETROreference()
+<pre><code class="r">ref &lt;- readCHEPRETROreference()
 ref &lt;- readIDRCreference()
 ref &lt;- readLLMPPRCHOPreference()
 ref &lt;- readMDFCIreference()
 ref &lt;- readUAMSreference()
 </code></pre>
 
-<p>If you want to use cohort based normalization you can instead use the function <code>rmaPreprocessing</code>, which is also supplied in the package.</p>
-
-<p>To do a different classification than BAGS, use the functions <code>REGS</code> or <code>ABCGCB</code> instead of <code>BAGS</code>.</p>
-
-<p><br><br></p>
-
 <h1>Questions</h1>
 
-<p>If you encounter any issues or bugs using either the hemaClass webpage or the hemaClass R-package, or if you have suggestions for improvements please report it to us at <a href="https://github.com/oncoclass/hemaClass/issues">GitHub</a>. You are also welcome to send us questions or comments on <a href="mailto:martin.boegsted@rn.dk">mail</a>.</p>
+<p>If you encounter any issues or bugs using either the hemaClass website or the <strong>hemaClass</strong> R-package, or if you have suggestions for improvements please do not hesitate to report it to us at <a href="https://github.com/oncoclass/hemaClass/issues">GitHub</a>. You are also very welcome to send us questions or comments via <a href="mailto:martin.boegsted@rn.dk">e-mail</a>.</p>
+
+<hr/>
+
+<p><strong>Disclaimer:</strong> The package and website is intended for experimental use only. We stress that we disclaim against responsibility for the effects of the classifications.  For instance we neither accept liability for the classifications performed, nor for the consequences of any actions taken on the basis of the information provided.</p>
 
 </body>
 

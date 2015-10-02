@@ -26,7 +26,8 @@ install.packages("devtools")
 devtools::install_github("AnalytixWare/ShinySky")
 
 # Finally the package is installed.
-devtools::install_github("oncoclass/hemaClass", dependencies = TRUE)
+devtools::install_github("oncoclass/hemaClass", dependencies = TRUE,
+                         build_vignettes = TRUE)
 ```
 
 `hemaClass` is still under development and should be considered unstable. Be sure that you have the [package development prerequisites](http://www.rstudio.com/ide/docs/packages/prerequisites) if you wish to install the package from the source.
