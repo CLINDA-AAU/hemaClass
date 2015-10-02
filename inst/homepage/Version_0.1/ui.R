@@ -2,6 +2,7 @@ library(shiny)
 library(shinysky)
 library(RLumShiny)
 
+title <- "hemaClass" # Old title :) 
 title <- HTML(paste0('<a href="http://hemaClass.org"', 
                      'style="color: #FF6060; text-decoration: none">', 
                      icon("tint", lib = "glyphicon"), ' hemaClass</a>'))
@@ -62,16 +63,20 @@ shinyUI(
                   condition = "input.ChooseMethod == 'build'",
                   
                   fileInput("refFiles", 
-                            "In order to build a laboratory specific reference you need to upload .CEL files:",
+                            label = "To build a laboratory specific 
+                              reference, please upload .CEL files:",
                             accept = "", multiple = TRUE),
                   conditionalPanel(
                     condition = "output.showBuildRefButton!=0",
-                    actionButton("buildreferenceButton", "Build the reference"),
-                    tags$hr(),
+                    actionButton("buildreferenceButton",
+                                 HTML(paste(icon("cog", lib = "glyphicon"), 
+                                            "Build reference"))),
                     conditionalPanel(
                       condition = "output.showDownloadRefButton!=0",
-                      helpText("Download reference to save time on next run"),
-                      downloadButton('downloadReference', 'Download reference for later use')
+                      tags$hr(),
+                      helpText("Download reference to save time on next run:"),
+                      downloadButton('downloadReference', 
+                                     'Download reference for later use.')
                     )
                   )
                 ),
@@ -101,9 +106,11 @@ shinyUI(
               ),
               conditionalPanel(
                 condition = "output.showNormButton!=0",
-                helpText("Normalize the files according to the chosen reference."),
-                actionButton("normalizeButton", "Normalize files", 
-                             icon = icon("refresh"))
+                helpText("Normalize the files according to the chosen 
+                         reference:"),
+                actionButton("normalizeButton", 
+                             HTML(paste(icon("cog", lib = "glyphicon"), 
+                                        "Normalize files")))
               )
               
               
@@ -301,7 +308,7 @@ shinyUI(
                             "Combined (CHO)",
                             "Melphalan" 
                             ),
-                selected = c("BAGS")),
+                selected = "BAGS"),
               
               conditionalPanel(
                 condition = "input.getClassifications.indexOf('ABCGCB') != -1",
@@ -375,8 +382,7 @@ shinyUI(
               
               
               br(),br(),
-              downloadButton('downloadData',
-                             'Download classification results')
+              downloadButton('downloadData', 'Download classification results')
             ), 
             mainPanel(shinyalert("shinyalertResults", 
                                  click.hide = FALSE),

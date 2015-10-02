@@ -11,6 +11,21 @@ cat("Packages loaded\n")
 # Changing maximum file size
 options(shiny.maxRequestSize = 30*1024^2)
 
+# Used icons in messages etc.
+ERROR   <- paste(icon("remove-sign", lib = "glyphicon"), 
+                 tags$strong("Error:"))
+WARNING <- paste(icon("exclamation-sign", lib = "glyphicon"), 
+                 tags$strong("Warning:"))
+SUCCES  <- paste(icon("ok-sign", lib = "glyphicon"), 
+                 tags$strong("Succes:"))
+TO <- icon("arrow-right", lib = "glyphicon") # Right arrow
+HANDLEFT <- icon("hand-left", lib = "glyphicon")
+
+# Common error messages
+non.cel.files.uploaded.text <- HTML(
+  paste(ERROR, "Not all chosen files are .CEL files.<br/> 
+                Please try again and upload only .CEL files.")
+)
 
 #
 # Run the shiny server
@@ -235,19 +250,24 @@ shinyServer(function(input, output, session) {
                                               sheet = input$ExtXLSsheet)
         } else {
           showshinyalert(session, "shinyalertUploadMetaData",  
-                         HTML("The selected sheet could not be found in the metadata!"),
+                         HTML("The selected sheet could not be found in the 
+                              metadata!"),
                          styleclass = "danger") 
           return(NULL)
         }
       } else {
         showshinyalert(session, "shinyalertUploadMetaData",  
-                       HTML("The choosen file is not of a supported type! Please upload a file of a supported type."),
+                       HTML("The choosen file is not of a supported type! 
+                            Please upload a file of a supported type."),
                        styleclass = "danger")  
       }
     } else {
       showshinyalert(session, "shinyalertUploadMetaData",  
-                     HTML(paste("Upload the file containing metadata. The supported file types are:",
-                                "&#160.rds", "&#160.RData", "&#160.txt", "&#160.xls", sep = "<br/>")),
+                     HTML(paste("Upload the file containing metadata. 
+                                The supported file types are:",
+                                "&#160.rds", "&#160.RData", 
+                                "&#160.txt", "&#160.xls", 
+                                sep = "<br/>")),
                      styleclass = "info")  
     }
   })
@@ -587,7 +607,7 @@ shinyServer(function(input, output, session) {
         if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
           
           showshinyalert(session, "shinyalertSelectReference",  
-                         HTML(paste("Not all chosen files are .CEL files.")),
+                         non.cel.files.uploaded.text,
                          styleclass = "danger")
           stop("Not all chosen files are .CEL files.")
         }
@@ -613,7 +633,8 @@ shinyServer(function(input, output, session) {
         user.reference$exprs.sc <<- NULL
         
         showshinyalert(session, "shinyalertSelectReferenceSucess",  
-                       HTML(paste("The reference was successfully build!")),
+                       HTML(paste(SUCCES, 
+                                  "The reference was successfully build!")),
                        styleclass = "success")
         showshinyalert(session, "shinyalertSelectReference",  
                        HTML("Press 'normalize files' to start the RMA normalization."),
@@ -698,7 +719,7 @@ shinyServer(function(input, output, session) {
         
         hideshinyalert(session, "shinyalertResults")
         showshinyalert(session, "shinyalertNormalizationSuccess",  
-                       HTML(paste("The normalization was successful!")),
+                       HTML(paste(SUCCES, "The normalization was successful!")),
                        styleclass = "success")
       }
     })
@@ -1147,49 +1168,53 @@ shinyServer(function(input, output, session) {
   ##
   ##############################################################################
   
-  
   output$showNormMethods <- reactive({
     input$usrFiles
     if (is.null(input$usrFiles)) {
-      showshinyalert(session, "shinyalertUploadCel",  
-                     HTML(paste("No .CEL files chosen!", 
-                                "Please press 'Choose files' and select the CEL files you want to classify.", 
-                                sep = "<br/>")), 
+      no.uploaded.celfiles.text <- HTML(
+        paste(WARNING, "You need to upload .CEL files first. You can do this 
+              under the <strong>Load data</strong>", TO, "<strong>CEL 
+              files</strong> tab.")
+      )
+      info.text <- HTML(
+        paste("No .CEL files chosen yet.", tags$br(),
+              HANDLEFT, "Please press <strong>Choose 
+              files</strong> and select the .CEL files you want to classify.")
+      )
+      showshinyalert(session, "shinyalertUploadCel", info.text, 
                      styleclass = "info")
-      showshinyalert(session, "shinyalertInputMeta", 
-                     "Warning: You need to upload CEL files first", 
+      showshinyalert(session, "shinyalertInputMeta", no.uploaded.celfiles.text, 
                      styleclass = "warning")
-      showshinyalert(session, "shinyalertUploadMeta", 
-                     "Warning: You need to upload CEL files first", 
+      showshinyalert(session, "shinyalertUploadMeta", no.uploaded.celfiles.text, 
                      styleclass = "warning")
-      showshinyalert(session, "shinyalertResults", 
-                     'Warning: You need to upload CEL files first. You can do this at "Load data".', 
+      showshinyalert(session, "shinyalertResults", no.uploaded.celfiles.text, 
                      styleclass = "warning")
-      
       return(0)
     } else {
       fileInfo <- input$usrFiles
       if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
-        
         showshinyalert(session, "shinyalertUploadCel",  
-                       HTML(paste("Not all chosen files are .CEL files.",
-                                  "Please upload your CEL files again.", 
-                                  sep = "<br/>")),
+                       non.cel.files.uploaded.text,
                        styleclass = "danger")
         return(0)
       } else {
+        upload.success.text <- HTML(
+          paste(icon("ok-sign", lib = "glyphicon"),
+                "Succesfully uploaded", length(fileInfo$name), 
+                ifelse(length(fileInfo$name) == 1, ".CEL file.", ".CEL files."))
+        )
+        missing.preprocess.text <- HTML(
+          paste(WARNING, "You need to pre-process the .CEL files first. You can 
+                do this under <strong>Load data</strong>", TO, 
+                "<strong>CEL files</strong>.")
+        )
         hideshinyalert(session, "shinyalertUploadCel")
         showshinyalert(session, "shinyalertUploadCelSucces",
-                       paste("You have succesfully uploaded", 
-                             length(fileInfo$name), 
-                             ifelse(length(fileInfo$name) == 1, "CEL file", "CEL files")),
+                       upload.success.text,
                        styleclass = "success")   
-        
-        
-        showshinyalert(session, "shinyalertResults", 
-                       'Warning: You need to pre-process the CEL files first. You can do this at "Load data".', 
+        showshinyalert(session, "shinyalertResults",
+                       missing.preprocess.text, 
                        styleclass = "warning")
-        
         hideshinyalert(session, "shinyalertInputMeta")
         hideshinyalert(session, "shinyalertUploadMeta")
         return(1)
@@ -1205,64 +1230,75 @@ shinyServer(function(input, output, session) {
       fileInfo <- input$usrFiles
       if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
         if (input$ChooseMethod == "blah") {
-          showshinyalert(session, "shinyalertSelectReference",  
-                         "Please select a reference for RMA-preprocessing", 
+          info.text <- HTML(
+            paste(HANDLEFT, "Please select the RMA pre-processing method.")
+          )
+          showshinyalert(session, "shinyalertSelectReference",
+                         info.text, 
                          styleclass = "info")
           return(0) # don't show
         } else {
           if (input$ChooseMethod == "build") {
-            
             if (is.null(input$refFiles)) {
-              showshinyalert(session, "shinyalertSelectReference",
-                             HTML(paste("No .CEL files chosen for building the reference!",
-                                        "Please press 'Choose files' and select the CEL files you want to use for building the classifier", 
-                                        sep = "<br/>")),
+              info.text <- HTML(
+                paste("No .CEL files chosen for building the reference!<br/>",
+                      HANDLEFT, "Please press <strong>Choose files</strong> 
+                      and select the .CEL files you want to use for  building 
+                      the classifier.")
+              )
+              showshinyalert(session, "shinyalertSelectReference", info.text,
                              styleclass = "info")
               return(0)
             } else {
-              if (!all(grepl("\\.CEL$", input$refFiles$name, ignore.case = TRUE))) {
-                
+              if (!all(grepl("\\.CEL$", input$refFiles$name, 
+                             ignore.case = TRUE))) {
                 showshinyalert(session, "shinyalertSelectReference",  
-                               HTML(paste("Not all chosen files are .CEL files.",
-                                          "Please upload your reference CEL files again.", 
-                                          sep = "<br/>")),
+                               non.cel.files.uploaded.text,
                                styleclass = "danger")
                 return(0)
               } else {
                 if (length(input$refFiles$name) == 1) {
                   showshinyalert(session, "shinyalertSelectReference",  
-                                 HTML(paste("You only selected 1 .CEL file for building the reference.",
-                                            "Please upload more than 1 CEL file before you continue.", 
-                                            sep = "<br/>")),
+                                 HTML("You only selected 1 .CEL file for 
+                                      building the reference.<br/> Please 
+                                      upload more than 1 CEL file before you 
+                                      continue."),
                                  styleclass = "danger")
                   return(0)
                 } else {
                   if (length(input$refFiles$name) < 30) {
+                    few.uploaded.cel.files.text <- HTML(
+                      paste(WARNING, "You selected less than 30 .CEL files for  
+                            building the reference.<br/> The performance is not 
+                            documented for less than 30 .CEL files.")
+                    )
                     showshinyalert(session, "shinyalertSelectReference", 
-                                   HTML(paste("You selected less than 30 .CEL files for building the reference.",
-                                              "The performance is not documented for less than 30 .CEL files.", 
-                                              sep = "<br/>")),
+                                   few.uploaded.cel.files.text,
                                    styleclass = "warning")
                   } else {
                     if (is.null(user.reference) || 
                         any(input$refFiles$name != user.reference$files )) {
                       showshinyalert(session, "shinyalertSelectReference",  
-                                     HTML("Press 'Build the reference' to start the RMA reference building."),
+                                     HTML(paste(HANDLEFT, "Press 'Build the 
+                                                reference' to start the RMA 
+                                                reference building.")),
                                      styleclass = "info")
                     
                       return(0)
                     } else {
                       if (is.null(normalized.data) || 
                           any(fileInfo$name != attr(normalized.data, "files"))) {
-                        showshinyalert(session, "shinyalertSelectReference",  
-                                       HTML(paste("Press 'normalize files' to start the RMA normalization.",
-                                                  "You can download the established reference by clicking 'Download reference for later use'", 
-                                                  sep = "<br/>")),
+                        showshinyalert(session, "shinyalertSelectReference",
+                                       HTML("Press 'normalize files' to start 
+                                            the RMA normalization. <br/> You can 
+                                            download the established reference 
+                                            by clicking 'Download reference for 
+                                            later use.'"),
                                        styleclass = "info")  
                       return(1)
-                    }                  
+                    }
                   }
-                }            
+                }
               }
             }
           }}
