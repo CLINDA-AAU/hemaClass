@@ -27,3 +27,6 @@ LinkingTo: Rcpp, RcppArmadillo, RcppEigen
 Suggests:
     testthat (>= 0.3),
     survival
+    knitr
+VignetteBuilder: 
+    knitr
