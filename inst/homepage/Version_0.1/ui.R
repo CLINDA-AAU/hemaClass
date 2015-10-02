@@ -297,9 +297,9 @@ shinyUI(
                             "Cyclophosphamide (C)",
                             "Doxorubicin (H)", 
                             "Vincristine (O)",
-                            "Dexamethasone (P)", 
-                            "Combined (CHO)" 
-                            # "Melphalan" 
+                            # "Dexamethasone (P)", 
+                            "Combined (CHO)",
+                            "Melphalan" 
                             ),
                 selected = c("BAGS")),
               
