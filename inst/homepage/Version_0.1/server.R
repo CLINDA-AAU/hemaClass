@@ -609,8 +609,9 @@ shinyServer(function(input, output, session) {
           showshinyalert(session, "shinyalertSelectReference",  
                          non.cel.files.uploaded.text,
                          styleclass = "danger")
-          stop("Not all chosen files are .CEL files.")
+         # stop("Not all chosen files are .CEL files.")
         }
+        
         hideshinyalert(session, "shinyalertSelectReference")
         user.reference.affy <<- readCelfiles(input$refFiles$datapath)
       }
@@ -653,7 +654,6 @@ shinyServer(function(input, output, session) {
       if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
         stop("Not all chosen files are .CEL files.")
       }
-      
       
       if (!is.null(input$usrFiles)) {
         hideshinyalert(session, "shinyalertSelectReference") 
@@ -1197,7 +1197,27 @@ shinyServer(function(input, output, session) {
                        non.cel.files.uploaded.text,
                        styleclass = "danger")
         return(0)
-      } else {
+      }
+      check <-
+        sapply(fileInfo$datapath, function (x){ 
+          affyio::read.celfile.header(as.character(x))$cdfName})
+      
+      if (!all(check == "HG-U133_Plus_2")){
+        
+        nogood <- fileInfo$name[check != "HG-U133_Plus_2"]
+        message <- 
+          paste("Only the Human Genome U133 Plus 2.0 Array", 
+                "is currently supported.",br(),
+                ifelse(length(nogood)==1, 
+                       "This .CEL file is currently not supported:",
+                       "These .CEL files are currently not supported: <br/> "),
+                paste(paste(nogood, check[check != "HG-U133_Plus_2"], 
+                            sep = ": "), collapse = "<br/> "))
+        showshinyalert(session, "shinyalertUploadCel",  
+                       HTML(message),
+                       styleclass = "danger")
+        return(0)
+      }else{
         upload.success.text <- HTML(
           paste(icon("ok-sign", lib = "glyphicon"),
                 "Succesfully uploaded", length(fileInfo$name), 
