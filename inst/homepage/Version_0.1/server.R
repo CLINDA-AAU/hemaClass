@@ -1277,6 +1277,28 @@ shinyServer(function(input, output, session) {
                                styleclass = "danger")
                 return(0)
               } else {
+                
+                check <-
+                  sapply(input$refFiles$datapath, function (x){ 
+                    affyio::read.celfile.header(as.character(x))$cdfName})
+                
+                if (!all(check == "HG-U133_Plus_2")){
+                  
+                  nogood <- input$refFiles$name[check != "HG-U133_Plus_2"]
+                  message <- 
+                    paste("Only the Human Genome U133 Plus 2.0 Array", 
+                          "is currently supported.",br(),
+                          ifelse(length(nogood)==1, 
+                                 "This .CEL file is currently not supported:",
+                                 "These .CEL files are currently not supported: <br/> "),
+                          paste(paste(nogood, check[check != "HG-U133_Plus_2"], 
+                                      sep = ": "), collapse = "<br/> "))
+                  showshinyalert(session, "shinyalertSelectReference",  
+                                 HTML(message),
+                                 styleclass = "danger")
+                  return(0)
+                
+              } else {
                 if (length(input$refFiles$name) == 1) {
                   showshinyalert(session, "shinyalertSelectReference",  
                                  HTML("You only selected 1 .CEL file for 
@@ -1318,6 +1340,7 @@ shinyServer(function(input, output, session) {
                       return(1)
                     }
                   }
+                }
                 }
               }
             }
