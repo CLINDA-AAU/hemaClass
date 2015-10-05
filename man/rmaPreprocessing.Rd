@@ -2,7 +2,7 @@
 % Please edit documentation in R/rmaPreprocessing.R
 \name{rmaPreprocessing}
 \alias{rmaPreprocessing}
-\title{RMA pre-process \code{.CEL} files read into R using readCelfiles}
+\title{RMA pre-process \code{.CEL} files}
 \usage{
 rmaPreprocessing(affy.batch, test = FALSE, quantile = NULL)
 }
@@ -16,27 +16,46 @@ bad \code{.CEL} files are automatically discarded.}
 normalized to.}
 }
 \value{
-Expression matrix consisting of normalised array.
+Returns a \code{list} of length 9 with the slots:
+  \item{exprs}{The cohort RMA pre-processed \eqn{log_2}-expression
+    \code{matrix}}
+  \item{exprs.sc}{As slot \code{$exprs} but scaled to have zero median and
+    unit variance.}
+  \item{exprs.sc.mean}{As slot \code{$exprs} but scaled to have zero mean and
+    unit variance.}
+  \item{quantile}{The values defining the distribution used in quantile
+    normalization.}
+  \item{alpha}{The alpha values of the RMA summarization.}
+  \item{sd}{A \code{numeric} of the standard errors of each feature.}
+  \item{median}{A \code{numeric} with the medians for each feature.}
+  \item{mean}{A \code{numeric} with the means for each feature.}
+  \item{bad}{A \code{character} giving the 'bad' arrays. \code{NULL} if no
+    bad arrays are found or when \code{test = FALSE}}
 }
 \description{
-Pre-process \code{.CEL} files according to the RMA method and create a
-reference for later use.
-}
-\details{
-Load \code{.CEL} files into a matrix.
+Pre-process \code{.CEL} files read into \R using
+\code{\link{readCelfiles}} according to the regular cohort RMA method and
+create a reference for later use.
 }
 \examples{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
-             full.names = TRUE)
-affyBatch <- readCelfiles(filenames = files[1])
+# List .CEL files bundled with hemaClass
+files <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
+                    full.names = TRUE)
+affy.batch <- readCelfiles(filenames = files[1:3]) # Read three first files
 
-affyRMA <- rmaPreprocessing(affyBatch)
+# RMA normalize
+affy.rma <- rmaPreprocessing(affy.batch)
+str(affy.rma)
 }
 \author{
 Steffen Falgreen <sfl (at) rn.dk> \cr
   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
-\code{hemaClass.com}
+\url{http://hemaClass.org}
+}
+\seealso{
+\code{\link{rmaReference}} for one-by-one reference based RMA
+  normalization.
 }
 

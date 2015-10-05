@@ -75,28 +75,39 @@ point for unclassified.}
 the percentage of unclassified.}
 }
 \value{
-Expression matrix consisting of normalised array.
+The \code{ResistanceClassifier} \code{ResistancePredictor},
+\code{RituximabClassifier}, and \code{RituximabPredictor}
+functions return
+a \code{list} of length 3 with the slots:
+\item{class}{A \code{data.frame} giving predicted classes for each sample.}
+\item{prob}{A \code{matrix} of proability or scores for each class and
+  sample.}
+\item{cut}{A \code{numeric} or \code{list} of \code{numeric}s giving the
+  thresholds used to select the classes.}
+
+The remaning \code{xxxClassifier}, \code{xxxPredictor}, and \code{xxxProbFun}
+functions returns the components above.
 }
 \description{
-Resistance Gene Signatures (REGS) for prediction of resistance to various drugs.
-}
-\details{
-Load cel files into a matrix.
+Resistance Gene Signatures (REGS) for prediction of resistance to various
+chemotherapeutic drugs.
 }
 \examples{
 \donttest{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"),
-             full.names = TRUE)
+# First, we read the .CEL files bundled together with hemaClass
+files <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
+                    full.names = TRUE)
 affyBatch <- readCelfiles(filenames = files)
 
-# The cel files are pre-processed
+# The .CEL files are then pre-processed
 affyRMA <- rmaPreprocessing(affyBatch)
 
-# the function rmaPreprocessing returns median centered and scaled
+# The function rmaPreprocessing returns median centered and scaled
 # expression values in the slot exprs.sc.
 
 # The slot exprs.sc.mean contains mean cetered and scaled expression values.
 # This scaling can also be achieved using the function microarrayScale.
+
 affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 
 # We may now use the predictors
@@ -110,15 +121,17 @@ ResistancePredictor(affyRMA.sc)
 # The classifier for Rituximab into Lysis, Statisk, or Resistant:
 RituximabClassifier(affyRMA.sc, type = "lysis2", percent.classified = 100)
 
-# The classifier for Rituximab into Sensitive, Intermediate, or Resistant without
-# taking human serum into accout:
-RituximabClassifier(affyRMA.sc, type = "uncorrected", calc.cut = c(0.33, 0.66))
+# The classifier for Rituximab into Sensitive, Intermediate, or Resistant
+# without  taking human serum into account:
+RituximabClassifier(affyRMA.sc, type = "uncorrected",
+                    calc.cut = c(0.33, 0.66))
 
 # The classifier for Rituximab into Sensitive, Intermediate, or Resistant
-# while taking human serum into accout:
+# while taking human serum into account:
 RituximabClassifier(affyRMA.sc, type = "corrected")
 
-# For the melphalan classifier we use mean centered and sd scaled expression values:
+# For the melphalan classifier we use mean centered and sd scaled expression
+# values:
 affyRMA.sc.mean <- microarrayScale(affyRMA$exprs, center = "mean")
 MelphalanClassifier(affyRMA.sc.mean)
 
@@ -128,9 +141,12 @@ MelphalanPredictor(affyRMA$exprs)
 }
 \author{
 Steffen Falgreen <sfl (at) rn.dk> \cr
-Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
-Reference to the \code{hemaClass.com} paper.
+\url{http://hemaClass.org}
+}
+\seealso{
+\code{\link{rmaPreprocessing}}
 }
 

@@ -1,6 +1,7 @@
 #' REGS for prediction of chemoresistance
 #' 
-#' Resistance Gene Signatures (REGS) for prediction of resistance to various drugs.
+#' Resistance Gene Signatures (REGS) for prediction of resistance to various 
+#' chemotherapeutic drugs.
 #' @rdname REGS
 #' @aliases 
 #'   REGS
@@ -31,26 +32,41 @@
 #'   point for unclassified.
 #' @param percent.classified For the lysis type rituximab classifier specify 
 #'   the percentage of unclassified.
-#' @return Expression matrix consisting of normalised array.
-#' @details Load cel files into a matrix.
-#' @references Reference to the \code{hemaClass.com} paper.
+#' @return
+#' The \code{ResistanceClassifier} \code{ResistancePredictor},
+#' \code{RituximabClassifier}, and \code{RituximabPredictor}
+#' functions return 
+#' a \code{list} of length 3 with the slots:
+#' \item{class}{A \code{data.frame} giving predicted classes for each sample.}
+#' \item{prob}{A \code{matrix} of proability or scores for each class and 
+#'   sample.}
+#' \item{cut}{A \code{numeric} or \code{list} of \code{numeric}s giving the 
+#'   thresholds used to select the classes.}
+#' 
+#' The remaning \code{xxxClassifier}, \code{xxxPredictor}, and \code{xxxProbFun}
+#' functions returns the components above.
+#' @seealso \code{\link{rmaPreprocessing}}
+#' @references
+#'   \url{http://hemaClass.org}
 #' @author 
-#' Steffen Falgreen <sfl (at) rn.dk> \cr 
-#' Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
+#'   Steffen Falgreen <sfl (at) rn.dk> \cr 
+#'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 #' @examples
 #' \donttest{
-#' files <- dir(system.file("extdata/celfiles", package = "hemaClass"), 
-#'              full.names = TRUE)
+#' # First, we read the .CEL files bundled together with hemaClass
+#' files <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
+#'                     full.names = TRUE)
 #' affyBatch <- readCelfiles(filenames = files)
 #' 
-#' # The cel files are pre-processed
+#' # The .CEL files are then pre-processed
 #' affyRMA <- rmaPreprocessing(affyBatch)
 #' 
-#' # the function rmaPreprocessing returns median centered and scaled 
+#' # The function rmaPreprocessing returns median centered and scaled 
 #' # expression values in the slot exprs.sc. 
 #' 
 #' # The slot exprs.sc.mean contains mean cetered and scaled expression values.
 #' # This scaling can also be achieved using the function microarrayScale.
+#' 
 #' affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 #' 
 #' # We may now use the predictors
@@ -64,21 +80,23 @@
 #' # The classifier for Rituximab into Lysis, Statisk, or Resistant:
 #' RituximabClassifier(affyRMA.sc, type = "lysis2", percent.classified = 100) 
 #' 
-#' # The classifier for Rituximab into Sensitive, Intermediate, or Resistant without 
-#' # taking human serum into accout:
-#' RituximabClassifier(affyRMA.sc, type = "uncorrected", calc.cut = c(0.33, 0.66)) 
+#' # The classifier for Rituximab into Sensitive, Intermediate, or Resistant 
+#' # without  taking human serum into account:
+#' RituximabClassifier(affyRMA.sc, type = "uncorrected", 
+#'                     calc.cut = c(0.33, 0.66)) 
 #' 
 #' # The classifier for Rituximab into Sensitive, Intermediate, or Resistant 
-#' # while taking human serum into accout:
+#' # while taking human serum into account:
 #' RituximabClassifier(affyRMA.sc, type = "corrected") 
 #' 
-#' # For the melphalan classifier we use mean centered and sd scaled expression values:
+#' # For the melphalan classifier we use mean centered and sd scaled expression 
+#' # values:
 #' affyRMA.sc.mean <- microarrayScale(affyRMA$exprs, center = "mean")
 #' MelphalanClassifier(affyRMA.sc.mean) 
 #' 
 #' # For the melphalan predictor we use the original scale:
 #' MelphalanPredictor(affyRMA$exprs)  
-#' }                                                                                                                                                                                                                                  
+#' }
 #' @export
 ResistanceClassifier <- function(new.data, 
                                  drugs = c("Cyclophosphamide", 
@@ -89,13 +107,9 @@ ResistanceClassifier <- function(new.data,
                                             Doxorubicin      = c(0.1,   0.86),
                                             Vincristine      = c(0.38,  0.54),
                                             Combined         = c(0.067, 0.907))) {
-  
   new.data[is.na(new.data)] <- 0
-  
   train.mat <- ResistanceProbFun(new.data, setdiff(drugs, "Combined"))
-  
   wh <- intersect(drugs, colnames(train.mat)) 
-  
   train.mat <- train.mat[, wh, drop = FALSE]
   
   if ("Combined" %in% drugs & length(length(drugs) > 3)) {
@@ -110,9 +124,9 @@ ResistanceClassifier <- function(new.data,
   class <- train.mat
   class[,] <- "Intermediate"
   
-  class[train.mat < matrix(unlist(rep(data.frame(cut)[1,], each = nrow(train.mat)) ),
+  class[train.mat < matrix(unlist(rep(data.frame(cut)[1,], each = nrow(train.mat))),
                            nrow = nrow(train.mat), byrow = FALSE)] <- "Resistant"
-  class[train.mat > matrix(unlist(rep(data.frame(cut)[2,], each = nrow(train.mat)) ),
+  class[train.mat > matrix(unlist(rep(data.frame(cut)[2,], each = nrow(train.mat))),
                            nrow = nrow(train.mat), byrow = FALSE)] <- "Sensitive"
   
   class <- as.data.frame(class)
@@ -138,13 +152,9 @@ ResistancePredictor <- function(new.data,
                                            Doxorubicin      = c(280, 320),
                                            Vincristine      = c(115,  127),
                                            Combined         = c(200, 295))){
-  
   new.data[is.na(new.data)] <- 0
-  
   train.mat <- ResistancePredFun(new.data, setdiff(drugs, "Combined"))
-  
   wh <- intersect(drugs, colnames(train.mat)) 
-  
   train.mat <- train.mat[, wh, drop = FALSE]
   
   if ("Combined" %in% drugs & length(length(drugs) > 3)) {
@@ -172,9 +182,7 @@ ResistancePredictor <- function(new.data,
     class[, i] <- factor(class[, i], 
                          levels = c("Sensitive", "Intermediate", "Resistant"))
   }
-  return(list(class = class, 
-              pred  = train.mat,
-              cut   = cut))
+  return(list(class = class, pred  = train.mat, cut   = cut))
 }
 
 
@@ -414,14 +422,10 @@ RituximabPredictor <- function(new.data, type = "corrected",
   }
   
   class <- as.data.frame(class)
-  
   class[,1] <- factor(class[,1], 
                       levels = c("Sensitive", "Intermediate", "Resistant"))
   
-  return(list(class = class, 
-              pred  = prob,
-              cut   = cut))
-  
+  return(list(class = class, pred  = prob, cut   = cut))
 }
 
 

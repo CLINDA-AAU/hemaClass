@@ -2,43 +2,57 @@
 % Please edit documentation in R/rmaReference.R
 \name{rmaReference}
 \alias{rmaReference}
-\title{RMA pre-process cel files read into R using readCelfiles according to a reference.}
+\title{RMA pre-process \code{.CEL} files read}
 \usage{
 rmaReference(affy.batch, reference, test = FALSE)
 }
 \arguments{
-\item{affy.batch}{An object created by readCelfiles.}
+\item{affy.batch}{An \code{affy.batch} object, usually created by
+\code{\link{readCelfiles}}.}
 
-\item{reference}{An RMA reference object created by rmaPreprocessing.}
+\item{reference}{An RMA reference object created by
+\code{\link{rmaPreprocessing}}.}
 
-\item{test}{Should the cel files be tested. When set to TRUE bad cel files are automatically discarded.}
+\item{test}{Should the supplied \code{.CEL} files be qualtiy tested. When
+set to \code{TRUE} bad \code{.CEL} files are automatically discarded.}
 }
 \value{
-Expression matrix consisting of normalised array.
+Returns a \code{list} of length 3 with the slots:
+  \item{exprs}{The one-by-one RMA pre-processed \eqn{log_2}-expression
+    \code{matrix}}
+  \item{exprs.sc}{As slot \code{$exprs} but scaled to have zero median and
+    unit variance.}
+  \item{exprs.sc.mean}{As slot \code{$exprs} but scaled to have zero mean and
+    unit variance.}
 }
 \description{
-Pre-process cel files according to the RMA method according to a reference build using rmaPreprocessing.
-}
-\details{
-Load cel files into a matrix.
+Pre-process \code{.CEL} files according to the one-by-one RMA method
+using a reference build using \code{\link{rmaPreprocessing}}.
 }
 \examples{
-files <- dir(system.file("extdata/celfiles", package = "hemaClass"), full.names = TRUE)
-affy.batch <- readCelfiles(files)
+# List .CEL files bundled with hemaClass
+files <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
+                    full.names = TRUE)
+affy.batch <- readCelfiles(files) # Read in the .CEL files
 
+# Build references
 ref.affy   <- rmaPreprocessing(affy.batch)
 ref.affy.2 <- rmaPreprocessing(affy.batch, quantile = ref.affy$quantile)
 all(ref.affy.2$exprs - ref.affy$exprs < 0.00000001)
 
+# RMA one-by-one pre-process using the reference:
 user.affy  <- rmaReference(affy.batch, ref.affy)
 
 all(user.affy$exprs - ref.affy$exprs < 0.00000001)
 }
 \author{
-Steffen Falgreen <sfl (at) rn.dk> \cr Anders Ellern Bilgrau <abilgrau
-(at) math.aau.dk>
+Steffen Falgreen <sfl (at) rn.dk> \cr
+  Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 }
 \references{
-Reference to the hemaClass.com paper.
+\url{http://hemaClass.org}
+}
+\seealso{
+\code{\link{rmaPreprocessing}}
 }
 
