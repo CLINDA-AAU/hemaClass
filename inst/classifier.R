@@ -2,9 +2,11 @@
 # Build the classifier
 require(survival)
 
-metadataLLMPPRCHOP <- readRDS(file = "inst/homepage/Database/V1/LLMPPRCHOP/Metadata/metadataLLMPPRCHOP.RDSData")
+metadataLLMPPRCHOP <- 
+  readRDS("inst/website/Database/LLMPPRCHOP/metadataLLMPPRCHOP.rds")
 
-GEPLLMPPRCHOP <- readRDS(file = "inst/homepage/Database/V1/LLMPPRCHOP/GEP/GEPLLMPPRCHOP_RMA_affy.RDSData")
+GEPLLMPPRCHOP <- 
+  readRDS("inst/website/Database/LLMPPRCHOP/GEPLLMPPRCHOP_RMA_affy.rds")
 
 GEPLLMPPRCHOP.sc          <- microarrayScale(exprs(GEPLLMPPRCHOP))
 metadataLLMPPRCHOP$BAGS   <- BAGS(GEPLLMPPRCHOP.sc)$class

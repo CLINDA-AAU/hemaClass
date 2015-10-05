@@ -14,7 +14,7 @@
 #' names(readLLMPPCHOPreference())
 #' @export
 readLLMPPCHOPreference <- function() {
-  file <- system.file("extdata/References/LLMPPCHOP.ref.rda", package = "hemaClass")
+  file <- system.file("extdata/References/LLMPPCHOP.ref.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -23,7 +23,7 @@ readLLMPPCHOPreference <- function() {
 #' names(readLLMPPRCHOPreference())
 #' @export
 readLLMPPRCHOPreference <- function() {
-  file <- system.file("extdata/References/LLMPPRCHOP.ref.rda", package = "hemaClass")
+  file <- system.file("extdata/References/LLMPPRCHOP.ref.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -32,7 +32,7 @@ readLLMPPRCHOPreference <- function() {
 #' names(readMDFCIreference())
 #' @export
 readMDFCIreference <- function() {
-  file <- system.file("extdata/References/MDFCI.ref.rda", package = "hemaClass")
+  file <- system.file("extdata/References/MDFCI.ref.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -41,7 +41,7 @@ readMDFCIreference <- function() {
 #' names(readIDRCreference())
 #' @export
 readIDRCreference <- function() {
-  file <- system.file("extdata/References/IDRC.ref.rda", package = "hemaClass")
+  file <- system.file("extdata/References/IDRC.ref.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -50,7 +50,7 @@ readIDRCreference <- function() {
 #' names(readCHEPRETROreference())
 #' @export
 readCHEPRETROreference <- function() {
-  file <- system.file("extdata/References/CHEPRETRO.ref.rda", package = "hemaClass")
+  file <- system.file("extdata/References/CHEPRETRO.ref.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -59,6 +59,6 @@ readCHEPRETROreference <- function() {
 #' names(readUAMSreference())
 #' @export
 readUAMSreference <- function() {
-  file <- system.file("extdata/References/UAMS.ref.rda", package = "hemaClass")
+  file <- system.file("extdata/References/UAMS.ref.rds", package = "hemaClass")
   return(readRDS(file))
 }

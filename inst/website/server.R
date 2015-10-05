@@ -43,12 +43,12 @@ shinyServer(function(input, output, session) {
   
   LoadAnnotation <- reactive({
     HGU133Plus2 <<- 
-      readRDS("../Database/V1/Annotation/HGU133Plus2.na33.annot.RDSData")
+      readRDS("../Database/Annotation/HGU133Plus2.na33.annot.rds")
   })
   
   buildin.data <- list()
   buildin.datasets <- 
-    setdiff(dir("../Database/V1/"), c("Annotation", "Classification"))
+    setdiff(dir("../Database/"), c("Annotation", "Classification"))
   
   chosenDataset <- NULL
   
@@ -406,8 +406,8 @@ shinyServer(function(input, output, session) {
     if (dataset %in% buildin.datasets) {
       if (!dataset %in% names(buildin.data)) {
         hideshinyalert(session, "shinyalertResults")
-        GEP.file <- dir(file.path("../Database/V1/", dataset, "GEP"), 
-                        full.names = TRUE, pattern = ".RDSData")
+        GEP.file <- dir(file.path("../Database/", dataset, "GEP"), 
+                        full.names = TRUE, pattern = ".rds")
         GEP.data.temp <- readRDS(GEP.file)
         GEP <- microarrayScale(exprs(GEP.data.temp))
         colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP),
@@ -420,8 +420,8 @@ shinyServer(function(input, output, session) {
         buildin.data[[dataset]][["GEP.mean"]] <<- GEP.mean
         
         
-        Meta.file <- dir(file.path("../Database/V1/", dataset, "Metadata"), 
-                         full.names = TRUE, pattern = ".RDSData")
+        Meta.file <- dir(file.path("../Database/", dataset, "Metadata"), 
+                         full.names = TRUE, pattern = ".rds")
         meta <- readRDS(Meta.file)  
         rownames(meta) <- gsub("\\.CEL$", "", rownames(meta),
                                ignore.case = TRUE)
@@ -1101,12 +1101,12 @@ shinyServer(function(input, output, session) {
         pred.data <- as.data.frame(cbind(metadata.in.use, results))      
         
         fit.OS <<- 
-          readRDS(file = "../Database/V1/Classification/fit.ABCGCB2.OS.rds")
+          readRDS(file = "Database/Classification/fit.ABCGCB2.OS.rds")
         fit.PFS <<- 
-          readRDS(file = "../Database/V1/Classification/fit.ABCGCB2.PFS.rds")
+          readRDS(file = "Database/Classification/fit.ABCGCB2.PFS.rds")
         
         metadataCombined <<-
-          readRDS(file = "../Database/V1/Classification/metadataCombined.rds")
+          readRDS(file = "Database/Classification/metadataCombined.rds")
         
         if (!is.null(input$patientSummaryIPIW) && 
             input$patientSummaryIPIW != "Choose") {

@@ -10,7 +10,7 @@ The purpose of this guide is to help you use the hemaClass.org web application o
 
 The **hemaClass** package/website provides easy and fast access to various gene expression profile (GEP) based classifications of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available only for GEPs using the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.
 The classification schemes available are:
-<!-- &#40 is needed to avoid rendering (C) as copyright symbol and (R) as registered trademark symbol. &#40 is a left parenthesis: ( -->
+<!-- &#40; is needed to avoid rendering (C) as copyright symbol and (R) as registered trademark symbol. &#40 is a left parenthesis: ( -->
 * Cell of origin classifiers:
     * B-cell associated signature (BAGS).
     * Activated B-cell like or Germinal Center like (ABC/GBC) classification and the BAGS extended version hereof.
@@ -41,7 +41,7 @@ Primarily, the local version can use to avoid uploading many large files.
 
 Navigating the hemaClass website is primarily done using the tab panel on the top of the page.
 
-![tabpanel](../inst/homepage/Version_0.1/www/figures/tabpanel.png)
+![tabpanel](../inst/website/www/figures/tabpanel.png)
 
 Three options are available to you 
 **Home**, 
@@ -49,7 +49,7 @@ Three options are available to you
 **Results**. 
 Choosing **Home** simply takes you to the start page where access to various miscellaneous information is provided. The information is accessible through the navigation panel on the left.
 
-![information](../inst/homepage/Version_0.1/www/figures/information.png)
+![information](../inst/website/www/figures/information.png)
 
 As an example, if you want to have a look at all publications relevant to hemaClass go to **Home** and choose **Publications** in the information panel. In general, this box on the left side is context dependent providing additional settings or information. We now go into detail with **Load data** and **Results** in the following two sections.
 
@@ -60,7 +60,7 @@ To use the classification schemes available on hemaClass.org, we first need to u
 
 As you do this, the following second tab panel is made available.
 
-![load_data](../inst/homepage/Version_0.1/www/figures/load_data.png)
+![load_data](../inst/website/www/figures/load_data.png)
 
 To use your own data, then the by default selected **CEL files** is of interest. However, if you want to get started quickly, use the test data provided by choosing **Build-in data**.
 
@@ -69,13 +69,13 @@ To use your own data, then the by default selected **CEL files** is of interest.
 
 In case you want to classify your own data choose **CEL files** in the tab panel. Here you have the possibility of uploading your data using the panel on the left hand side box by pressing **Choose Files**.
 
-![choose_cel](../inst/homepage/Version_0.1/www/figures/choose_cel.png)
+![choose_cel](../inst/website/www/figures/choose_cel.png)
 
 **Note**: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file in some browsers, including Internet Explorer 9 and older.
 
 After you have uploaded the samples you want to classify, they need to be normalized. hemaClass provides different methods for normalization of your samples, and you have to choose which method you want to use.
 
-![RMA_preprocessing](../inst/homepage/Version_0.1/www/figures/RMA_preprocessing.png)
+![RMA_preprocessing](../inst/website/www/figures/RMA_preprocessing.png)
 
 There is two types of methods available, one-by-one normalization and cohort normalization. With one-by-one normalization you can normalize a single sample according to some chosen reference. With cohort based normalization you need a cohort of samples, and normalization is done according to the samples. The one-by-one normalization methods available are:
 
@@ -93,7 +93,7 @@ Choose the normalization method which is most suitable for the samples you have 
 
 When you have finished the preprocessing of your samples you will be able to see the data on the page.
 
-![probeset](../inst/homepage/Version_0.1/www/figures/probeset.png)
+![probeset](../inst/website/www/figures/probeset.png)
 
 
 
@@ -103,7 +103,7 @@ In **Metadata** you can provide metadata for your dataset by either entering the
 Currently **hemaClass** supports the following file-types for uploading metadata: `.txt`, `.rds`, `.RData`, and `.xls`.
 If you type in the metadata manually you are also able to download it afterwards as `.xls` file for later use.
 
-![manual_metadata](../inst/homepage/Version_0.1/www/figures/manual_metadata.png)
+![manual_metadata](../inst/website/www/figures/manual_metadata.png)
 
 Using the metadata you are able to calculate the IPI score of the patient.
 
@@ -112,7 +112,7 @@ Using the metadata you are able to calculate the IPI score of the patient.
 
 If you want to use the build-in data provided by us to test the system go to **Build-in-data**. We have provided two datasets which you can choose from in the panel on the left hand side of the page.
 
-![build_in_data](../inst/homepage/Version_0.1/www/figures/build_in_data.png)
+![build_in_data](../inst/website/www/figures/build_in_data.png)
 
 The two build-in datasets LLMPP CHOP and LLMPP R-CHOP consists of 181 and 233 samples respectively. LLMPP CHOP provides gene expression data from patients treated with CHOP, and LLMPP R-CHOP provides gene expression data from patients treated with R-CHOP. Metadata is available for both datasets.
 
@@ -121,33 +121,33 @@ The two build-in datasets LLMPP CHOP and LLMPP R-CHOP consists of 181 and 233 sa
 
 In the final tab of the **Load data** page you are able to see the metadata that is either available or that you have provided.
 
-![metadata](../inst/homepage/Version_0.1/www/figures/metadata.png)
+![metadata](../inst/website/www/figures/metadata.png)
 
 
 ## Getting the results
 
 To see the results of the classification go to the **Results** tab on the main tab panel. The results are first available when you have correctly uploaded and preprocessed data, or if you have chosen the build-in data. In the **Estimated probabilities** tab you can see the results of the classifications, and in the **Patient summaries** tab plots of survival curves and IPI scores are available.
 
-![results_tab](../inst/homepage/Version_0.1/www/figures/results_tab.png)
+![results_tab](../inst/website/www/figures/results_tab.png)
 
 
 ### Estimated probabilities
 In the **Estimated probabilities** you can see the results of the classification of your data. In the panel on the left hand side of the page you can choose which classification results you want to display.
 
-![results](../inst/homepage/Version_0.1/www/figures/results.png)
+![results](../inst/website/www/figures/results.png)
 
 On the right hand side of the screen the results of the chosen classifications are shown. You can also download the results as a `.txt` file by pressing the **Download classification results** button in the panel on the left.
 
-![class_results](../inst/homepage/Version_0.1/www/figures/class_results.png)
+![class_results](../inst/website/www/figures/class_results.png)
 
 In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cut-points for the classification.
 
-![slider](../inst/homepage/Version_0.1/www/figures/slider.png)
+![slider](../inst/website/www/figures/slider.png)
 
 ### Patient summaries
 In the **Patient summaries** we have made a short summary of the data and the classification. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.
 
-![patient_summaries](../inst/homepage/Version_0.1/www/figures/patient_summaries.png)
+![patient_summaries](../inst/website/www/figures/patient_summaries.png)
 
 
 # Using the hemaClass R-package

@@ -17,7 +17,7 @@
 #' head(readPredCoef())
 #' @export
 readPredCoef <- function() {
-  file <- system.file("extdata/Drugs/resistance.predictor.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/resistance.predictor.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -26,7 +26,7 @@ readPredCoef <- function() {
 #' head(readClasCoef())
 #' @export
 readClasCoef <- function() {
-  file <- system.file("extdata/Drugs/resistance.classifier.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/resistance.classifier.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -35,7 +35,7 @@ readClasCoef <- function() {
 #' head(readCyclophosphamideClasCoef())
 #' @export
 readCyclophosphamideClasCoef <- function() {
-  file <- system.file("extdata/Drugs/Cyclophosphamide.resistance.class.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Cyclophosphamide.resistance.class.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -44,7 +44,7 @@ readCyclophosphamideClasCoef <- function() {
 #' head(readCyclophosphamidePredCoef())
 #' @export
 readCyclophosphamidePredCoef <- function() {
-  file <- system.file("extdata/Drugs/Cyclophosphamide.resistance.pred.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Cyclophosphamide.resistance.pred.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -53,7 +53,7 @@ readCyclophosphamidePredCoef <- function() {
 #' head(readDoxorubicinClasCoef())
 #' @export
 readDoxorubicinClasCoef <- function() {
-  file <- system.file("extdata/Drugs/Doxorubicin.resistance.class.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Doxorubicin.resistance.class.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -62,7 +62,7 @@ readDoxorubicinClasCoef <- function() {
 #' head(readDoxorubicinPredCoef())
 #' @export
 readDoxorubicinPredCoef <- function() {
-  file <- system.file("extdata/Drugs/Doxorubicin.resistance.pred.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Doxorubicin.resistance.pred.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -71,7 +71,7 @@ readDoxorubicinPredCoef <- function() {
 #' head(readVincristineClasCoef())
 #' @export
 readVincristineClasCoef <- function() {
-  file <- system.file("extdata/Drugs/Vincristine.resistance.class.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Vincristine.resistance.class.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -80,7 +80,7 @@ readVincristineClasCoef <- function() {
 #' head(readVincristinePredCoef())
 #' @export
 readVincristinePredCoef <- function() {
-  file <- system.file("extdata/Drugs/Vincristine.resistance.pred.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Vincristine.resistance.pred.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -90,7 +90,7 @@ readVincristinePredCoef <- function() {
 #' head(readRituximabClasCoef())
 #' @export
 readRituximabClasCoef <- function() {
-  file <- system.file("extdata/Drugs/Rituximab.resistance.class.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -99,7 +99,7 @@ readRituximabClasCoef <- function() {
 #' head(readRituximabPredCoef())
 #' @export
 readRituximabPredCoef <- function() {
-  file <- system.file("extdata/Drugs/Rituximab.resistance.pred.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Rituximab.resistance.pred.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -108,7 +108,7 @@ readRituximabPredCoef <- function() {
 #' head(readRituximabClasCorCoef())
 #' @export
 readRituximabClasCorCoef <- function() {
-  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Cor.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Cor.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -117,7 +117,7 @@ readRituximabClasCorCoef <- function() {
 #' head(readRituximabPredCorCoef())
 #' @export
 readRituximabPredCorCoef <- function() {
-  file <- system.file("extdata/Drugs/Rituximab.resistance.pred.Cor.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Rituximab.resistance.pred.Cor.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -126,12 +126,12 @@ readRituximabPredCorCoef <- function() {
 #' head(readRituximabClasLytiskCoef())
 #' @export
 readRituximabClasLytiskCoef <- function() {
-  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
 readRituximabClasLytisk2Coef <- function() {
-  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk2.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Rituximab.resistance.class.Lytisk2.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -141,7 +141,7 @@ readRituximabClasLytisk2Coef <- function() {
 #' head(readDexamethasoneClasCoef())
 #' @export
 readDexamethasoneClasCoef <- function() {
-  file <- system.file("extdata/Drugs/Dexamethasone.resistance.class.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Dexamethasone.resistance.class.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -150,7 +150,7 @@ readDexamethasoneClasCoef <- function() {
 #' head(readDexamethasonePredCoef())
 #' @export
 readDexamethasonePredCoef <- function() {
-  file <- system.file("extdata/Drugs/Dexamethasone.resistance.pred.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Dexamethasone.resistance.pred.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -159,7 +159,7 @@ readDexamethasonePredCoef <- function() {
 #' head(readMelphalanClasCoef())
 #' @export
 readMelphalanClasCoef <- function() {
-  file <- system.file("extdata/Drugs/Melphalan.resistance.class.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Melphalan.resistance.class.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 
@@ -168,7 +168,7 @@ readMelphalanClasCoef <- function() {
 #' head(readMelphalanPredCoef())
 #' @export
 readMelphalanPredCoef <- function() {
-  file <- system.file("extdata/Drugs/Melphalan.resistance.pred.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/Drugs/Melphalan.resistance.pred.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
 

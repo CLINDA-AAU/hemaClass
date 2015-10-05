@@ -4,10 +4,7 @@
 \alias{runHemaClass}
 \title{Run the shiny server for hemaClass.}
 \usage{
-runHemaClass(Version = 0.1)
-}
-\arguments{
-\item{Version}{What version of hemaClass should be run.}
+runHemaClass()
 }
 \value{
 Starts a shiny server for the analysis

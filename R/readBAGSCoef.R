@@ -7,6 +7,6 @@
 #' head(readBAGSCoef())
 #' @export
 readBAGSCoef <- function() {
-  file <- system.file("extdata/BAGS/BAGS.coef.rda", package = "hemaClass")
+  file <- system.file("extdata/BAGS/BAGS.coef.rds", package = "hemaClass")
   return(readRDS(file))
 }
