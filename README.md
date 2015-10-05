@@ -1,9 +1,10 @@
 hemaClass: Classification tool for haematological diseases
 ==========================================================
 
-The package **hemaClass** for the programming language R is a set of tools used for classification of hematological cancers using DNA microarrays. The package features one-by-one and reference based RMA normalisation, a proposed alternatives to regular cohort based RMA normalization. Additionally, it features oncogenomic classification and prediction of drug resistance of Diffuse Large B-Cell Lymphomas.
+The package **hemaClass** for the programming language R is a set of tools used for classification of hematological cancers using DNA microarrays. The package features one-by-one and reference based RMA normalisation, a proposed alternatives to regular cohort based RMA normalization, and oncogenomic classification and prediction of drug resistance of Diffuse Large B-Cell Lymphomas (DLBCL) and Multiple Myeloma (MM).
 
-An easy-to-use **shiny** web application is incorporated into the package and available online at [hemaclass.org](http://hemaclass.org) or as a local instance via `runHemaClass()` in R.
+An easy-to-use **shiny** web application is incorporated into the package and available online at [hemaclass.org](http://hemaclass.org) or as a local instance via `runHemaClass()` in R. The **hemaClass** package can naturally also be used programatically as a regular R-package.
+Please do not hessitate to report bugs, suggestions, comments, and other issues for the **hemaClass** website or package [here](https://github.com/oncoclass/hemaclass/issues).
 
 The currently only featured platform is Affymetrix GeneChip HG-U133 Plus 2.0 (`"u133plus2"`) but more are planned.
 
@@ -11,7 +12,7 @@ Installation
 ------------
 If you wish to install the latest version of `hemaClass` directly from the master branch here at GitHub, run 
 
-```R
+```r
 # Install necessary packages 
 # First from bioconductor
 source("http://bioconductor.org/biocLite.R")
@@ -38,7 +39,7 @@ modifications!
 
 Using hemaClass
 ---------------
-Please confer the vignette to **hemaClass** which can be found via `vignette(package = "hemaClass")` or on the help page at [hemaclass.org](http://hemaclass.org).
+Please confer the vignette to **hemaClass** which can be found via `vignette("howto")` or on the help page at [hemaclass.org](http://hemaclass.org).
 It can also be directly read at [github.](https://github.com/oncoclass/hemaClass/blob/master/vignettes/howto.Rmd)
 
 
