@@ -1537,7 +1537,7 @@ shinyServer(function(input, output, session) {
       } else if (input$nlp == "Publications") {
         x <- tabPanel("Papers", includeHTML("www/Papers.html"))
       } else if (input$nlp == "About") {
-        x <- tabPanel("About", includeHTML("www/Authors2.html"))
+        x <- tabPanel("About", includeHTML("www/About.html"))
       } 
     }
     x
