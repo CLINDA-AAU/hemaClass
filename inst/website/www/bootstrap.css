@@ -44,7 +44,7 @@ pre code {
 
 code {
   font-size: 92%;
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
 }
 
 code[class] {
