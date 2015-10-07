@@ -2,10 +2,10 @@ library(shiny)
 library(shinysky)
 library(RLumShiny)
 
-title <- "hemaClass" # Old title :) 
-title <- HTML(paste0('<a href="http://hemaClass.org"', 
+#title <- "hemaClass" # Old title :) 
+title <- HTML(paste0('<span class="rand"', 
                      'style="color: #FF6060; text-decoration: none">', 
-                     icon("tint", lib = "glyphicon"), ' hemaClass</a>'))
+                     icon("tint", lib = "glyphicon"), ' hemaClass</span>'))
 
 shinyUI(
   navbarPage(
@@ -17,7 +17,7 @@ shinyUI(
         sidebarPanel(
           navlistPanel(
             "Information:",
-            tabPanel("hemaClass"),
+            tabPanel("Welcome"),
             tabPanel("News"),
             tabPanel("Help"),
             tabPanel("Publications"),

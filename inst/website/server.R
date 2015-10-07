@@ -1528,7 +1528,7 @@ shinyServer(function(input, output, session) {
     input$nlp
     x <- NULL
     if (!is.null(input$nlp)) {
-      if (input$nlp == "hemaClass") {
+      if (input$nlp == "Welcome") {
         x <- tabPanel("hemaClass", includeHTML("www/hemaClass.html"))
       } else if (input$nlp == "News") {
         x <- tabPanel("News", includeHTML("www/News.html"))
