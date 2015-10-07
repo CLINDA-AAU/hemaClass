@@ -32,6 +32,7 @@ non.cel.files.uploaded.text <- HTML(
 #
 
 shinyServer(function(input, output, session) {
+  addResourcePath('data', system.file("extdata/celfiles", package = "hemaClass"))
   # Initialzing the normalized.data and results object
   normalized.data <- NULL
   normalized.data.mean <- NULL
@@ -51,6 +52,15 @@ shinyServer(function(input, output, session) {
     setdiff(dir("../Database/"), c("Annotation", "Classification"))
   
   chosenDataset <- NULL
+  
+  output$downloadTestData <- downloadHandler(
+      filename = function() {
+        paste("cellll", "CEL", sep=".")
+      },
+      content = function(file) {
+        file.copy(' ', file)
+      }
+  )
   
   ##############################################################################
   ##

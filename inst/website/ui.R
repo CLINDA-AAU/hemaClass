@@ -46,6 +46,11 @@ shinyUI(
                         "Please choose your .CEL files to classify:",
                         accept = "", multiple = TRUE),
               tags$hr(),
+              conditionalPanel(
+                condition = "output.showNormMethods == 0",
+                h4("Please click here to download 4 .CEL files available for test use"),
+                downloadButton('downloadTestData', 'Download test data')
+              ),
               
               conditionalPanel(
                 condition = "output.showNormMethods!=0",
