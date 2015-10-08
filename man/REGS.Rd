@@ -101,16 +101,12 @@ affyBatch <- readCelfiles(filenames = files)
 
 # The .CEL files are then pre-processed
 affyRMA <- rmaPreprocessing(affyBatch)
-
-# The function rmaPreprocessing returns median centered and scaled
-# expression values in the slot exprs.sc.
-
-# The slot exprs.sc.mean contains mean cetered and scaled expression values.
+# The slot exprs.sc contains median centered and scaled expression values.
+# The slot exprs.sc.mean contains mean centered and scaled expression values.
 # This scaling can also be achieved using the function microarrayScale.
-
 affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 
-# We may now use the predictors
+# We can now use the predictors
 
 # The classifier for Cyclophosphamide, Doxorubicin, and Vincristine:
 ResistanceClassifier(affyRMA.sc)

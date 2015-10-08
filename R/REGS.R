@@ -60,16 +60,12 @@
 #' 
 #' # The .CEL files are then pre-processed
 #' affyRMA <- rmaPreprocessing(affyBatch)
-#' 
-#' # The function rmaPreprocessing returns median centered and scaled 
-#' # expression values in the slot exprs.sc. 
-#' 
-#' # The slot exprs.sc.mean contains mean cetered and scaled expression values.
+#' # The slot exprs.sc contains median centered and scaled expression values.
+#' # The slot exprs.sc.mean contains mean centered and scaled expression values.
 #' # This scaling can also be achieved using the function microarrayScale.
-#' 
 #' affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 #' 
-#' # We may now use the predictors
+#' # We can now use the predictors
 #' 
 #' # The classifier for Cyclophosphamide, Doxorubicin, and Vincristine:
 #' ResistanceClassifier(affyRMA.sc)
@@ -347,7 +343,7 @@ RituximabClassifier <- function(new.data,
     
     class <- 
       factor(ifelse(prob < cut, "Unclassified", class),
-             levels = c("Lytisk", "Statisk", "Resistant", "Unclassified"))
+             levels = c("Lytic", "Static", "Resistant", "Unclassified"))
     class <- as.matrix(class)
     colnames(class) <- "Sensitivity"
     
@@ -429,7 +425,8 @@ RituximabPredictor <- function(new.data, type = "corrected",
 }
 
 
-RituximabProbFun <- function(newx, type = "lysis") {
+RituximabProbFun <- function(newx, type = c("lysis", "lysis2")) {
+  type <- match.arg(type)
   if (type == "lysis") {
     coef <- readRituximabClasLytiskCoef()
   } else if (type == "lysis2") {
@@ -437,18 +434,16 @@ RituximabProbFun <- function(newx, type = "lysis") {
   }
   
   x <- rbind(1, newx[row.names(coef)[-1], , drop = FALSE])
-  
   prob.mat <- matrix(ncol = 3, nrow = ncol(x))
   
-  colnames(prob.mat) <- c("Lytisk", "Statisk", "Resistant")
-  
+  colnames(prob.mat) <- c("Lytic", "Static", "Resistant")
   rownames(prob.mat) <- colnames(x)
-  prob.mat[,1] <- t(x) %*% as.matrix(coef)[, "Lytisk"] 
-  prob.mat[,2] <- t(x) %*% as.matrix(coef)[, "Statisk"]
-  prob.mat[,3] <- t(x) %*% as.matrix(coef)[, "Resistant"]
+  prob.mat[, "Lytic"]     <- t(x) %*% as.matrix(coef)[, "Lytisk"] 
+  prob.mat[, "Static"]    <- t(x) %*% as.matrix(coef)[, "Statisk"]
+  prob.mat[, "Resistant"] <- t(x) %*% as.matrix(coef)[, "Resistant"]
   
   prob.mat <- exp(prob.mat)
-  return(prob.mat / rowSums(prob.mat))
+  return(prob.mat/rowSums(prob.mat))
 }
 
 
