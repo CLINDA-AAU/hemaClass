@@ -2,6 +2,7 @@
 #' 
 #' Resistance Gene Signatures (REGS) for prediction of resistance to various 
 #' chemotherapeutic drugs.
+#' 
 #' @rdname REGS
 #' @aliases 
 #'   REGS
@@ -45,7 +46,8 @@
 #' 
 #' The remaning \code{xxxClassifier}, \code{xxxPredictor}, and \code{xxxProbFun}
 #' functions returns the components above.
-#' @seealso \code{\link{rmaPreprocessing}}
+#' @seealso \code{\link{rmaPreprocessing}}, \code{\link{rmaReference}},
+#'   \code{\link{microarrayScale}}
 #' @references
 #'   \url{http://hemaClass.org}
 #' @author 
@@ -95,14 +97,13 @@
 #' }
 #' @export
 ResistanceClassifier <- function(new.data, 
-                                 drugs = c("Cyclophosphamide", 
-                                           "Doxorubicin",
-                                           "Vincristine",
-                                           "Combined"),
+                                 drugs = c("Cyclophosphamide", "Doxorubicin", 
+                                           "Vincristine", "Combined"),
                                  cut = list(Cyclophosphamide = c(0.455, 0.67),
                                             Doxorubicin      = c(0.1,   0.86),
                                             Vincristine      = c(0.38,  0.54),
                                             Combined         = c(0.067, 0.907))) {
+  
   new.data[is.na(new.data)] <- 0
   train.mat <- ResistanceProbFun(new.data, setdiff(drugs, "Combined"))
   wh <- intersect(drugs, colnames(train.mat)) 
@@ -140,14 +141,12 @@ ResistanceClassifier <- function(new.data,
 #' @rdname REGS
 #' @export
 ResistancePredictor <- function(new.data, 
-                                drugs = c("Cyclophosphamide", 
-                                          "Doxorubicin",
-                                          "Vincristine",
-                                          "Combined"),
+                                drugs = c("Cyclophosphamide", "Doxorubicin", 
+                                          "Vincristine", "Combined"),
                                 cut = list(Cyclophosphamide = c(280, 340),
                                            Doxorubicin      = c(280, 320),
                                            Vincristine      = c(115,  127),
-                                           Combined         = c(200, 295))){
+                                           Combined         = c(200, 295))) {
   new.data[is.na(new.data)] <- 0
   train.mat <- ResistancePredFun(new.data, setdiff(drugs, "Combined"))
   wh <- intersect(drugs, colnames(train.mat)) 

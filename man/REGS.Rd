@@ -143,6 +143,7 @@ Steffen Falgreen <sfl (at) rn.dk> \cr
 \url{http://hemaClass.org}
 }
 \seealso{
-\code{\link{rmaPreprocessing}}
+\code{\link{rmaPreprocessing}}, \code{\link{rmaReference}},
+  \code{\link{microarrayScale}}
 }
 
