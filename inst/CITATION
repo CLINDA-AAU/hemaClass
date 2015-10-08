@@ -2,26 +2,26 @@ citHeader("Thanks for using the hemaClass package!",
           "We have invested a lot of time and effort this package,",
           "so please cite it if you are using it. Thanks!")
 
+title <- paste("hemaClass: Online one-by-one classification of gene",
+                       "expression profiles in hematological cancers.")
+                       
 citEntry(entry = "Manual",
-         title = paste("hemaClass: Online classification of gene expression",
-                       " profiles in hematological cancers."),
+         title = title,
          author = personList(person(family="Larsen", 
-                                    given="Steffen", 
-                                    middle="Falgreen", 
-                                    email="sfl@rn.dk"),
+                                    given="Steffen Falgreen", 
+                                    email="falgreen@me.dk"),
                              person(family="Bilgrau", 
-                                    given="Anders", 
-                                    middle="Ellern", 
+                                    given="Anders Ellern", 
                                     email="abilgrau@math.aau.dk")),
          url = "http://github.com/falgreen/hemaClass",
-         year = "2014",
-         textVersion = paste("Falgreen, Steffen; Bilgrau, Anders; hemaClass:",
-                             "Online classification of gene expression ",
-                             "profiles in hematological cancers. (2014)",
-                             "http://github.com/falgreen/hemaClass"))
+         year = "2015",
+         textVersion = paste("Falgreen, Steffen; Bilgrau, Anders;",
+                             title,
+                             "(2015)",
+                             "http://github.com/oncoclass/hemaClass"))
 
 
 citFooter("Suggestions for improvements, comments, and bug",
           "reports are very welcome at",
-          "http://github.com/falgreen/hemaClass/issues")
+          "http://github.com/oncoclass/hemaClass/issues")
  
