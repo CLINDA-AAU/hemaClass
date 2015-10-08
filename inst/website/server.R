@@ -32,7 +32,7 @@ non.cel.files.uploaded.text <- HTML(
 #
 
 shinyServer(function(input, output, session) {
-  addResourcePath('data', system.file("extdata/celfiles", package = "hemaClass"))
+  addResourcePath('data', "www")
   # Initialzing the normalized.data and results object
   normalized.data <- NULL
   normalized.data.mean <- NULL
@@ -55,10 +55,10 @@ shinyServer(function(input, output, session) {
   
   output$downloadTestData <- downloadHandler(
       filename = function() {
-        paste("cellll", "CEL", sep=".")
+        paste("cel", "zip", sep=".")
       },
       content = function(file) {
-        file.copy(' ', file)
+        download.file('http://hemaclass.com/data/cel.zip', file)
       }
   )
   
