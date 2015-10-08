@@ -45,50 +45,37 @@ rmaReference <- function(affy.batch, reference, test = FALSE) {
   probesets <- affy.batch$probesets
   
   # Get the pm probes
-  ref.pm   <- affy.batch$exprs
+  ref.pm <- affy.batch$exprs
   
-  # Background correction  
+  # Background correction each column of a matrix
   ref.pm <- preprocessCore::rma.background.correct(ref.pm, copy = TRUE)
-  colnames(ref.pm) <- colnames(affy.batch$exprs)
-  rownames(ref.pm) <- rownames(affy.batch$exprs)
+  dimnames(ref.pm) <- dimnames(affy.batch$exprs)  # Keep dimension names
   
   # Test for bad array quality
-  contin = TRUE
-  if (test == TRUE) {
-    wh  <- colSums(!is.finite(ref.pm)) > 0
-    wh2 <- colSums(is.na(ref.pm)) > 0
-    
-    bad <- colnames(affy.batch$exprs)[wh | wh2]
+  if (test) {
+    wh   <- colSums(!is.finite(ref.pm)) > 0
+    bad  <- colnames(affy.batch$exprs)[wh]
     good <- setdiff(colnames(ref.pm), bad)
     if (length(good) > 0) {
       ref.pm <- ref.pm[, good]
     } else {
-      warning("None of the supplied microarrays passed the quality control")
-      contin <- FALSE
-    }   
+      warning("None of the supplied microarrays passed the quality control.")
+      return(bad)
+    } 
     if (length(bad) > 0) {
       warning("The following arrays were discarded: ", 
               paste(bad, collapse = ", "))
     }
-  } else {
-    bad <- NULL
   }
   
   # Normalisation and summarisation according to reference
-  if (contin) {
-    tmp <- userRMA(ref.pm , probesets, colnames(ref.pm), 
-                   reference$quantile,  reference$alpha)
-    
-    # Scale the rma normalised
-    tmp$exprs.sc      <- (tmp$exprs - reference$median) / reference$sd
-    tmp$exprs.sc.mean <- (tmp$exprs - reference$mean) / reference$sd
-    
-    return(tmp)
-    
-  }else{
-    
-    return(bad)
-    
-  }
+  ans <- userRMA(ref.pm, probesets = probesets, colnames = colnames(ref.pm), 
+                 quantile = reference$quantile,  alpha = reference$alpha)
+  
+  # Scale and center the RMA normalised data
+  ans$exprs.sc      <- (ans$exprs - reference$median)/reference$sd
+  ans$exprs.sc.mean <- (ans$exprs - reference$mean)/reference$sd
+  
+  return(ans)
 }
 

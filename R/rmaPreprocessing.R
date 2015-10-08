@@ -52,21 +52,18 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL) {
   
   # Background correction  
   ref.pm <- preprocessCore::rma.background.correct(ref.pm, copy = TRUE)
-  colnames(ref.pm) <- colnames(affy.batch$exprs)
-  rownames(ref.pm) <- rownames(affy.batch$exprs)
+  dimnames(ref.pm) <- dimnames(affy.batch$exprs)
   
-  contin <- TRUE
-  if (test == TRUE) {
-    wh  <- colSums(!is.finite(ref.pm)) > 0
-    wh2 <- colSums(is.na(ref.pm)) > 0 
-    
-    bad  <- colnames(affy.batch$exprs)[wh | wh2]
+  # Test for bad array quality
+  if (test) {
+    wh   <- colSums(!is.finite(ref.pm)) > 0
+    bad  <- colnames(affy.batch$exprs)[wh]
     good <- setdiff(colnames(affy.batch$exprs), bad)
     if (length(good) > 0) {
       ref.pm <- ref.pm[, good]
     } else {
       warning("None of the supplied microarrays passed the quality control")
-      contin <- FALSE
+      return(bad)
     }
     if (length(bad) > 0) {
       warning("The following arrays were discarded: ", 
@@ -76,51 +73,44 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL) {
     bad <- NULL
   }
   
-  if (contin) {
-    # Quantile normalisation
-    if (is.null(quantile)) {
-      generateQuan <- 1
-      quantile <- numeric(nrow(ref.pm))
-    } else {
-      generateQuan <- 0
-    }
-      
-    affy.batch <- RMA_norm(ref.pm, quantile, generateQuan)
-    
-    # log2 transformation of the data
-    ref.pm.log <- log2(affy.batch$exprs)
-    
-    # Sort the data according the probesets
-    #ref.pm.log <- ref.pm.log[paste(unlist(probesets)),]
-    
-    # Use the Rcpp based median polish to estimated expression levels 
-    tmp <- RMA_sum(ref.pm.log, probesets, rownames(ref.pm.log), 
-                   colnames(ref.pm.log))
-    
-    # Estimate median for later centralisation
-    ref.median <- matrixStats::rowMedians(as.matrix(tmp$exprs))
-    names(ref.median) <- rownames(tmp$exprs)
-    
-    # Estimate standard deviations for later normalisation
-    ref.sd <- rowSds(as.matrix(tmp$exprs))
-    
-    ref.mean <- rowMeans(as.matrix(tmp$exprs))
-    exprs.sc <- (tmp$exprs - ref.median) / ref.sd
-    exprs.sc.mean <- (tmp$exprs - ref.mean) / ref.sd
-   
-    return(list(exprs = tmp$exprs, 
-                exprs.sc = exprs.sc, 
-                exprs.sc.mean = exprs.sc.mean, 
-                quantile = affy.batch$quantile, 
-                alpha = tmp$alpha, 
-                sd = ref.sd, 
-                median = ref.median, 
-                mean = ref.mean,
-                bad = bad))
+  # Quantile normalisation
+  if (is.null(quantile)) {
+    generateQuan <- 1
+    quantile <- numeric(nrow(ref.pm))
   } else {
-    
-    return(bad)
-    
+    generateQuan <- 0
   }
+  
+  affy.batch <- RMA_norm(ref.pm, quantile, generateQuan)
+  
+  # log2 transform the data
+  ref.pm.log <- log2(affy.batch$exprs)
+  
+  # Sort the data according the probesets
+  #ref.pm.log <- ref.pm.log[paste(unlist(probesets)), ]
+  
+  # Use the Rcpp based median polish to estimated expression levels 
+  ans <- RMA_sum(ref.pm.log, probesets, rownames(ref.pm.log), 
+                 colnames(ref.pm.log))
+  
+  # Estimate median, mean, and standard deviation for later centralisation
+  ref.median <- matrixStats::rowMedians(as.matrix(ans$exprs))
+  names(ref.median) <- rownames(ans$exprs)
+  ref.sd     <- rowSds(as.matrix(ans$exprs))
+  ref.mean   <- rowMeans(as.matrix(ans$exprs))
+  
+  # Median and mean center and scaled
+  exprs.sc      <- (ans$exprs - ref.median)/ref.sd
+  exprs.sc.mean <- (ans$exprs - ref.mean)/ref.sd
+  
+  return(list(exprs = ans$exprs, 
+              exprs.sc = exprs.sc, 
+              exprs.sc.mean = exprs.sc.mean, 
+              quantile = affy.batch$quantile, 
+              alpha = ans$alpha, 
+              sd = ref.sd, 
+              median = ref.median, 
+              mean = ref.mean,
+              bad = bad))
 }
 
