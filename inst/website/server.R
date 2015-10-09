@@ -1026,7 +1026,7 @@ shinyServer(function(input, output, session) {
   output$patientSummaries <- renderUI({ 
     classify()
     out.list <- list()
-    for (i in 1:nrow(results)) {
+    for (i in seq_along(results)) {
       out.list[[i]] <- shinyalert(paste(results$files[i]), click.hide = TRUE)
     }
     out.list
