@@ -1000,11 +1000,9 @@ shinyServer(function(input, output, session) {
                                       sep = "<br/>")
       }
       
-      
-      for (i in 1:length(input$patientSummarySelectW)) {
+      for (i in seq_along(input$patientSummarySelectW)) {
         showshinyalert(session, paste(input$patientSummarySelectW[i]),  
                        HTML(prog.list[[input$patientSummarySelectW[i]]]))
-        
       }
       
       if (!exists("PatientSummaryOpen")) {
