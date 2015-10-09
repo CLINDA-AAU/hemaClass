@@ -1014,8 +1014,9 @@ shinyServer(function(input, output, session) {
                                         input$patientSummarySelectW))
       }
       
-      if (length(setdiff(PatientSummaryOpen, input$patientSummarySelectW)) > 0) {
-        for (patient in setdiff(PatientSummaryOpen, input$patientSummarySelectW)) {
+      patients <- setdiff(PatientSummaryOpen, input$patientSummarySelectW)
+      if (length(patients) > 0) {
+        for (patient in patients) {
           hideshinyalert(session, patient)
         }
       }
@@ -1029,7 +1030,20 @@ shinyServer(function(input, output, session) {
     for (i in seq_along(results)) {
       out.list[[i]] <- shinyalert(paste(results$files[i]), click.hide = TRUE)
     }
-    out.list
+    if (length(out.list)) {
+      hideshinyalert(session, "shinyalertPatientSummaries")
+      return(out.list)
+    } else {
+      no.uploaded.celfiles.text2 <- HTML(
+        paste(WARNING, "You need to upload .CEL and normalize files first to 
+              get patients summarties. You can do this 
+              under the <strong>Load data</strong>", TO, "<strong>CEL 
+              files</strong> tab.")
+      )
+      showshinyalert(session, "shinyalertPatientSummaries", 
+                     no.uploaded.celfiles.text2, 
+                     styleclass = "warning")
+    }
   })
   
   observe({
@@ -1038,16 +1052,16 @@ shinyServer(function(input, output, session) {
     output$SelectedColoursPS <- renderUI({
       
       isolate({
-              new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#333333", 
-                                input$jscolorInputPS) 
-              selected.colors <- c(input$SelectedColoursPSw, new.col)
-          
-              list(
-              select2Input(inputId = "SelectedColoursPSw", 
-                           label = "The selected colours", 
-                           selected = selected.colors)
-          )
-        })
+        new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#333333", 
+                          input$jscolorInputPS) 
+        selected.colors <- c(input$SelectedColoursPSw, new.col)
+        
+        list(
+          select2Input(inputId = "SelectedColoursPSw", 
+                       label = "The selected colours", 
+                       selected = selected.colors)
+        )
+      })
     })   
   })
   
@@ -1501,9 +1515,9 @@ shinyServer(function(input, output, session) {
     # where the data can be found.
     usrFiles <- input$usrFiles
     
-    if (is.null(usrFiles)) 
+    if (is.null(usrFiles)) {
       return(NULL)
-    
+    }
     return(usrFiles)    
   })
   

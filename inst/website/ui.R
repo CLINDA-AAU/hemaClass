@@ -295,7 +295,7 @@ shinyUI(
         'Classification results', 
         tabPanel(
           'Estimated probabilities', 
-          sidebarLayout(       
+          sidebarLayout(
             sidebarPanel(
               condition = "input.conditionedPanels == 'Classification results'",
               h4("Classification systems:"),
@@ -312,7 +312,7 @@ shinyUI(
                             # "Dexamethasone (P)", 
                             "Combined (CHO)",
                             "Melphalan" 
-                            ),
+                ),
                 selected = "BAGS"),
               
               conditionalPanel(
@@ -323,7 +323,6 @@ shinyUI(
                             step = 0.01,
                             min = 0, max = 1, value = c(0.1, 0.9))
               ),
-              
               
               conditionalPanel(
                 condition = "input.getClassifications.indexOf('Rituximab (R)') != -1",
@@ -338,7 +337,6 @@ shinyUI(
                             step = 0.01,
                             min = 0, max = 1, value =  c(0.38, 0.54))
               ),
-              
               
               conditionalPanel(
                 condition = "input.getClassifications.indexOf('Cyclophosphamide (C)') != -1",
@@ -389,10 +387,13 @@ shinyUI(
               br(),br(),
               downloadButton('downloadData', 'Download classification results')
             ), 
-            mainPanel(shinyalert("shinyalertResults", 
-                                 click.hide = FALSE),
-                      dataTableOutput("results")) 
-          )),
+            mainPanel(
+              shinyalert("shinyalertResults", click.hide = FALSE),
+              dataTableOutput("results")
+            ) 
+          )   # End sidebarLayout
+        ),  # End Estimated probabilites tabPanel
+        
         tabPanel( 
           'Patient summaries', 
           sidebarLayout( 
@@ -408,6 +409,7 @@ shinyUI(
               uiOutput("SelectedColoursPS")
             ),
             mainPanel(
+              shinyalert("shinyalertPatientSummaries", click.hide = FALSE),
               plotOutput("patientSummaryPlot"),
               uiOutput("patientSummaries")
             )
