@@ -401,7 +401,8 @@ shinyUI(
               uiOutput("patientSummaryIPI"),
               uiOutput("patientSummarySelect"),
               tags$hr() ,
-              helpText("Select the colors used for the predicted survival curves"),
+              helpText("Select the colors used for the predicted survival 
+                       curves"),
               jscolorInput("jscolorInputPS", value = "#333333"),
               br(),br(),
               actionButton(inputId = "SelectColourPS", "Add the color"),
