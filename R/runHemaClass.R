@@ -1,7 +1,7 @@
 #' Run the shiny server for hemaClass.
 #' 
 #' Run a local version of the server running on \url{http://hemaclass.org}. 
-#' Provides an easy-to-used and web-based interface for the \pkg{hemaClass} 
+#' Provides an easy-to-use and web-based interface for the \pkg{hemaClass} 
 #' package.
 #' 
 #' @aliases runHemaClass runhemaclass
