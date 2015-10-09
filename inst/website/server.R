@@ -1091,7 +1091,7 @@ shinyServer(function(input, output, session) {
     list(
       select2Input(inputId = "patientSummarySelectW", 
                    "Select the patients to summarize", 
-                   results$files, selected =  results$files[1] )
+                   results$files, selected =  results$files[1])
     )
   })
   
@@ -1124,13 +1124,8 @@ shinyServer(function(input, output, session) {
         
         pred.data <- as.data.frame(cbind(metadata.in.use, results))      
         
-        fit.OS <<- 
-          readRDS(file = "Database/Classification/fit.ABCGCB2.OS.rds")
-        fit.PFS <<- 
-          readRDS(file = "Database/Classification/fit.ABCGCB2.PFS.rds")
-        
-        metadataCombined <<-
-          readRDS(file = "Database/Classification/metadataCombined.rds")
+        fit.OS  <<- readRDS("Database/Classification/fit.ABCGCB2.OS.rds")
+        fit.PFS <<- readRDS("Database/Classification/fit.ABCGCB2.PFS.rds")
         
         if (!is.null(input$patientSummaryIPIW) && 
             input$patientSummaryIPIW != "Choose") {
@@ -1303,21 +1298,22 @@ shinyServer(function(input, output, session) {
               } else {
                 
                 check <-
-                  sapply(input$refFiles$datapath, function (x){ 
+                  sapply(input$refFiles$datapath, function(x){ 
                     affyio::read.celfile.header(as.character(x))$cdfName})
                 
-                if (!all(check == "HG-U133_Plus_2")){
+                if (!all(check == "HG-U133_Plus_2")) {
                   
                   nogood <- input$refFiles$name[check != "HG-U133_Plus_2"]
                   message <- 
                     paste("Only the Human Genome U133 Plus 2.0 Array", 
-                          "is currently supported.",br(),
-                          ifelse(length(nogood)==1, 
+                          "is currently supported.", br(),
+                          ifelse(length(nogood) == 1, 
                                  "This .CEL file is currently not supported:",
-                                 "These .CEL files are currently not supported: <br/> "),
-                          paste(paste(nogood, check[check != "HG-U133_Plus_2"], 
+                                 "These .CEL files are currently not supported:
+                                 <br/> "),
+                          paste(paste(nogood, check[check != "HG-U133_Plus_2"],
                                       sep = ": "), collapse = "<br/> "))
-                  showshinyalert(session, "shinyalertSelectReference",  
+                  showshinyalert(session, "shinyalertSelectReference",
                                  HTML(message),
                                  styleclass = "danger")
                   return(0)
@@ -1389,14 +1385,15 @@ shinyServer(function(input, output, session) {
                   "Version" %in% names(attributes(ref)) && 
                   attr(ref, "Version") %in% "hemaClass") {
                 showshinyalert(session, "shinyalertSelectReference",  
-                               "Press 'normalize files' to start the RMA normalization.",
+                               "Press 'normalize files' to start the RMA 
+                               normalization.",
                                styleclass = "info")  
                 return(1)            
               } else {   
                 showshinyalert(session, "shinyalertSelectReference",  
-                               HTML(paste("The uploaded file cannot be used as a reference.", 
-                                          "Please upload a correct reference", 
-                                          sep = "<br/>")),
+                               HTML(paste(ERROR, "The uploaded file cannot be 
+                                          used as a reference. <br/> Please 
+                                          upload a correct reference.")),
                                styleclass = "danger")
                 return(0)
               }
@@ -1422,7 +1419,8 @@ shinyServer(function(input, output, session) {
           if (input$ChooseMethod == "RMA") {
             showshinyalert(session, "shinyalertSelectReference",  
                            HTML("Press Normalize files to pre-process the 
-                                uploaded CEL files according to the RMA method"),
+                                 uploaded CEL files according to the RMA 
+                                 method"),
                            styleclass = "info")  
             return(1)
           }
