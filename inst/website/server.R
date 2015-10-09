@@ -44,12 +44,12 @@ shinyServer(function(input, output, session) {
   
   LoadAnnotation <- reactive({
     HGU133Plus2 <<- 
-      readRDS("../Database/Annotation/HGU133Plus2.na33.annot.rds")
+      readRDS("Database/Annotation/HGU133Plus2.na33.annot.rds")
   })
   
   buildin.data <- list()
   buildin.datasets <- 
-    setdiff(dir("../Database/"), c("Annotation", "Classification"))
+    setdiff(dir("Database/"), c("Annotation", "Classification"))
   
   chosenDataset <- NULL
   
@@ -416,7 +416,7 @@ shinyServer(function(input, output, session) {
     if (dataset %in% buildin.datasets) {
       if (!dataset %in% names(buildin.data)) {
         hideshinyalert(session, "shinyalertResults")
-        GEP.file <- dir(file.path("../Database/", dataset, "GEP"), 
+        GEP.file <- dir(file.path("Database/", dataset, "GEP"), 
                         full.names = TRUE, pattern = ".rds")
         GEP.data.temp <- readRDS(GEP.file)
         GEP <- microarrayScale(exprs(GEP.data.temp))
@@ -430,7 +430,7 @@ shinyServer(function(input, output, session) {
         buildin.data[[dataset]][["GEP.mean"]] <<- GEP.mean
         
         
-        Meta.file <- dir(file.path("../Database/", dataset, "Metadata"), 
+        Meta.file <- dir(file.path("Database/", dataset, "Metadata"), 
                          full.names = TRUE, pattern = ".rds")
         meta <- readRDS(Meta.file)  
         rownames(meta) <- gsub("\\.CEL$", "", rownames(meta),
