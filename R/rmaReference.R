@@ -1,49 +1,49 @@
 #' RMA pre-process \code{.CEL} files read
-#' 
-#' Pre-process \code{.CEL} files according to the one-by-one RMA method 
+#'
+#' Pre-process \code{.CEL} files according to the one-by-one RMA method
 #' using a reference build using \code{\link{rmaPreprocessing}}.
-#' 
-#' @param affy.batch An \code{affy.batch} object, usually created by 
+#'
+#' @param affy.batch An \code{affy.batch} object, usually created by
 #'   \code{\link{readCelfiles}}.
-#' @param reference An RMA reference object created by 
+#' @param reference An RMA reference object created by
 #'   \code{\link{rmaPreprocessing}}.
-#' @param test Should the supplied \code{.CEL} files be qualtiy tested. When 
+#' @param test Should the supplied \code{.CEL} files be qualtiy tested. When
 #'  set to \code{TRUE} bad \code{.CEL} files are automatically discarded.
 #' @return Returns a \code{list} of length 3 with the slots:
-#'   \item{exprs}{The one-by-one RMA pre-processed \eqn{log_2}-expression 
+#'   \item{exprs}{The one-by-one RMA pre-processed \eqn{log_2}-expression
 #'     \code{matrix}}
-#'   \item{exprs.sc}{As slot \code{$exprs} but scaled to have zero median and 
+#'   \item{exprs.sc}{As slot \code{$exprs} but scaled to have zero median and
 #'     unit variance.}
-#'   \item{exprs.sc.mean}{As slot \code{$exprs} but scaled to have zero mean and 
+#'   \item{exprs.sc.mean}{As slot \code{$exprs} but scaled to have zero mean and
 #'     unit variance.}
-#' @seealso 
-#'   \code{\link{rmaPreprocessing}}
-#' @references 
+#' @seealso
+#'   \code{\link{rmaPreprocessing}}, \code{\link{readCelfiles}}
+#' @references
 #'   \url{http://hemaClass.org}
-#' @author 
-#'   Steffen Falgreen <sfl (at) rn.dk> \cr 
+#' @author
+#'   Steffen Falgreen <sfl (at) rn.dk> \cr
 #'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
 #' @examples
 #' # List .CEL files bundled with hemaClass
-#' files <- list.files(system.file("extdata/celfiles", package = "hemaClass"), 
+#' files <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
 #'                     full.names = TRUE)
 #' affy.batch <- readCelfiles(files) # Read in the .CEL files
-#' 
+#'
 #' # Build references
 #' ref.affy   <- rmaPreprocessing(affy.batch)
 #' ref.affy.2 <- rmaPreprocessing(affy.batch, quantile = ref.affy$quantile)
 #' all(ref.affy.2$exprs - ref.affy$exprs < 0.00000001)
-#' 
+#'
 #' # RMA one-by-one pre-process using the reference:
 #' user.affy  <- rmaReference(affy.batch, ref.affy)
-#' 
+#'
 #' all(user.affy$exprs - ref.affy$exprs < 0.00000001)
 #' @import preprocessCore
 #' @export
 rmaReference <- function(affy.batch, reference, test = FALSE) {
   # Get the probeset information
   probesets <- affy.batch$probesets
-  
+
   # Get the pm probes
   ref.pm <- affy.batch$exprs
   
@@ -63,14 +63,17 @@ rmaReference <- function(affy.batch, reference, test = FALSE) {
       return(bad)
     } 
     if (length(bad) > 0) {
-      warning("The following arrays were discarded: ", 
+      warning("The following arrays were discarded: ",
               paste(bad, collapse = ", "))
     }
   }
-  
+
   # Normalisation and summarisation according to reference
-  ans <- userRMA(ref.pm, probesets = probesets, colnames = colnames(ref.pm), 
-                 quantile = reference$quantile,  alpha = reference$alpha)
+  ans <- userRMA(ref.pm, 
+                 probesets = probesets, 
+                 colnames = colnames(ref.pm), 
+                 quantile = reference$quantile,  
+                 alpha = reference$alpha[rownames(ref.pm)])
   
   # Scale and center the RMA normalised data
   ans$exprs.sc      <- (ans$exprs - reference$median)/reference$sd

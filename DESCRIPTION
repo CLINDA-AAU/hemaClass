@@ -1,14 +1,16 @@
 Package: hemaClass
 Type: Package
-Title: Classification tools for hematological diseases
+Title: One-by-one normalization and classification of hematological malignacies
 Version: 0.11
-Date: 2014-08-22
+Date: 2015-10-08
 Author: Steffen Falgreen, Anders Ellern Bilgrau
-Maintainer: Steffen Falgreen <sfl@rn.dk>
+Maintainer: Steffen Falgreen <falgreen@me.com>
 URL: http://github.com/oncoclass/hemaClass
 BugReports: https://github.com/oncoclass/hemaClass/issues
-Description: DNA microarray based classification of hematological diseases.
+Description: DNA microarray based one-by-one RMA normalisation and 
+  classification of hematological diseases with online interface.
 License: file LICENSE
+KeepSource: yes
 Depends:
     affy
 Imports:
