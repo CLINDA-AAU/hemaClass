@@ -1218,16 +1218,16 @@ shinyServer(function(input, output, session) {
         return(0)
       }
       check <-
-        sapply(fileInfo$datapath, function (x){ 
+        sapply(fileInfo$datapath, function(x){  
           affyio::read.celfile.header(as.character(x))$cdfName})
       
-      if (!all(check == "HG-U133_Plus_2")){
+      if (!all(check == "HG-U133_Plus_2")) {
         
         nogood <- fileInfo$name[check != "HG-U133_Plus_2"]
         message <- 
           paste("Only the Human Genome U133 Plus 2.0 Array", 
                 "is currently supported.",br(),
-                ifelse(length(nogood)==1, 
+                ifelse(length(nogood) == 1, 
                        "This .CEL file is currently not supported:",
                        "These .CEL files are currently not supported: <br/> "),
                 paste(paste(nogood, check[check != "HG-U133_Plus_2"], 
@@ -1373,10 +1373,12 @@ shinyServer(function(input, output, session) {
               return(0)
             } else {
               if (file_ext(input$refUpload$name) != "rds") {
+                wrong.file.text <- HTML(
+                  paste(ERROR, "The uploaded file is not an 'rds' file. <br/> 
+                        Please upload a correct reference")
+                )
                 showshinyalert(session, "shinyalertSelectReference",  
-                               HTML(paste("The uploaded file is not an 'rds' file.", 
-                                          "Please upload a correct reference", 
-                                          sep = "<br/>")),
+                               wrong.file.text,
                                styleclass = "danger")
                 return(0)
               }
@@ -1401,7 +1403,8 @@ shinyServer(function(input, output, session) {
           }
           if (input$ChooseMethod == "standardReference") {
             showshinyalert(session, "shinyalertSelectReference",  
-                           HTML(paste("Select the cohort you want to use as a reference",
+                           HTML(paste("Select the cohort you want to use as a 
+                                      reference",
                                       "", "The possible references are:",
                                       "&#160 LLMPP CHOP:",
                                       "&#160 LLMPP R-CHOP:",
@@ -1410,7 +1413,8 @@ shinyServer(function(input, output, session) {
                                       "&#160 CHEPRETRO:",
                                       "&#160 UAMS:",
                                       "", "When chosen:",
-                                      "Press 'normalize files' to start the RMA normalization.",
+                                      "Press 'normalize files' to start the RMA 
+                                      normalization.",
                                       sep = "<br/>")),
                            styleclass = "info")  
             return(1)
