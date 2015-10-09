@@ -1121,6 +1121,8 @@ shinyServer(function(input, output, session) {
         
         fit.OS  <<- readRDS("Database/Classification/fit.ABCGCB2.OS.rds")
         fit.PFS <<- readRDS("Database/Classification/fit.ABCGCB2.PFS.rds")
+        metadataCombined <<- 
+          readRDS("Database/Classification/metadataCombined.rds")
         
         if (!is.null(input$patientSummaryIPIW) && 
             input$patientSummaryIPIW != "Choose") {
