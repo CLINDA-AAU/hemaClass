@@ -1077,22 +1077,17 @@ shinyServer(function(input, output, session) {
     if (any(colnames(metadata.in.use) == "IPI")) {
       select <- "IPI"
     }
-    
-    list(
-      selectInput(inputId = "patientSummaryIPIW", "Column containing IPI", 
-                  c("Choose", colnames(metadata.in.use)), selected = select)
-    )    
+    selectInput(inputId = "patientSummaryIPIW", "Column containing IPI", 
+                c("Choose", colnames(metadata.in.use)), selected = select)
   })
   
+  # Create patient selection box
   output$patientSummarySelect <- renderUI({
-    
     classify()
-    
-    list(
-      select2Input(inputId = "patientSummarySelectW", 
-                   "Select the patients to summarize", 
-                   results$files, selected =  results$files[1])
-    )
+    select2Input(inputId = "patientSummarySelectW", 
+                 label = "Select the patients to summarize", 
+                 choices = results$files, 
+                 selected = NULL)# results$files[1])
   })
   
   prognosisR <- reactive({
@@ -1105,20 +1100,22 @@ shinyServer(function(input, output, session) {
       rownames(results) <- results$files
       
       metadata.in.use <- MetaDataInUse()
-      
+
       if (is.null(input$patientSummarySelectW)) {
-        showshinyalert(session, "shinyalertSummaryPlot",  
-                       HTML(paste("Choose a patient to summarize.",
-                                  sep = "<br/>")),
+        showshinyalert(session, "shinyalertPatientSummaries",  
+                       HTML(paste(HANDLEFT, "Choose one or more patients to 
+                                  summarize.")),
                        styleclass = "info")
         return(NULL)
+      } else {
+        hideshinyalert(session, "shinyalertPatientSummaries")
       }
       
       prog.surv <- NULL
       if (length(rownames(results)) == length(rownames(metadata.in.use)) && 
           all(rownames(results) == rownames(metadata.in.use))) {
         
-        hideshinyalert(session, "shinyalertSummaryPlot")
+        
         
         prog.surv <- list()
         
