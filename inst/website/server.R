@@ -1538,30 +1538,25 @@ shinyServer(function(input, output, session) {
   
   ##############################################################################
   ##
-  ## Pages
+  ## HTML Pages
   ##
   ##############################################################################
   
   observeEvent(input$linkHelp, ({
-      updateTabsetPanel(session, "nlp", selected = "Help")
+    updateTabsetPanel(session, "nlp", selected = "Help")
   }))
   
   output$mpContent <- renderUI({
     input$nlp
-    x <- NULL
     if (!is.null(input$nlp)) {
-      if (input$nlp == "Welcome") {
-        x <- tabPanel("hemaClass", includeHTML("www/hemaClass.html"))
-      } else if (input$nlp == "News") {
-        x <- tabPanel("News", includeHTML("www/News.html"))
-      } else if (input$nlp == "Help") {
-        x <- tabPanel("Help", includeHTML("www/howto.html"))
-      } else if (input$nlp == "Publications") {
-        x <- tabPanel("Papers", includeHTML("www/Papers.html"))
-      } else if (input$nlp == "About") {
-        x <- tabPanel("About", includeHTML("www/About.html"))
-      } 
+      switch(input$nlp,
+             "Welcome"      = includeHTML("www/hemaClass.html"),
+             "News"         = includeHTML("www/News.html"),
+             "Help"         = includeHTML("www/howto.html"),
+             "Publications" = includeHTML("www/Papers.html"),
+             "About"        = includeHTML("www/About.html"),
+             NULL)  # If not matched
     }
-    x
   })
+  
 })
