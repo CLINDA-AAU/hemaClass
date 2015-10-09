@@ -1151,31 +1151,27 @@ shinyServer(function(input, output, session) {
     })
   })
   
+  # Plot preducted survival curves
   output$patientSummaryPlot <- renderPlot({
-    
     prog.surv <- prognosisR()
-    
     if (is.null(prog.surv)) {
       return(NULL)
     }
-    
     if (is.null(input$SelectedColoursPSw)) {
       return(NULL)
     }
-    
     par(mfrow = c(1, 2))
-    
-    plot(prog.surv[["Survfit.OS"]],
-        xlab = "Years", ylab = "Survival", main = "Overall survival",
-        col = input$SelectedColoursPSw)
-    
-    legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), 
-           legend = input$patientSummarySelectW)
-    
     plot(prog.surv[["Survfit.PFS"]],
          xlab = "Years", ylab = "Survival", main = "Progression free survival",
          col = input$SelectedColoursPSw)
+    legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), 
+           legend = input$patientSummarySelectW, bty = "n",
+           bg = "#FFFFFF40")
+    plot(prog.surv[["Survfit.OS"]],
+         xlab = "Years", ylab = "Survival", main = "Overall survival",
+         col = input$SelectedColoursPSw)
   })
+  
   
   
   ##############################################################################
