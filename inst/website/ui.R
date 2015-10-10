@@ -313,7 +313,8 @@ shinyUI(
                             "Combined (CHO)",
                             "Melphalan" 
                 ),
-                selected = "BAGS"),
+                selected = "BAGS"
+              ),
               
               conditionalPanel(
                 condition = "input.getClassifications.indexOf('ABCGCB') != -1",
@@ -386,11 +387,11 @@ shinyUI(
               
               br(),br(),
               downloadButton('downloadData', 'Download classification results')
-            ), 
+            ), # End sidebarPanel
             mainPanel(
               shinyalert("shinyalertResults", click.hide = FALSE),
               dataTableOutput("results")
-            ) 
+            )   # End mainPanel 
           )   # End sidebarLayout
         ),  # End Estimated probabilites tabPanel
         
@@ -411,8 +412,8 @@ shinyUI(
             ),
             mainPanel(
               shinyalert("shinyalertPatientSummaries", click.hide = FALSE),
-              plotOutput("patientSummaryPlot"),
-              uiOutput("patientSummaries")
+              uiOutput("patientSummaries"),
+              plotOutput("patientSummaryPlot")
             )
           )
         )
