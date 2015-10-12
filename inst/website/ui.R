@@ -341,9 +341,10 @@ shinyUI(
               conditionalPanel(
                 condition = rtx.cond,
                 checkboxInput(inputId = "HSCorrected", 
-                              "Human serum corrected",
+                              label = "Rituximap, Human serum corrected",
                               value = TRUE),
-                checkboxInput(inputId = "Lysis", "Lysis based", 
+                checkboxInput(inputId = "Lysis", 
+                              label = "Rituximap, lysis based", 
                               value = FALSE),
                 sliderInput("Rituximab.range", 
                             "Rituximab, range of intermediate:",
