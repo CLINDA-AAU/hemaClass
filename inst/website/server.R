@@ -1095,9 +1095,9 @@ shinyServer(function(input, output, session) {
       # IPI
       ipi <- metadata.in.use[patient, "IPI"]
       if (is.na(ipi)) {
-        ipi.text <- paste0("The patient have an unknown IPI score.")
+        ipi.text <- paste0("The patient has an unknown IPI score.")
       } else {
-        ipi.text <- sprintf("The patient have an IPI score of %d.", ipi)
+        ipi.text <- sprintf("The patient has an IPI score of %d.", ipi)
       }
     
       # Survival
@@ -1115,28 +1115,28 @@ shinyServer(function(input, output, session) {
                " % predicted probability of surviving beyond ",
                round(surv.years, 2),  " years (OS) with a ",
                round(pfs.prob[patient], 3)*100, 
-               " % of no progressions (PFS).")
+               " % probability of no progression (PFS).")
 
       # REGS
-      txt["Rituximab (R)"] <- sprintf("%s toward Rituximap (R) with %s.", 
+      txt["Rituximab (R)"] <- sprintf("%s towards Rituximap (R) with %s.", 
                                       this.res$RtxClass, 
                                       probToText(this.res$RtxProb))
-      txt["Cyclophosphamide (C)"] <- sprintf("%s toward Cyclophosphamide (C) with %s.", 
+      txt["Cyclophosphamide (C)"] <- sprintf("%s towards Cyclophosphamide (C) with %s.", 
                                              this.res$CycClass, 
                                              probToText(this.res$CycProb))
-      txt["Doxorubicin (H)"] <- sprintf("%s toward Doxorubicin (H) with %s.", 
+      txt["Doxorubicin (H)"] <- sprintf("%s towards Doxorubicin (H) with %s.", 
                                         this.res$DoxClass, 
                                         probToText(this.res$DoxProb))
-      txt["Vincristine (O)"] <- sprintf("%s toward Vincristine (O) with %s.", 
+      txt["Vincristine (O)"] <- sprintf("%s towards Vincristine (O) with %s.", 
                                         this.res$VinClass, 
                                         probToText(this.res$VinProb))
-      txt["Dexamethasone (P)"] <- sprintf("%s toward Dexamethasone (P) with %s.", 
+      txt["Dexamethasone (P)"] <- sprintf("%s towards Dexamethasone (P) with %s.", 
                                           this.res$DexClass, 
                                           probToText(this.res$DexProb))
-      txt["Combined (CHO)"] <- sprintf("%s toward CHO combiend with %s.", 
+      txt["Combined (CHO)"] <- sprintf("%s towards CHO combiend with %s.", 
                                        this.res$CombClass,
                                        probToText(this.res$CombProb))
-      txt["Melphalan"] <- sprintf("%s toward Melphalan (M) with %s.", 
+      txt["Melphalan"] <- sprintf("%s towards Melphalan (M) with %s.", 
                                   this.res$MelClass, 
                                   probToText(this.res$MelProb))
     
