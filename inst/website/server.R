@@ -68,8 +68,14 @@ probToText <- function(p, symmetric = FALSE, append.p = TRUE) {
   return(txt)
 }
 
+# Default colors
+def.cols <- c("#9199D1", "#D2786B", "#CED948", "#80DEBC", "#79D472", "#D4C990",
+              "#D78E3D", "#D180AE", "#C4B2B5", "#6CB4C6", "#9F9A3D", "#72966F",
+              rainbow(255))
+
 # Debug
 verbose <- TRUE
+
 
 #
 # Run the shiny server
@@ -1241,10 +1247,9 @@ shinyServer(function(input, output, session) {
   output$patientSummaryPlot <- renderPlot({
     prog.surv <- prognosisR()
     
-    if (is.null(prog.surv)) {
-      return(NULL)
-    }
-    if (is.null(input$SelectedColoursPSw)) {
+    if (is.null(prog.surv[["Survfit.PFS"]]) ||
+        is.null(prog.surv[["Survfit.OS"]]) || 
+        is.null(input$SelectedColoursPSw)) {
       return(NULL)
     }
     par(mfrow = c(1, 2))
@@ -1262,21 +1267,32 @@ shinyServer(function(input, output, session) {
   
   
   # Color selector
-  observe({ 
+  observe({# If add colour is pressed
+    if (verbose) cat("SelectedColoursPS updated via SelectColourPS\n")
     input$SelectColourPS
     output$SelectedColoursPS <- renderUI({
       isolate({
-        new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#91B7E3", 
+        new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#AAAAAA", 
                           input$jscolorInputPS) 
         selected.colors <- c(input$SelectedColoursPSw, new.col)
-        
         select2Input(inputId = "SelectedColoursPSw", 
-                     label = "The selected colours:", 
+                     label = "",
                      selected = selected.colors)
       })
     })   
   })
   
+  observe({
+    input$patientSummarySelectW
+    output$SelectedColoursPS <- renderUI({
+      if (verbose) cat("SelectedColoursPS updated via patientSummarySelectW.\n")
+      selected.colors <- def.cols[seq_along(input$patientSummarySelectW)]
+      select2Input(inputId = "SelectedColoursPSw", 
+                   label = "",
+                   selected = selected.colors)
+    })
+  })
+
   
   ##############################################################################
   ##

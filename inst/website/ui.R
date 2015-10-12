@@ -7,6 +7,7 @@ title <- HTML(paste0('<span class="rand"',
                      'style="color: #FF6060; text-decoration: none">', 
                      icon("tint", lib = "glyphicon"), ' hemaClass</span>'))
 
+# Conditions using in classification panel
 abc.cond <- "input.getClassifications.indexOf('ABCGCB') != -1"
 rtx.cond <- "input.getClassifications.indexOf('Rituximab (R)') != -1"
 cyc.cond <- "input.getClassifications.indexOf('Cyclophosphamide (C)') != -1"
@@ -14,6 +15,11 @@ dox.cond <- "input.getClassifications.indexOf('Doxorubicin (H)') != -1"
 vin.cond <- "input.getClassifications.indexOf('Vincristine (O)') != -1"
 dex.cond <- "input.getClassifications.indexOf('Dexamethasone (P)') != -1"
 cho.cond <- "input.getClassifications.indexOf('Combined (CHO)') != -1"
+
+# Default colors
+def.cols <- c("#9199D1", "#D2786B", "#CED948", "#80DEBC", "#79D472", "#D4C990",
+              "#D78E3D", "#D180AE", "#C4B2B5", "#6CB4C6", "#9F9A3D", "#72966F",
+              rainbow(255))
 
 shinyUI(
   navbarPage(
@@ -312,7 +318,7 @@ shinyUI(
                 label = "Perform classifications:", 
                 choices = c("BAGS",
                             "ABC / GCB (COO)" = "ABCGCB", 
-                            "ABC / GCB-CC / GCB-CB (Extended COO)" = "ABCGCB2", 
+                            "ABC / GCB-CC / GCB-CB (Extended COO)" = "ABCGCB2",
                             "Rituximab (R)", 
                             "Cyclophosphamide (C)",
                             "Doxorubicin (H)", 
@@ -410,17 +416,20 @@ shinyUI(
               uiOutput("patientSummaryIPI"),
               uiOutput("patientSummarySelect"),
               hr(),
-              strong("Select colours used for the summaries:"),
-              jscolorInput("jscolorInputPS", value = "#91B7E3"),
+              jscolorInput("jscolorInputPS",
+                           label = strong("Select colours used for the 
+                                          summaries:"),
+                           value = def.cols[1]),
               br(),
               br(),
-              actionButton(inputId = "SelectColourPS", "Add colour"),
-              br(),
+              actionButton(inputId = "SelectColourPS", 
+                           HTML(paste(icon("chevron-down", lib = "glyphicon"), 
+                                      "Add colour"))),
               br(),
               uiOutput("SelectedColoursPS"),
               hr(),
               sliderInput("surv.read", 
-                          "Survival at years",
+                          label = "Survival at (years)",
                           step = 3/12, min = 0, max = 10, value =  3)
             ),
             mainPanel(
