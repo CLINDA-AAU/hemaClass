@@ -7,6 +7,14 @@ title <- HTML(paste0('<span class="rand"',
                      'style="color: #FF6060; text-decoration: none">', 
                      icon("tint", lib = "glyphicon"), ' hemaClass</span>'))
 
+abc.cond <- "input.getClassifications.indexOf('ABCGCB') != -1"
+rtx.cond <- "input.getClassifications.indexOf('Rituximab (R)') != -1"
+cyc.cond <- "input.getClassifications.indexOf('Cyclophosphamide (C)') != -1"
+dox.cond <- "input.getClassifications.indexOf('Doxorubicin (H)') != -1"
+vin.cond <- "input.getClassifications.indexOf('Vincristine (O)') != -1"
+dex.cond <- "input.getClassifications.indexOf('Dexamethasone (P)') != -1"
+cho.cond <- "input.getClassifications.indexOf('Combined (CHO)') != -1"
+
 shinyUI(
   navbarPage(
     title = title,
@@ -317,17 +325,21 @@ shinyUI(
               ),
               
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('ABCGCB') != -1",
-                h4("ABC/GCB options:"),
+                condition = paste(abc.cond, rtx.cond, cyc.cond, dox.cond,
+                                  vin.cond, dex.cond, cho.cond, sep = "|"),
+                h3("Classification options:")
+              ),
+              
+              conditionalPanel(
+                condition = abc.cond,
                 sliderInput("nc.range",
                             "ABC/GCB, range of non classified:",
                             step = 0.01,
                             min = 0, max = 1, value = c(0.1, 0.9))
               ),
-              
+
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('Rituximab (R)') != -1",
-                h4("Rituximab options:"),
+                condition = rtx.cond,
                 checkboxInput(inputId = "HSCorrected", 
                               "Human serum corrected",
                               value = TRUE),
@@ -340,8 +352,7 @@ shinyUI(
               ),
               
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('Cyclophosphamide (C)') != -1",
-                h4("Cyclophosphamide options:"),
+                condition = cyc.cond,
                 sliderInput("Cyclophosphamide.range", 
                             "Cyclophosphamide, range of intermediate:", 
                             step = 0.01,
@@ -349,8 +360,7 @@ shinyUI(
               ),
               
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('Doxorubicin (H)') != -1",
-                h4("Doxorubicin options:"),
+                condition = dox.cond,
                 sliderInput("Doxorubicin.range", 
                             "Doxorubicin, range of intermediate:", 
                             step = 0.01,
@@ -358,8 +368,7 @@ shinyUI(
               ),
               
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('Vincristine (O)') != -1",
-                h4("Vincristine options:"),
+                condition = vin.cond,
                 sliderInput("Vincristine.range", 
                             "Vincristine, range of intermediate:",
                             step = 0.01,
@@ -367,17 +376,15 @@ shinyUI(
               ),
               
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('Dexamethasone (P)') != -1",
-                h4("Dexamethasone options:"),
+                condition = dex.cond,
                 sliderInput("Dexamethasone.range", 
                             "Dexamethasone, range of intermediate:", 
                             step = 0.01,
                             min = 0, max = 1, value = c(0.25, 0.75))
               ),
-              
+
               conditionalPanel(
-                condition = "input.getClassifications.indexOf('Combined (CHO)') != -1",
-                h4("Combined CHO options:"),
+                condition = cho.cond,
                 sliderInput("Combined.range", 
                             "Combined CHO, range of intermediate:", 
                             step = 0.01,
