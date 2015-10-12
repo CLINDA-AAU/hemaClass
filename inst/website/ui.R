@@ -298,13 +298,13 @@ shinyUI(
           sidebarLayout(
             sidebarPanel(
               condition = "input.conditionedPanels == 'Classification results'",
-              h4("Classification systems:"),
+              h3("Classification systems:"),
               checkboxGroupInput(
                 "getClassifications",
                 label = "Perform classifications:", 
                 choices = c("BAGS",
-                            "ABC / GCB" = "ABCGCB", 
-                            "ABC / GCB-CC / GCB-CB" = "ABCGCB2", 
+                            "ABC / GCB (COO)" = "ABCGCB", 
+                            "ABC / GCB-CC / GCB-CB (Extended COO)" = "ABCGCB2", 
                             "Rituximab (R)", 
                             "Cyclophosphamide (C)",
                             "Doxorubicin (H)", 
@@ -401,14 +401,19 @@ shinyUI(
             sidebarPanel( 
               uiOutput("patientSummaryIPI"),
               uiOutput("patientSummarySelect"),
-              tags$hr() ,
-              helpText(strong("Select colours used for the summaries:")),
-              jscolorInput("jscolorInputPS", value = "#AAAAAA"),
+              hr(),
+              strong("Select colours used for the summaries:"),
+              jscolorInput("jscolorInputPS", value = "#91B7E3"),
               br(),
               br(),
-              actionButton(inputId = "SelectColourPS", "Add the color"),
+              actionButton(inputId = "SelectColourPS", "Add colour"),
               br(),
-              uiOutput("SelectedColoursPS")
+              br(),
+              uiOutput("SelectedColoursPS"),
+              hr(),
+              sliderInput("surv.read", 
+                          "Survival at years",
+                          step = 4/12, min = 0, max = 10, value =  3)
             ),
             mainPanel(
               shinyalert("shinyalertPatientSummaries", click.hide = FALSE),

@@ -30,17 +30,42 @@ non.cel.files.uploaded.text <- HTML(
 # Create patient summary template
 jumbotron <- function(title = "Hello, world!", 
                       text = "...",
-                      col = "#AAAAAA") {
+                      col = "#91B7E3") {
   HTML(
     paste0(
       '<div style="background-color: ', col, '!important" class="jumbotron">
-      <h2>', title, '</h2>
-      <p>', text, '</p>
+      <h3>', title, '</h3>
+      <p><h4>', text, '</h4></p>
       </div>'
     )
   )
 }
-  
+
+# Convert probabilites to text
+probToText <- function(p, symmetric = FALSE, append.p = TRUE) {
+  stopifnot(all(p <= 1))
+  stopifnot(all(p >= 0))
+  if (symmetric) {
+    pp <- abs(p - .5) + .5
+  } else {
+    pp <- p
+  }
+  brks <- c(0, 0.01, 0.05, 0.1, 0.3, 0.7, 0.9, 0.95, 0.99, 1)
+  lbls <- paste(c("extremely low", 
+                  "very low",
+                  "low",
+                  "moderately low",
+                  "intermediate",
+                  "moderately high",
+                  "high",
+                  "very high",
+                  "extremely high"),
+                "probability")
+  txt <- cut(pp, breaks = brks, include.lowest = TRUE, labels = lbls)
+  txt <- paste0(txt, sprintf(ifelse(append.p, " (p = %0.2e)", ""), p))
+  return(txt)
+}
+
 # Debug
 verbose <- TRUE
 
@@ -1034,22 +1059,95 @@ shinyServer(function(input, output, session) {
       metadata.in.use$IPI <- NA
     }
     
+    # Survival
+    prog.surv <- prognosisR()
+    
     # Create text for each selected patient
     prog.list <- list()
     for (i in seq_along(input$patientSummarySelectW)) {
       patient <- input$patientSummarySelectW[i]
-      if (is.na(metadata.in.use[patient, "IPI"])) {
-        ipi.text <- paste0(" and the patient have an unknown IPI score.")
-      } else {
-        ipi.text <- paste0(" and the patient have an IPI score of ", 
-                           metadata.in.use[patient, "IPI"], ".")
-      }
-      patient.text <- 
-        paste0("The cancer is of ", 
-               results[patient, "ABCGCB2"], 
-              " type",
-              ipi.text)
+      this.res <- results[patient, ]
       
+      txt <- character(10)
+      names(txt) <- 
+        c("ABCGCB", "BAGS", "ABCGCB2", "Rituximab (R)", 
+          "Cyclophosphamide (C)", "Doxorubicin (H)", "Vincristine (O)", 
+          "Dexamethasone (P)", "Combined (CHO)", "Melphalan")
+
+      # COO 
+      txt["BAGS"] <- sprintf("The BAGS is %s with %s.",
+                             tolower(this.res$BAGS), 
+                             probToText(this.res$ProbOfBAGS))
+      txt["ABCGCB"] <- sprintf("The cancer is of %s type with %s.", 
+                               this.res$ABCGCB, 
+                               probToText(this.res$ProbOfABC, TRUE))
+      txt["ABCGCB2"] <- sprintf("%she extended cell-of-origin is %s.",
+                                ifelse("BAGS" %in% input$getClassifications, 
+                                       "Thus, t", "T"),
+                                this.res$ABCGCB2)
+      coo.text <- 
+        paste(txt[intersect(names(txt)[1:3], input$getClassifications)],
+              collapse = " ")
+      
+      # IPI
+      ipi <- metadata.in.use[patient, "IPI"]
+      if (is.na(ipi)) {
+        ipi.text <- paste0("The patient have an unknown IPI score.")
+      } else {
+        ipi.text <- sprintf("The patient have an IPI score of %d.", ipi)
+      }
+    
+      # Survival
+      surv.years <- input$surv.read
+      pfs <- summary(prog.surv$Survfit.PFS, time = surv.years)
+      os <- summary(prog.surv$Survfit.OS, time = surv.years)
+      
+      os.prob <- as.numeric(os$surv)   # Forces data.frame to numeric (when more
+      pfs.prob <- as.numeric(pfs$surv) # than one is selected.)
+      names(os.prob) <- names(pfs.prob) <- input$patientSummarySelectW
+  
+      survival.text <- 
+        paste0("The patient has a ", round(os.prob[patient], 3)*100, 
+               " % predicted probability of surviving ",
+               round(surv.years, 2),  " years (OS) with a ",
+               round(pfs.prob[patient], 3)*100, 
+               " % of no progressions (PFS).")
+
+      # REGS
+      txt["Rituximab (R)"] <- sprintf("%s toward Rituximap (R) with %s.", 
+                                      this.res$RtxClass, 
+                                      probToText(this.res$RtxProb))
+      txt["Cyclophosphamide (C)"] <- sprintf("%s toward Cyclophosphamide (C) with %s.", 
+                                             this.res$CycClass, 
+                                             probToText(this.res$CycProb))
+      txt["Doxorubicin (H)"] <- sprintf("%s toward Doxorubicin (H) with %s.", 
+                                        this.res$DoxClass, 
+                                        probToText(this.res$DoxProb))
+      txt["Vincristine (O)"] <- sprintf("%s toward Vincristine (O) with %s.", 
+                                        this.res$VinClass, 
+                                        probToText(this.res$VinProb))
+      txt["Dexamethasone (P)"] <- sprintf("%s toward Dexamethasone (P) with %s.", 
+                                          this.res$DexClass, 
+                                          probToText(this.res$DexProb))
+      txt["Combined (CHO)"] <- sprintf("%s toward CHO combiend with %s.", 
+                                       this.res$CombClass,
+                                       probToText(this.res$CombProb))
+      txt["Melphalan"] <- sprintf("%s toward Melphalan (M) with %s.", 
+                                  this.res$MelClass, 
+                                  probToText(this.res$MelProb))
+    
+      get <- setdiff(input$getClassifications, names(txt)[1:3])
+      regs.text <- paste0(if (length(get)) "The patient is predicted to be: ",
+                          paste(txt[get], collapse = " "))
+
+      # Combine text and create jumbotron
+      patient.text <- 
+        paste(coo.text, 
+              ipi.text, br(), br(),
+              survival.text, if (regs.text != "") paste(br(), br()),
+              regs.text, 
+              sep = " ")
+
       prog.list[[patient]] <- 
         jumbotron(title = paste("Patient", patient), 
                   text = patient.text,
@@ -1076,7 +1174,6 @@ shinyServer(function(input, output, session) {
   
   # Create patient selection box
   output$patientSummarySelect <- renderUI({
-    classify()
     select2Input(inputId = "patientSummarySelectW", 
                  label = strong("Select patients to summarize:"), 
                  choices = results$files, 
@@ -1120,11 +1217,13 @@ shinyServer(function(input, output, session) {
         
         prog.surv[["Survfit.PFS"]] <- 
           survfit(fit.PFS, 
-                  newdata = pred.data[input$patientSummarySelectW, , drop = FALSE], 
+                  newdata = pred.data[input$patientSummarySelectW, , 
+                                      drop = FALSE], 
                   censor = FALSE)
         prog.surv[["Survfit.OS"]]  <- 
           survfit(fit.OS,  
-                  newdata = pred.data[input$patientSummarySelectW, , drop = FALSE], 
+                  newdata = pred.data[input$patientSummarySelectW, , 
+                                      drop = FALSE], 
                   censor = FALSE)
       
       }
@@ -1147,11 +1246,13 @@ shinyServer(function(input, output, session) {
     plot(prog.surv[["Survfit.PFS"]],
          xlab = "Years", ylab = "Survival", main = "Progression free survival",
          col = input$SelectedColoursPSw)
+    abline(v = input$surv.read, lty = 2, col = "grey")
     legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), 
            legend = input$patientSummarySelectW, bty = "n", bg = "#FFFFFF40")
     plot(prog.surv[["Survfit.OS"]],
          xlab = "Years", ylab = "Survival", main = "Overall survival",
          col = input$SelectedColoursPSw)
+    abline(v = input$surv.read, lty = 2, col = "grey")
   })
   
   
@@ -1160,15 +1261,13 @@ shinyServer(function(input, output, session) {
     input$SelectColourPS
     output$SelectedColoursPS <- renderUI({
       isolate({
-        new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#AAAAAA", 
+        new.col <- ifelse(input$jscolorInputPS == "#FFFFFF", "#91B7E3", 
                           input$jscolorInputPS) 
         selected.colors <- c(input$SelectedColoursPSw, new.col)
         
-        return(
-          select2Input(inputId = "SelectedColoursPSw", 
-                       label = "The selected colours", 
-                       selected = selected.colors)
-        )
+        select2Input(inputId = "SelectedColoursPSw", 
+                     label = "The selected colours:", 
+                     selected = selected.colors)
       })
     })   
   })
