@@ -1108,7 +1108,7 @@ shinyServer(function(input, output, session) {
   
       survival.text <- 
         paste0("The patient has a ", round(os.prob[patient], 3)*100, 
-               " % predicted probability of surviving ",
+               " % predicted probability of surviving beyond ",
                round(surv.years, 2),  " years (OS) with a ",
                round(pfs.prob[patient], 3)*100, 
                " % of no progressions (PFS).")
