@@ -62,7 +62,9 @@ probToText <- function(p, symmetric = FALSE, append.p = TRUE) {
                   "extremely high"),
                 "probability")
   txt <- cut(pp, breaks = brks, include.lowest = TRUE, labels = lbls)
-  txt <- paste0(txt, sprintf(ifelse(append.p, " (p = %0.2e)", ""), p))
+  txt <- paste0(txt, sprintf(ifelse(append.p, " (p = %0.2f)", ""), p))
+  txt <- gsub("p = 0.00", "p < 0.01", txt)
+  txt <- gsub("p = 1.00", "p > 0.99", txt)
   return(txt)
 }
 
@@ -1086,7 +1088,8 @@ shinyServer(function(input, output, session) {
                                        "Thus, t", "T"),
                                 this.res$ABCGCB2)
       coo.text <- 
-        paste(txt[intersect(names(txt)[1:3], input$getClassifications)],
+        paste(c("<strong>COO:</strong>",
+                txt[intersect(names(txt)[1:3], input$getClassifications)]),
               collapse = " ")
       
       # IPI
@@ -1107,7 +1110,8 @@ shinyServer(function(input, output, session) {
       names(os.prob) <- names(pfs.prob) <- input$patientSummarySelectW
   
       survival.text <- 
-        paste0("The patient has a ", round(os.prob[patient], 3)*100, 
+        paste0(strong("Survival: "),
+               " The patient has a ", round(os.prob[patient], 3)*100, 
                " % predicted probability of surviving beyond ",
                round(surv.years, 2),  " years (OS) with a ",
                round(pfs.prob[patient], 3)*100, 
@@ -1137,7 +1141,8 @@ shinyServer(function(input, output, session) {
                                   probToText(this.res$MelProb))
     
       get <- setdiff(input$getClassifications, names(txt)[1:3])
-      regs.text <- paste0(if (length(get)) "The patient is predicted to be: ",
+      regs.text <- paste0(if (length(get)) {"<strong>REGS:</strong> The patient 
+                          is predicted to be: "},
                           paste(txt[get], collapse = " "))
 
       # Combine text and create jumbotron

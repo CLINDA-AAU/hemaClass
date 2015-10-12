@@ -413,7 +413,7 @@ shinyUI(
               hr(),
               sliderInput("surv.read", 
                           "Survival at years",
-                          step = 4/12, min = 0, max = 10, value =  3)
+                          step = 3/12, min = 0, max = 10, value =  3)
             ),
             mainPanel(
               shinyalert("shinyalertPatientSummaries", click.hide = FALSE),
