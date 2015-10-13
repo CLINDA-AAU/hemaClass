@@ -107,15 +107,6 @@ shinyServer(function(input, output, session) {
   
   chosenDataset <- NULL
   
-  output$downloadTestData <- downloadHandler(
-    filename = function() {
-      paste("cellll", "CEL", sep = ".")
-    },
-    content = function(file) {
-      file.copy(' ', file)
-    }
-  )
-  
   ##############################################################################
   ##
   ## Create metadata manually

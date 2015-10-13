@@ -57,8 +57,12 @@ shinyUI(
               tags$hr(),
               conditionalPanel(
                 condition = "output.showNormMethods == 0",
-                h4("Please click here to download 4 .CEL files available for test use"),
-                downloadButton('downloadTestData', 'Download test data')
+                h4("Please click here to download 4 .CEL files available for 
+                   test use"),
+                tags$a(href = 'celfiles.zip', 
+                       class = "btn btn-default shiny-download-link", 
+                       target = "_blank", icon("download"),
+                       'Download test data.')
               ),
               
               conditionalPanel(
