@@ -90,7 +90,7 @@ makeCelfiles <- function(outdir = "inst/website/www") {
 #' @rdname makeAll
 makeHowto <- function(indir = "vignettes", outdir = "inst/website/www", ...) {
   
-  infile <- file.path(indir, "Howto.Rmd")
+  infile <- file.path(indir, "howto.Rmd")
   if (!file.exists(infile)) stop("Cannot find file ", infile)
   outfile <- file.path(outdir, "howto.html")
   if (!file.exists(outfile)) stop("Cannot find file ", outfile)
