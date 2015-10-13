@@ -36,20 +36,28 @@ makeNews <- function(indir = "inst", outdir = "inst/website/www") {
   infile <- file.path(indir, "NEWS.Rd")
   if (!file.exists(infile)) stop("Cannot find file ", infile)
   outfile <- file.path(outdir, "News.html")
-  if (!file.exists(infile)) stop("Cannot find file ", outfile)
+  if (!file.exists(outfile)) stop("Cannot find file ", outfile)
   tools::Rd2HTML(infile, out = outfile) # Writes to disk
   
   # Extra modifications to file
   html <- readLines(outfile)
   html <- html[!grepl("R Documentation", html)]
+  new.title <- '<strong>hemaClass.org</strong>'
   html <- gsub('Package <span class="pkg">hemaClass</span>', 
-               '<strong>hemaClass.org</strong>', html)
+               new.title, html)
   
+  # Add header
   html <- c(paste("<!-- Generated using hemaClass::makeNews()",
                   "from inst/News.Rd", Sys.Date(), "-->"),
             "<!-- Do not edit by hand! -->",
             "<!-- Edit inst/News.Rd -->",
             html)
+  
+  # Add explanation text
+  extra.text <- "Below are the latest news and changes for the
+    <strong>hemaClass</strong> R-package."
+  html <- append(html, extra.text, after = min(which(grepl(new.title, html))))
+  
   
   # Fix headline levels
   html <- gsub("<h2>", "<h1>", html)
