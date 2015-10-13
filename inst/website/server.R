@@ -1018,6 +1018,8 @@ shinyServer(function(input, output, session) {
   
   # Handle I/O warnings/info in shinyalertPatientSummaries
   observe({
+    if (verbose) cat("shinyalertPatientSummaries alerts shown/hidden\n")
+    
     # Show warning if uploaded and processed files are missing
     if (is.null(input$patientSummarySelectW) && is.null(input$usrFiles)) {
       no.uploaded.celfiles.text2 <- HTML(
@@ -1170,6 +1172,8 @@ shinyServer(function(input, output, session) {
 
   
   output$patientSummaryIPI <- renderUI({
+    if (verbose) cat("patientSummaryIPI updated.")
+    
     metadata.in.use <- MetaDataInUse()
     
     select <- NULL
@@ -1245,6 +1249,8 @@ shinyServer(function(input, output, session) {
   
   # Plot preducted survival curves
   output$patientSummaryPlot <- renderPlot({
+    if (verbose) cat("patientSummaryPlot updated.\n")
+    
     prog.surv <- prognosisR()
     
     if (is.null(prog.surv[["Survfit.PFS"]]) ||
@@ -1283,7 +1289,6 @@ shinyServer(function(input, output, session) {
   })
   
   observe({
-    input$patientSummarySelectW
     output$SelectedColoursPS <- renderUI({
       if (verbose) cat("SelectedColoursPS updated via patientSummarySelectW.\n")
       selected.colors <- def.cols[seq_along(input$patientSummarySelectW)]
