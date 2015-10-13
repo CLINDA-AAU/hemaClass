@@ -317,7 +317,8 @@ shinyUI(
                 label = "Perform classifications:", 
                 choices = c("BAGS",
                             "ABC / GCB (COO)" = "ABCGCB", 
-                            "ABC / GCB-CC / GCB-CB (Extended COO)" = "ABCGCB2",
+                            "ABC / GCB / GCB-CC / GCB-CB (Extended COO)" = 
+                              "ABCGCB2",
                             "Rituximab (R)", 
                             "Cyclophosphamide (C)",
                             "Doxorubicin (H)", 
