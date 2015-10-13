@@ -7,28 +7,35 @@
 \alias{makeNews}
 \title{Generate news, celfiles, and help for website}
 \usage{
-makeAll()
+makeAll(makeCelfiles = FALSE)
 
 makeNews(indir = "inst", outdir = "inst/website/www")
 
 makeCelfiles(outdir = "inst/website/www")
 
-makeHowto(indir = "vignettes", outdir = "inst/website/www")
+makeHowto(indir = "vignettes", outdir = "inst/website/www", ...)
 }
 \arguments{
+\item{makeCelfiles}{logical. Should \code{makeCelfiles()} be executed.
+Default \code{FALSE} is faster.}
+
 \item{indir,}{outdir The in and output directories to read and write the
 files from and to.}
 
 \item{overwrite}{Overwrite existing files.}
+
+\item{\dots}{Arguments passed to \code{knitr:knit2html}.}
 }
 \value{
 Writes to files in \code{outdir}. Invisibly returns the path to the
   written file.
 }
 \description{
-Functions for generating the \code{News.html}, \code{celfiles.zip}, and
-\code{howto.html} files for the website from \code{NEWS.Rd}, the celfiles in
-\code{"/"}, an \code{vignettes/howto.Rmd}. Intented mostly for internal use.
+Utility functions for generating the \code{News.html}, \code{celfiles.zip},
+and \code{howto.html} files used in the website from \code{NEWS.Rd},
+the celfiles in \code{"inst/extdata/celfiles"}, and
+\code{vignettes/howto.Rmd}, respectively.
+Intented primarily for internal use.
 }
 \note{
 The functions assumes by default that the working directory is the
@@ -41,7 +48,7 @@ makeAll()
 
 # makeAll is an alias for:
 makeNews()
-#makeCelfiles()
+makeCelfiles()
 makeHowto()
 }
 }
