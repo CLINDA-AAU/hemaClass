@@ -16,11 +16,6 @@ vin.cond <- "input.getClassifications.indexOf('Vincristine (O)') != -1"
 dex.cond <- "input.getClassifications.indexOf('Dexamethasone (P)') != -1"
 cho.cond <- "input.getClassifications.indexOf('Combined (CHO)') != -1"
 
-# Default colors
-def.cols <- c("#9199D1", "#D2786B", "#CED948", "#80DEBC", "#79D472", "#D4C990",
-              "#D78E3D", "#D180AE", "#C4B2B5", "#6CB4C6", "#9F9A3D", "#72966F",
-              rainbow(255))
-
 shinyUI(
   navbarPage(
     title = title,
@@ -418,9 +413,9 @@ shinyUI(
               uiOutput("patientSummarySelect"),
               hr(),
               jscolorInput("jscolorInputPS",
-                           label = strong("Select colours used for the 
-                                          summaries:"),
-                           value = def.cols[1]),
+                           label = 
+                             strong("Select colours used for the summaries:"),
+                           value = "#9199D1"),
               br(),
               br(),
               actionButton(inputId = "SelectColourPS", 
