@@ -66,6 +66,11 @@ makeNews <- function(indir = "inst", outdir = "inst/website/www") {
 #' @export
 #' @rdname makeAll
 makeCelfiles <- function(outdir = "inst/website/www") {
+  celfiles <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
+                         pattern = "\\.CEL$", full.names = TRUE)
+  zipfile <- file.path(outdir, "celfiles.zip")
+  zip(zipfile = zipfile, files = celfiles)
+  return(invisible(zipfile))
 }
 
 #' @export
