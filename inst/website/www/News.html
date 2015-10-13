@@ -1,26 +1,93 @@
-<!DOCTYPE html>
-<div class="container" style="max-width:100%">
-  <div class="content" style="max-width:100%; word-wrap: break-word">
-    <h1>News</h1>
-    <h3>2015-01-27</h3>
-    <p> The current functionality supports:
-    
-    <ul type="square">
- 		<li>Cell of origin classifiers</li>
-  		<ul type="circle">
-   			<li>BAGS: B-cell associated signatures</li>
-   			<li>ABC/GCB; Activated B-cell like or Germinal center B-cell like</li>
-  		</ul>
- 	  <li>Resistance Gene Signatures (REGS)</li>
-   	 	<ul type="circle">
-   			<li>Rituximab (R)</li>
-   			<li>Cyclophosphamide (C)</li>
-        <li>Doxorubicin (H)</li>
-        <li>Vincristine (O)</li>
-        <!-- <li>Dexamethasone (P)</li> -->
-        <li>Melphalan (M)</li>
-  		</ul>
-	</ul>
-  </div> <!-- end .content -->
-</div>  <!-- end .container -->
-</body>
+<!-- Generated using hemaClass::makeNews() from inst/News.Rd 2015-10-13 -->
+<!-- Do not edit by hand! -->
+<!-- Edit inst/News.Rd -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: News for Package 'hemaClass'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+
+<h1>News for <strong>hemaClass.org</strong></h1>
+
+<h2>Changes in version 1.0 - Oct. 2015</h2>
+
+
+<ul>
+<li><p> Manuscript titled &quot;hemaClass.org: Online one-by-one normalization and
+classification of haematological malignancies&quot; by Falgreen, Bilgrau, 
+Jakobsen et al., has now been submitted for publication.
+</p>
+</li>
+<li> <p><span class="pkg">hemaClass</span> functionality greatly expanded.
+</p>
+</li>
+<li><p> The package and website now supports proper reference-based 
+one-by-one RMA pre-processing as well as regular cohort based RMA 
+pre-processing. See <code>rmaPreprocess</code> and 
+<code>rmaReference</code>.
+</p>
+</li>
+<li><p> Supports various cell-of-origin classification systems 
+(see <code>help(BAGS)</code>):
+</p>
+
+<ul>
+<li><p> B-Cell Associated Gene Signatures (BAGS)
+</p>
+</li>
+<li><p> Activated B-Cell-like and Germinal Center B-cell-like
+classification (ABC/GCB)
+</p>
+</li>
+<li><p> BAGS-extended ABC/GCB into ABC / GCB / GCB-CC/ GCB-CB
+</p>
+</li></ul>
+
+</li>
+<li><p> Supports various REsistance Gene Signatures (REGS) classifications 
+for (see <code>help(REGS)</code>):
+</p>
+
+<ul>
+<li><p> Rituximab (R)
+</p>
+</li>
+<li><p> Cyclophosphamide (C)
+</p>
+</li>
+<li><p> Doxorubicin (H)
+</p>
+</li>
+<li><p> Vincristine (O)
+</p>
+</li>
+<li><p> Dexamethasone (P) (Experimental!)
+</p>
+</li>
+<li><p> Melphalan (M) 
+</p>
+</li></ul>
+
+</li>
+<li> <p><span class="pkg">hemaClass</span>.org website functionality polished with 
+context-dependent feedback. To use the website, go to 
+<a href="http://hemaClass.org">http://hemaClass.org</a> or see <code>help(runHemaClass)</code>.
+</p>
+</li></ul>
+
+
+
+<h2>Changes in version 0.1 - Aug. 2014</h2>
+
+
+<ul>
+<li><p> Basic classification functionality.
+</p>
+</li>
+<li> <p><span class="pkg">hemaClass</span> was created!
+</p>
+</li></ul>
+
+
+
+</body></html>
