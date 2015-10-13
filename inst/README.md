@@ -1,50 +1,63 @@
+# Shiny application instructions
+These are our internal instructions and reference on maintaining the **hemaClass** Shiny server.
 
+## Log onto server as super user
+Start a terminal and log onto the server as a super user by running:
+```sh
+ssh -X <username>@oncoclass.hpc.aau.dk
+#ssh -X sfl@oncoclass.hpc.aau.dk
+```
+With the appropriate username.
+When prompted, enter your password.
 
-# logon to the server using a sudo user
-ssh -X sfl@oncoclass.hpc.aau.dk
-
-# Installing the latest version of R
-
-#Start a terminal 
-
-#Start a super user session
+## Installing the latest version of R
+Start a terminal and start a super user session:
+```sh
 sudo su 
+```
 
-#Add the R mirror to the source list
+Add the R mirror to the source list via:
+```sh
 echo "deb http://mirrors.dotsrc.org/cran/bin/linux/ubuntu trusty/ #enabled-manually" >> /etc/apt/sources.list
-
-# Exit the super user session
+```
+Exit the super user session by
+```sh
 exit
-
-#Add the key
+```
+To add the key
+```sh
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+```
 
-#Intall R
+
+## Installing R
+To install R, do
+```sh
 sudo apt-get update && sudo apt-get install r-base r-base-dev
-
-#Install shiny according to 
-http://www.rstudio.com/products/shiny/download-server/
-
-# open port 3838 for shiny
+```
+## Installing Shiny 
+According to http://www.rstudio.com/products/shiny/download-server/,
+open port 3838 for shiny:
+```sh
 sudo ufw allow 3838
 sudo ufw allow 8787
 sudo ufw allow 8080
 sudo ufw allow 80
+```
 
-# In order to install devtools:
+## Installing devtools:
+```sh
 apt-get -y build-dep libcurl4-gnutls-dev
 apt-get -y install libcurl4-gnutls-dev
+```
 
-
-
-
-
-
-
-# install the packages needed to run the scripts
-
+## Install the packages needed to run the scripts
+Start R by:
+```sh
 sudo -i R
-
+```
+Run the following R-script described in the root `README.md`.
+```R
 source("http://bioconductor.org/biocLite.R")
 biocLite("affy")
 biocLite("affyio")
@@ -70,72 +83,60 @@ devtools::install_github("analytixware/shinysky")
 
 # To gain support for reading xlsx files
 gdata::installXLSXsupport(perl = "perl", verbose = FALSE)
+```
 
 
-#################################
 # General editing
-#################################
 
-# installing shiny applications
+## Installing shiny applications
 
-
-# In a local terminal the following command copies the current homepage to the server
+In a local terminal, and run one of the following command to copy the current homepage to your user folder on the server.
+```sh
 scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/website/. sfl@oncoclass.hpc.aau.dk:~/hemaClass/
-
-# logon to the server using a sudo user
-ssh -X sfl@oncoclass.hpc.aau.dk
-
-# After you have logged in you can copy the file into the shiny server
-sudo cp -r  ~/hemaClass/ /srv/shiny-server/hemaClass/website/
-
-
-
-
-
-# In a local terminal the following command copies the current homepage to the server
 scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/website/. m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/hemaClass/
-
-# logon to the server using a sudo user
-ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
-
-# After you have logged in you can copy the file into the shiny server
-sudo cp -r  ~/hemaClass/. /srv/shiny-server/hemaClass/website/
-
-
-##########################################
-# In order to only submit changes made to the homepage and not the database use
-scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/website/. sfl@oncoclass.hpc.aau.dk:~/
-
+```
+Remember to fix the paths.
+Log on to the server using a sudo user
+```sh
 ssh -X sfl@oncoclass.hpc.aau.dk
-
-sudo cp -r  ~/ /srv/shiny-server/hemaClass/website
-#########################################
-
-#########################################
-scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/website/ m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/
-
 ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
+```
+After you have logged in you can copy the file into the shiny server
+```sh
+sudo cp -r  ~/hemaClass/ /srv/shiny-server/hemaClass/homepage/
+sudo cp -r  ~/hemaClass/. /srv/shiny-server/hemaClass/website/
+```
 
+## Update homepage only (not database)
+In order to only submit changes made to the homepage and not the database use
+```sh
+scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/website/. sfl@oncoclass.hpc.aau.dk:~/
+scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/website/ m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/
+ssh -X sfl@oncoclass.hpc.aau.dk
+ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
 sudo cp -r  ~/ /srv/shiny-server/hemaClass/website
-#########################################
+```
 
-
-
-# install new version of the package
-
+## Install new version of the **hemaClass** package
+To install the newest version of the **hemaClass** package, run:
+```sh
 sudo -i R
+```
+In R, run:
+```R
 devtools::install_github("oncoclass/hemaClass", dependencies = TRUE)
+```
 
-
-
-# apache stuff
-
-# To enable the oncoclass configuration file for apache2 write
+# Misc. apache stuff
+To enable the oncoclass configuration file for apache2 write
+```sh
 sudo a2ensite oncoclass.conf
-
-# restarting the apache server
+```
+Restarting the apache server:
+```sh
 sudo service apache2 restart
-
-# restarting the shiny server
-
+```
+Restarting the shiny server:
+```sh
 sudo restart shiny-server
+```
