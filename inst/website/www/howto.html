@@ -1,6 +1,6 @@
-<!-- Generated using hemaClass::makeHowto() from vignettes/Howto.Rmd on 2015-10-13 -->
+<!-- Generated using hemaClass::makeHowto() from vignettes/howto.Rmd on 2015-10-13 -->
 <!-- Do not edit by hand! -->
-<!-- Edit vignettes/Howto.Rmd instead. -->
+<!-- Edit vignettes/howto.Rmd instead. -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -217,7 +217,7 @@ hr {
 
 <h1>Introduction</h1>
 
-<p>The purpose of this guide is to help you use the hemaClass.org web application or the underlying the <strong>hemaClass</strong> package for R. The guide is divided into two parts. The first part focuses on the hemaClass.org website, and the second part is about the hemaClass package. The accompanying article to <strong>hemaClass</strong> can be found <a href="https://github.com/oncoclass/hemaClass-paper">here.</a></p>
+<p>The purpose of this guide is to help you use the hemaClass.org web application or the underlying <strong>hemaClass</strong> package for R. The guide is divided into two parts. The first part focuses on the hemaClass.org website while the second part concerns the hemaClass package. The accompanying article to <strong>hemaClass</strong> can be found <a href="https://github.com/oncoclass/hemaClass-paper">here.</a></p>
 
 <p>The <strong>hemaClass</strong> package/website provides easy and fast access to various gene expression profile (GEP) based classifications of diffuse large B-cell lymphoma (DLBCL). The classification schemes are currently available only for GEPs using the Affymetrix GeneChip Human Genome U133 Plus 2.0 Array.
 The classification schemes available are:</p>
@@ -234,10 +234,10 @@ The classification schemes available are:</p>
 <li>Resistance Gene Signature (REGS) classifiers:
 
 <ul>
+<li>Rituximab &#40;R)</li>
 <li>Cyclophosphamide &#40;C)<br/></li>
 <li>Doxorubicin (H)</li>
 <li>Vincristine (O)</li>
-<li>Rituximab &#40;R)</li>
 <li>Melphalan (M)</li>
 </ul></li>
 </ul>
@@ -248,14 +248,14 @@ The classification schemes available are:</p>
 
 <p>The purpose of the <strong>hemaClass</strong> web application is to provide an online and user-friendly interface to the various developed DLBCL classification schemes available in the <strong>hemaClass</strong> package.</p>
 
-<p>To use the website, either go to <a href="http://hemaclass.org">http://hemaclass.org</a> or start a local instance of by running the following in R:</p>
+<p>To use the website, either go to <a href="http://hemaclass.org">http://hemaclass.org</a> or start a local instance off by running the following in R:</p>
 
 <pre><code class="r">library(&quot;hemaClass&quot;)
 runHemaClass()
 </code></pre>
 
 <p>This assumes that <strong>hemaClass</strong> is correctly installed. Instructions on installing <strong>hemaClass</strong> can be found below.
-Primarily, the local version can use to avoid uploading many large files.</p>
+The local version is a good alternative which speeds up the process as CEL-files are not uploaded to the server.</p>
 
 <h2>Overview of the website</h2>
 
@@ -265,7 +265,7 @@ Primarily, the local version can use to avoid uploading many large files.</p>
 
 <p>Three options are available to you 
 <strong>Home</strong>, 
-<strong>Load data</strong> and 
+<strong>Load data</strong>, and 
 <strong>Results</strong>. 
 Choosing <strong>Home</strong> simply takes you to the start page where access to various miscellaneous information is provided. The information is accessible through the navigation panel on the left.</p>
 
@@ -281,73 +281,71 @@ Choosing <strong>Home</strong> simply takes you to the start page where access t
 
 <p><img src="figures/load_data.png" alt="load_data"/></p>
 
-<p>To use your own data, then the by default selected <strong>CEL files</strong> is of interest. However, if you want to get started quickly, use the test data provided by choosing <strong>Build-in data</strong>.</p>
+<p>hemaClass.org provides two quick-start approaches. In the tab <strong>CEL files</strong>, 4 test CEL-files can be downloaded and used for classification by following the steps of this manual. From the tab <strong>Build-in data</strong>, the build-in data of the website can be loaded and used for classification.</p>
 
 <h3>CEL files</h3>
 
-<p>In case you want to classify your own data choose <strong>CEL files</strong> in the tab panel. Here you have the possibility of uploading your data using the panel on the left hand side box by pressing <strong>Choose Files</strong>.</p>
+<p>In case you want to classify your own data choose <strong>CEL files</strong> in the tab panel. Your CEL-files are uploaded by using the panel on the left hand side by pressing <strong>Choose Files</strong>.</p>
 
 <p><img src="figures/choose_cel.png" alt="choose_cel"/></p>
 
-<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files makes it impossible to upload more than one file in some browsers, including Internet Explorer 9 and older.</p>
+<p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files only allows one-by-one upload of files in some browsers, including Internet Explorer 9 and older.</p>
 
-<p>After you have uploaded the samples you want to classify, they need to be normalized. hemaClass provides different methods for normalization of your samples, and you have to choose which method you want to use.</p>
+<p>After having uploaded the samples to be classified, they need to be normalized. hemaClass provides different methods for normalization of your samples and you have to choose which method you want to use.</p>
 
 <p><img src="figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
 
-<p>There is two types of methods available, one-by-one normalization and cohort normalization. With one-by-one normalization you can normalize a single sample according to some chosen reference. With cohort based normalization you need a cohort of samples, and normalization is done according to the samples. The one-by-one normalization methods available are:</p>
+<p>There are two types of methods available: one-by-one normalization and cohort normalization. With one-by-one normalization you are able to normalize a single sample according to some chosen reference. Cohort based normalization requires a cohort of samples and normalization is done according to all samples. The one-by-one normalization methods available are:</p>
 
 <ul>
-<li><p>Use build in reference: This method normalizes your samples according to a build in reference dataset. There is currently 6 build in reference datasets available.</p></li>
-<li><p>Build a reference: With this method you build a reference of .CEL files that you upload. Be aware that the performance for this method of normalization has only been documented for references consisting of 30 .CEL files.  When the samples you want to use as a reference has been uploaded press <strong>Build the reference</strong>.</p></li>
-<li><p>Upload a reference: With this method you normalize your samples to a reference that you upload. The reference that you upload has to be of the file type <code>.rds</code>.</p></li>
+<li><p>Use build-in reference: This method normalizes your samples according to a build-in reference dataset. There is currently 6 build-in reference datasets available.</p></li>
+<li><p>Build a new reference: This method requires you to collect CEL-files for uploading. Note, the performance of this normalization method has only been documented for references consisting of 30 CEL-files. When your samples are uploaded, the reference is build by pressing <strong>Build the reference</strong>.</p></li>
+<li><p>Upload a reference: This method requires you to normalize your reference CEL-files locally and then upload the final reference to the server. The uploaded reference has to be of the file type <code>.rds</code>.</p></li>
 </ul>
 
-<p>Finally to do cohort based normalization choose:</p>
+<p>Finally, to perform cohort based normalization, choose:</p>
 
 <ul>
-<li>Cohort based RMA: The final method is Cohort based normalization, where all the samples you provide are used for normalization. This method is best for when you have a large collection of samples.</li>
+<li>Cohort based RMA: With this approach, RMA normalization of the uploaded CEL-files are conducted without using a reference. This method requires a large collection of samples in order to obtain accurate performance.</li>
 </ul>
 
-<p>Choose the normalization method which is most suitable for the samples you have and that you want to classify. When you have chosen a normalization method follow the onscreen instructions to normalize your samples.</p>
-
-<p>When you have finished the preprocessing of your samples you will be able to see the data on the page.</p>
+<p>When you have chosen a normalization method follow the on-screen instructions to normalize your samples. The normalized and scaled expression levels will appear on the page when the preprocessing is terminated.</p>
 
 <p><img src="figures/probeset.png" alt="probeset"/></p>
 
 <h3>Metadata</h3>
 
-<p>In <strong>Metadata</strong> you can provide metadata for your dataset by either entering the metadata manually or uploading a file with metadata.
+<p>In <strong>Metadata</strong> you can provide metadata for your dataset by either entering it manually or uploading a file with metadata.
 Currently <strong>hemaClass</strong> supports the following file-types for uploading metadata: <code>.txt</code>, <code>.rds</code>, <code>.RData</code>, and <code>.xls</code>.
-If you type in the metadata manually you are also able to download it afterwards as <code>.xls</code> file for later use.</p>
+If the metadata is typed in manually, the generated metadata sheet can be downloaded as a <code>.xls</code> file for later use.</p>
 
 <p><img src="figures/manual_metadata.png" alt="manual_metadata"/></p>
 
-<p>Using the metadata you are able to calculate the IPI score of the patient.</p>
+<p>If all nessesary metadata are uploaded or manually filled in, hemaclass.org is also able to calculate the corresponding IPI score of the patients.</p>
 
 <h3>Build-in data</h3>
 
-<p>If you want to use the build-in data provided by us to test the system go to <strong>Build-in-data</strong>. We have provided two datasets which you can choose from in the panel on the left hand side of the page.</p>
+<p>If you want to use the build-in data provided by us to test the system go to <strong>Build-in-data</strong>. We provide two datasets which you can choose from in the panel on the left hand side of the page.</p>
 
 <p><img src="figures/build_in_data.png" alt="build_in_data"/></p>
 
-<p>The two build-in datasets LLMPP CHOP and LLMPP R-CHOP consists of 181 and 233 samples respectively. LLMPP CHOP provides gene expression data from patients treated with CHOP, and LLMPP R-CHOP provides gene expression data from patients treated with R-CHOP. Metadata is available for both datasets.</p>
+<p>The two build-in datasets LLMPP CHOP and LLMPP R-CHOP consists of 181 and 233 samples respectively. LLMPP CHOP contains gene expression data from patients treated with CHOP while LLMPP R-CHOP contains gene expression data from patients treated with R-CHOP. Metadata is available for both datasets.</p>
 
 <h3>Metadata in use</h3>
 
-<p>In the final tab of the <strong>Load data</strong> page you are able to see the metadata that is either available or that you have provided.</p>
+<p>The tab <strong>Metadata in use</strong> serves as a viewer of the uploaded or manullay entered metadata.</p>
 
 <p><img src="figures/metadata.png" alt="metadata"/></p>
 
 <h2>Getting the results</h2>
 
-<p>To see the results of the classification go to the <strong>Results</strong> tab on the main tab panel. The results are first available when you have correctly uploaded and preprocessed data, or if you have chosen the build-in data. In the <strong>Estimated probabilities</strong> tab you can see the results of the classifications, and in the <strong>Patient summaries</strong> tab plots of survival curves and IPI scores are available.</p>
+<p>To see the results of the classification go to the <strong>Results</strong> tab. In the tab <strong>Estimated probabilities</strong>, the results of the classifications are shown while in the <strong>Patient summaries</strong> tab conclusional journals and predicted survival curves are available .</p>
 
 <p><img src="figures/results_tab.png" alt="results_tab"/></p>
 
 <h3>Estimated probabilities</h3>
 
-<p>In the <strong>Estimated probabilities</strong> you can see the results of the classification of your data. In the panel on the left hand side of the page you can choose which classification results you want to display.</p>
+<p>In the <strong>Estimated probabilities</strong> the results of the classifications are shown. In the panel on the left hand side, the classification of interest is selected. </p>
 
 <p><img src="figures/results.png" alt="results"/></p>
 
@@ -355,23 +353,23 @@ If you type in the metadata manually you are also able to download it afterwards
 
 <p><img src="figures/class_results.png" alt="class_results"/></p>
 
-<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a type of classification is chosen in the panel on the left, an additional slider is added to the panel on the left. You can use the slider to vary the cut-points for the classification.</p>
+<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a classification scheme is chosen in the panel on the left an additional slider is added to the panel on the left. You can use the slider to vary the threshold for the classification.</p>
 
 <p><img src="figures/slider.png" alt="slider"/></p>
 
 <h3>Patient summaries</h3>
 
-<p>In the <strong>Patient summaries</strong> we have made a short summary of the data and the classification. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column the metadata the IPI scores are placed. For the survival curves you can choose which colors you prefer for the plot. This is done using the build in color picker.</p>
+<p>In the <strong>Patient summaries</strong> a short summary of the data and the classification is generated. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column of the metadata the IPI scores are placed. The page allows you to seperate patients by choosing specific colors for the predicted survival curves. This is done using the build-in color picker.</p>
 
 <p><img src="figures/patient_summaries.png" alt="patient_summaries"/></p>
 
 <h1>Using the hemaClass R-package</h1>
 
-<p>One purpose of the <strong>hemaClass</strong> R-package is to make the functionality of the hemaClass website available programmatically. The <strong>hemaClass</strong> package also provides the opportunity to run a local version of the hemaClass website as explained above.</p>
+<p>One purpose of the <strong>hemaClass</strong> R-package is to make the functionality of hemaClass.org available programmatically. The <strong>hemaClass</strong> package also allows the user to run a local version of the hemaClass website as mentioned above.</p>
 
 <h2>Installing the package</h2>
 
-<p>To install the latest version of <strong>hemaClass</strong> directly from <a href="https://github.com/oncoclass/hemaClass">GitHub</a>, in R run:</p>
+<p>To install the latest version of <strong>hemaClass</strong> directly from <a href="https://github.com/oncoclass/hemaClass">GitHub</a>, run in R:</p>
 
 <pre><code class="r"># Install necessary packages
 # First from bioconductor
@@ -391,32 +389,25 @@ devtools::install_github(&quot;oncoclass/hemaClass&quot;, dependencies = TRUE,
                          build_vignettes = TRUE)
 </code></pre>
 
-<p><strong>hemaClass</strong> is still under development and may change from time to time. Be sure that you have the <a href="http://www.rstudio.com/ide/docs/packages/prerequisites">package development prerequisites</a> if you wish to install the package from the source.
-Check <code>news(package = &quot;hemaClass&quot;)</code> for all relevant news.</p>
+<p>Be sure that you have the <a href="http://www.rstudio.com/ide/docs/packages/prerequisites">package development prerequisites</a> if you wish to install the package from the source. <strong>hemaClass</strong> is still under development and may change from time to time. Check <code>news(package = &quot;hemaClass&quot;)</code> for all relevant news.</p>
 
 <h2>Classifications with the hemaClass package</h2>
 
-<p>Here we provide a short example of a script using the functions implemented in <strong>hemaClass</strong>. First, we need to load the package and read in the <code>.CEL</code> files. Four <code>.CEL</code> files is provided with <strong>hemaClass</strong> for testing which we load </p>
+<p>Here we provide a short example of a script using the functions implemented in <strong>hemaClass</strong>. First, we need to load the package and read in the CEL-files. The four test CEL-files provided in <strong>hemaClass</strong> are loaded.</p>
 
 <pre><code class="r">library(&quot;hemaClass&quot;)  # Load package (startup messages are not shown here)
 
 # List and read your CEL files
-cel.files &lt;- list.files(system.file(&quot;extdata/celfiles&quot;, package = &quot;hemaClass&quot;), 
-                        full.names = TRUE)
+#path &lt;- &quot;path/to/celfiles&quot;
+path &lt;- system.file(&quot;extdata/celfiles&quot;, package = &quot;hemaClass&quot;)
+cel.files &lt;- list.files(path, pattern = &quot;\\.cel&quot;, 
+                        ignore.case = TRUE, full.names = TRUE)
 batch &lt;- readCelfiles(filenames = cel.files) 
 </code></pre>
 
-<p>The data is now stored in the <code>batch</code> object.</p>
+<p>The data is now stored in the <code>batch</code> object. In order to use your own CEL-files, follow the comment in the above code and rewrite <code>path</code> as the folder containing your CEL-files. This creates a <code>character</code> vector of all CEL-files in the directory <code>path/to/celfiles</code>.</p>
 
-<p>To use your own <code>.CEL</code> files, swap the second line of the code above with something like the following after substituting the correct path to your celfiles:</p>
-
-<pre><code class="r">cel.files &lt;- list.files(path = &quot;path/to/celfiles&quot;, pattern = &quot;\\.cel&quot;,
-                        ignore.case = TRUE, full.names = TRUE)
-</code></pre>
-
-<p>This creates a <code>character</code> vector of all <code>.CEL</code> files in the directory <code>path/to/celfiles</code>.</p>
-
-<p>Next, we proceed with the RMA pre-processing. To do this, we read one of the predefined references, do the RMA pre-processing using the reference, and then extracting the relevant data:</p>
+<p>Next, we proceed to the RMA pre-processing. To do this, we read one of the predefined references, do the RMA pre-processing using the reference, and then extract the relevant data:</p>
 
 <pre><code class="r"># Pre-processing the .CEL files
 ref &lt;- readLLMPPCHOPreference()  # Use LLMPPCHOP as reference
@@ -424,9 +415,9 @@ data &lt;- rmaReference(batch, reference = ref)
 data.sc &lt;- data$exprs.sc
 </code></pre>
 
-<p>If you want to use cohort based normalization you can instead use the function <code>rmaPreprocessing</code>, which is also supplied in the package.</p>
+<p>If you want to use cohort based normalization you can instead use the function <code>rmaPreprocessing</code> which is also supplied in the package.</p>
 
-<p>We carry on and do the actual classification. Here we do the BAGS classification and print the results:</p>
+<p>We carry on and conduct the actual classification. Here we consider BAGS classification and print the results:</p>
 
 <pre><code class="r">bags.results &lt;- BAGS(data.sc)  # BAGS Classification
 print(bags.results)
@@ -434,39 +425,37 @@ print(bags.results)
 
 <pre><code>## $class
 ## H333_(HG-U133_Plus_2).CEL H344_(HG-U133_Plus_2).CEL 
-##               Plasmablast               Plasmablast 
-## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
 ##                    Memory              Unclassified 
+## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
+##                    Memory                    Memory 
 ## 6 Levels: Naive Centroblast Centrocyte Memory ... Unclassified
 ## 
 ## $prob.mat
 ##                                  Naive  Centroblast   Centrocyte    Memory
-## H333_(HG-U133_Plus_2).CEL 0.0130319058 6.394989e-03 0.0016748288 0.1226169
-## H344_(HG-U133_Plus_2).CEL 0.0183157464 1.060605e-03 0.1810256028 0.0787610
-## H345_(HG-U133_Plus_2).CEL 0.0007615859 4.903792e-05 0.0003515154 0.9514786
-## H371_(HG-U133_Plus_2).CEL 0.0078735547 2.152415e-03 0.0250446256 0.2448994
-##                           Plasmablast
-## H333_(HG-U133_Plus_2).CEL  0.85628133
-## H344_(HG-U133_Plus_2).CEL  0.72083704
-## H345_(HG-U133_Plus_2).CEL  0.04735924
-## H371_(HG-U133_Plus_2).CEL  0.72003003
+## H333_(HG-U133_Plus_2).CEL 2.417321e-09 3.135273e-04 9.230987e-05 0.9623620
+## H344_(HG-U133_Plus_2).CEL 1.228053e-08 1.125996e-04 1.913298e-02 0.9206760
+## H345_(HG-U133_Plus_2).CEL 2.218673e-14 4.591761e-08 3.886971e-07 0.9999586
+## H371_(HG-U133_Plus_2).CEL 1.328181e-12 9.059525e-06 1.154962e-04 0.9972739
+##                            Plasmablast
+## H333_(HG-U133_Plus_2).CEL 3.723219e-02
+## H344_(HG-U133_Plus_2).CEL 6.007845e-02
+## H345_(HG-U133_Plus_2).CEL 4.092064e-05
+## H371_(HG-U133_Plus_2).CEL 2.601522e-03
 ## 
 ## $prob
 ## H333_(HG-U133_Plus_2).CEL H344_(HG-U133_Plus_2).CEL 
-##                 0.8562813                 0.7208370 
+##                 0.9623620                 0.9206760 
 ## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
-##                 0.9514786                 0.7200300 
+##                 0.9999586                 0.9972739 
 ## 
 ## $cut
 ##       15% 
-## 0.7203932
+## 0.9394347
 </code></pre>
 
-<p>To do a different classification than BAGS, use the functions <code>REGS</code> or <code>ABCGCB</code> instead of <code>BAGS</code>.
-The <code>ABCGCB</code> function performs the ABC/GCB cell of origin classification.
-For more information on how to use the drug resistance classifiers, run <code>?REGS</code>.</p>
+<p>To perform one of the other classifications use the functions <code>REGS</code> or <code>ABCGCB</code> instead of <code>BAGS</code>. The <code>ABCGCB</code> function performs the ABC/GCB cell of origin classification. For more information on how to use the drug resistance classifiers, run <code>?REGS</code>.</p>
 
-<p>The script uses the build-in one-by-one normalization with the build-in LLMPPCHOP dataset as reference. If you want to use a different build-in reference swap out the reference line with one of the following:</p>
+<p>The above script uses the build-in one-by-one normalization with the build-in LLMPPCHOP dataset as reference. If you want to use a different build-in reference change the reference dataset by writing one of the following instead of <code>readLLMPPCHOPreference</code>.</p>
 
 <pre><code class="r">ref &lt;- readCHEPRETROreference()
 ref &lt;- readIDRCreference()
@@ -481,7 +470,7 @@ ref &lt;- readUAMSreference()
 
 <hr/>
 
-<p><strong>Disclaimer:</strong> The package and website is intended for experimental use only. We stress that we disclaim against responsibility for the effects of the classifications.  For instance we neither accept liability for the classifications performed, nor for the consequences of any actions taken on the basis of the information provided.</p>
+<p><strong>Disclaimer:</strong> The package and website is intended for experimental use only. We stress that we disclaim against responsibility for the effects of the classifications. For instance we neither accept liability for the classifications performed, nor for the consequences of any actions taken on the basis of the information provided.</p>
 
 </body>
 
