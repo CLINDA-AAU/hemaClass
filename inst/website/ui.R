@@ -436,7 +436,8 @@ shinyUI(
             mainPanel(
               shinyalert("shinyalertPatientSummaries", click.hide = FALSE),
               uiOutput("patientSummaries"),
-              plotOutput("patientSummaryPlot")
+              plotOutput("patientSummaryPlot"),
+              uiOutput("patientSummariesExplanation")
             )
           )
         )

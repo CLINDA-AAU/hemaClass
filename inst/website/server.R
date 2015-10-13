@@ -1111,7 +1111,7 @@ shinyServer(function(input, output, session) {
       survival.text <- 
         paste0(strong("Survival: "),
                " The patient has a ", round(os.prob[patient], 3)*100, 
-               " % predicted probability of surviving beyond ",
+               " % predicted probability* of surviving beyond ",
                round(surv.years, 2),  " years (OS) with a ",
                round(pfs.prob[patient], 3)*100, 
                " % probability of no progression (PFS).")
@@ -1251,17 +1251,24 @@ shinyServer(function(input, output, session) {
     }
     par(mfrow = c(1, 2))
     plot(prog.surv[["Survfit.PFS"]],
-         xlab = "Years", ylab = "Survival", main = "Progression free survival",
+         xlab = "Years", ylab = "Survival", main = "Progression free survival*",
          col = input$SelectedColoursPSw)
     abline(v = input$surv.read, lty = 2, col = "grey")
     legend("bottomleft", fill = rep(input$SelectedColoursPSw, 50), 
            legend = input$patientSummarySelectW, bty = "n", bg = "#FFFFFF40")
-    plot(prog.surv[["Survfit.OS"]],
-         xlab = "Years", ylab = "Survival", main = "Overall survival",
+    plot(prog.surv[["Survfit.OS"]], 
+         xlab = "Years", ylab = "Survival", main = "Overall survival*",
          col = input$SelectedColoursPSw)
     abline(v = input$surv.read, lty = 2, col = "grey")
   })
   
+  output$patientSummariesExplanation <- renderUI({
+    if (is.null(input$patientSummarySelectW)) {
+      return(HTML(""))
+    } else {
+      return(includeHTML("www/SurvivalCurvesNote.html"))
+    }
+  })
   
   # Color selector
   observe({# If add colour is pressed
