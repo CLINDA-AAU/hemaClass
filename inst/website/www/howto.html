@@ -1,4 +1,4 @@
-<!-- Generated using hemaClass::makeHowto() from vignettes/howto.Rmd on 2015-10-13 -->
+<!-- Generated using hemaClass::makeHowto() from vignettes/howto.Rmd on 2015-10-14 -->
 <!-- Do not edit by hand! -->
 <!-- Edit vignettes/howto.Rmd instead. -->
 <!DOCTYPE html>
@@ -263,7 +263,7 @@ The local version is a good alternative which speeds up the process as CEL-files
 
 <p><img src="figures/tabpanel.png" alt="tabpanel"/></p>
 
-<p>Three options are available to you 
+<p>Three options are available
 <strong>Home</strong>, 
 <strong>Load data</strong>, and 
 <strong>Results</strong>. 
@@ -271,7 +271,7 @@ Choosing <strong>Home</strong> simply takes you to the start page where access t
 
 <p><img src="figures/information.png" alt="information"/></p>
 
-<p>As an example, if you want to have a look at all publications relevant to hemaClass go to <strong>Home</strong> and choose <strong>Publications</strong> in the information panel. In general, this box on the left side is context dependent providing additional settings or information. We now go into detail with <strong>Load data</strong> and <strong>Results</strong> in the following two sections.</p>
+<p>As an example, to have a look at all publications relevant to hemaClass go to <strong>Home</strong> and choose <strong>Publications</strong> in the information panel. In general, this box on the left side is context dependent providing additional settings or information. We now go into detail with <strong>Load data</strong> and <strong>Results</strong> in the following two sections.</p>
 
 <h2>Load data</h2>
 
@@ -285,21 +285,21 @@ Choosing <strong>Home</strong> simply takes you to the start page where access t
 
 <h3>CEL files</h3>
 
-<p>In case you want to classify your own data choose <strong>CEL files</strong> in the tab panel. Your CEL-files are uploaded by using the panel on the left hand side by pressing <strong>Choose Files</strong>.</p>
+<p>To classify your own data choose <strong>CEL files</strong> in the tab panel. The CEL-files are uploaded by using the panel on the left hand side by pressing <strong>Choose Files</strong>.</p>
 
 <p><img src="figures/choose_cel.png" alt="choose_cel"/></p>
 
 <p><strong>Note</strong>: An issue with the shiny plugin we use for uploading files only allows one-by-one upload of files in some browsers, including Internet Explorer 9 and older.</p>
 
-<p>After having uploaded the samples to be classified, they need to be normalized. hemaClass provides different methods for normalization of your samples and you have to choose which method you want to use.</p>
+<p>After having uploaded the samples to be classified, they need to be normalized. hemaClass provides different methods for normalization of the samples and you have to choose which method to use.</p>
 
 <p><img src="figures/RMA_preprocessing.png" alt="RMA_preprocessing"/></p>
 
 <p>There are two types of methods available: one-by-one normalization and cohort normalization. With one-by-one normalization you are able to normalize a single sample according to some chosen reference. Cohort based normalization requires a cohort of samples and normalization is done according to all samples. The one-by-one normalization methods available are:</p>
 
 <ul>
-<li><p>Use build-in reference: This method normalizes your samples according to a build-in reference dataset. There is currently 6 build-in reference datasets available.</p></li>
-<li><p>Build a new reference: This method requires you to collect CEL-files for uploading. Note, the performance of this normalization method has only been documented for references consisting of 30 CEL-files. When your samples are uploaded, the reference is build by pressing <strong>Build the reference</strong>.</p></li>
+<li><p>Use build-in reference: This method normalizes the samples according to a build-in reference dataset. There is currently 6 build-in reference datasets available.</p></li>
+<li><p>Build a new reference: This method requires you to collect CEL-files for uploading. Note, the performance of this normalization method has only been documented for references consisting of 30 CEL-files. When the samples are uploaded, the reference is build by pressing <strong>Build the reference</strong>.</p></li>
 <li><p>Upload a reference: This method requires you to normalize your reference CEL-files locally and then upload the final reference to the server. The uploaded reference has to be of the file type <code>.rds</code>.</p></li>
 </ul>
 
@@ -309,7 +309,7 @@ Choosing <strong>Home</strong> simply takes you to the start page where access t
 <li>Cohort based RMA: With this approach, RMA normalization of the uploaded CEL-files are conducted without using a reference. This method requires a large collection of samples in order to obtain accurate performance.</li>
 </ul>
 
-<p>When you have chosen a normalization method follow the on-screen instructions to normalize your samples. The normalized and scaled expression levels will appear on the page when the preprocessing is terminated.</p>
+<p>When you have chosen a normalization method follow the on-screen instructions to normalize the samples. The normalized and scaled expression levels will appear on the page when the preprocessing is terminated.</p>
 
 <p><img src="figures/probeset.png" alt="probeset"/></p>
 
@@ -325,7 +325,7 @@ If the metadata is typed in manually, the generated metadata sheet can be downlo
 
 <h3>Build-in data</h3>
 
-<p>If you want to use the build-in data provided by us to test the system go to <strong>Build-in-data</strong>. We provide two datasets which you can choose from in the panel on the left hand side of the page.</p>
+<p>To use the build-in data provided by us to test the system go to <strong>Build-in-data</strong>. We provide two datasets which you can choose from in the panel on the left hand side of the page.</p>
 
 <p><img src="figures/build_in_data.png" alt="build_in_data"/></p>
 
@@ -349,17 +349,17 @@ If the metadata is typed in manually, the generated metadata sheet can be downlo
 
 <p><img src="figures/results.png" alt="results"/></p>
 
-<p>On the right hand side of the screen the results of the chosen classifications are shown. You can also download the results as a <code>.txt</code> file by pressing the <strong>Download classification results</strong> button in the panel on the left.</p>
+<p>On the right hand side of the screen the results of the chosen classifications are shown. The results can also bed downloaded as a <code>.txt</code> file by pressing the <strong>Download classification results</strong> button in the panel on the left.</p>
 
 <p><img src="figures/class_results.png" alt="class_results"/></p>
 
-<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a classification scheme is chosen in the panel on the left an additional slider is added to the panel on the left. You can use the slider to vary the threshold for the classification.</p>
+<p>In the results table the probabilities of the chosen classifications and the actual result of the classification are shown. When a classification scheme is chosen in the panel on the left an additional slider is added to the panel on the left. To vary the threshold for the classification use the slider.</p>
 
 <p><img src="figures/slider.png" alt="slider"/></p>
 
 <h3>Patient summaries</h3>
 
-<p>In the <strong>Patient summaries</strong> a short summary of the data and the classification is generated. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column of the metadata the IPI scores are placed. The page allows you to seperate patients by choosing specific colors for the predicted survival curves. This is done using the build-in color picker.</p>
+<p>In the <strong>Patient summaries</strong> a short summary of the data and the classification is generated. This includes survival curves, IPI scores and the BAGS classification results. In the panel on the left side of the page you can choose which patients you want summaries of. You also have to specify in which column of the metadata the IPI scores are placed. The page allows a seperation of patients by choosing specific colors for the predicted survival curves. This is done using the build-in color picker.</p>
 
 <p><img src="figures/patient_summaries.png" alt="patient_summaries"/></p>
 
@@ -425,32 +425,32 @@ print(bags.results)
 
 <pre><code>## $class
 ## H333_(HG-U133_Plus_2).CEL H344_(HG-U133_Plus_2).CEL 
-##                    Memory              Unclassified 
+##               Plasmablast               Plasmablast 
 ## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
-##                    Memory                    Memory 
+##                    Memory              Unclassified 
 ## 6 Levels: Naive Centroblast Centrocyte Memory ... Unclassified
 ## 
 ## $prob.mat
 ##                                  Naive  Centroblast   Centrocyte    Memory
-## H333_(HG-U133_Plus_2).CEL 2.417321e-09 3.135273e-04 9.230987e-05 0.9623620
-## H344_(HG-U133_Plus_2).CEL 1.228053e-08 1.125996e-04 1.913298e-02 0.9206760
-## H345_(HG-U133_Plus_2).CEL 2.218673e-14 4.591761e-08 3.886971e-07 0.9999586
-## H371_(HG-U133_Plus_2).CEL 1.328181e-12 9.059525e-06 1.154962e-04 0.9972739
-##                            Plasmablast
-## H333_(HG-U133_Plus_2).CEL 3.723219e-02
-## H344_(HG-U133_Plus_2).CEL 6.007845e-02
-## H345_(HG-U133_Plus_2).CEL 4.092064e-05
-## H371_(HG-U133_Plus_2).CEL 2.601522e-03
+## H333_(HG-U133_Plus_2).CEL 0.0130319058 6.394989e-03 0.0016748288 0.1226169
+## H344_(HG-U133_Plus_2).CEL 0.0183157464 1.060605e-03 0.1810256028 0.0787610
+## H345_(HG-U133_Plus_2).CEL 0.0007615859 4.903792e-05 0.0003515154 0.9514786
+## H371_(HG-U133_Plus_2).CEL 0.0078735547 2.152415e-03 0.0250446256 0.2448994
+##                           Plasmablast
+## H333_(HG-U133_Plus_2).CEL  0.85628133
+## H344_(HG-U133_Plus_2).CEL  0.72083704
+## H345_(HG-U133_Plus_2).CEL  0.04735924
+## H371_(HG-U133_Plus_2).CEL  0.72003003
 ## 
 ## $prob
 ## H333_(HG-U133_Plus_2).CEL H344_(HG-U133_Plus_2).CEL 
-##                 0.9623620                 0.9206760 
+##                 0.8562813                 0.7208370 
 ## H345_(HG-U133_Plus_2).CEL H371_(HG-U133_Plus_2).CEL 
-##                 0.9999586                 0.9972739 
+##                 0.9514786                 0.7200300 
 ## 
 ## $cut
 ##       15% 
-## 0.9394347
+## 0.7203932
 </code></pre>
 
 <p>To perform one of the other classifications use the functions <code>REGS</code> or <code>ABCGCB</code> instead of <code>BAGS</code>. The <code>ABCGCB</code> function performs the ABC/GCB cell of origin classification. For more information on how to use the drug resistance classifiers, run <code>?REGS</code>.</p>
