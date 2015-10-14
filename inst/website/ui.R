@@ -144,9 +144,7 @@ shinyUI(
                          auto.close.after = 10),
               shinyalert("shinyalertNormalizationSuccess", 
                          click.hide = FALSE, auto.close.after = 10),
-              
               dataTableOutput("normalizedData"),
-              
               conditionalPanel(
                 condition = "output.showErrorprints!=0",
                 verbatimTextOutput("start"), 
@@ -223,7 +221,7 @@ shinyUI(
                 select2Input("Additionalcolumns", 
                              "Type in the names.",
                              choices = c("Age","LDH"),
-                             selected = NULL),
+                             selected = "IPI"),
                 
                 conditionalPanel(
                   condition = "input.IPIcalc",

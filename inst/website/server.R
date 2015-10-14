@@ -130,6 +130,9 @@ shinyServer(function(input, output, session) {
 
           cols <- c("CEL.files", "Age", "ECOG", "LDH", "N.Extra.Nodal", 
                     "Stage", "IPI", input$Additionalcolumns)
+          if (!is.null(intersect(cols,input$Additionalcolumns))) {
+            cols <- suppressWarnings(cols[cols != intersect(cols, input$Additionalcolumns)])
+          }
           
           data <- matrix(NaN, ncol =  length(cols), 
                          nrow = length(fileInfo$name), 
@@ -141,7 +144,6 @@ shinyServer(function(input, output, session) {
           if (!is.null(old.data) && !any(is.na(old.data$CEL.files))) {
             int.names <- intersect(colnames(old.data), colnames(data))
             int.cels  <- intersect(rownames(old.data), rownames(data))
-            
             if (length(int.names) && length(int.cels)) {
               for (name in int.names) {
                 data[int.cels, name] <- old.data[int.cels, name]
@@ -158,7 +160,7 @@ shinyServer(function(input, output, session) {
           
           old.data <- currentMetadataManual()
 
-          cols <- c("CEL.files", "IPI", input$Additionalcolumns)
+          cols <- c("CEL.files", input$Additionalcolumns)
           
           data <- matrix(NaN, ncol =  length(cols), 
                          nrow = length(fileInfo$name), 
