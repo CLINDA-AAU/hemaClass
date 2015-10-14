@@ -2,26 +2,71 @@ citHeader("Thanks for using the hemaClass package!",
           "We have invested a lot of time and effort this package,",
           "so please cite it if you are using it. Thanks!")
 
-title <- paste("hemaClass: Online one-by-one classification of gene",
-                       "expression profiles in hematological cancers.")
+title.manual <- 
+  paste("hemaClass: Online one-by-one classification of gene",
+        "expression profiles in hematological cancers.")
                        
-citEntry(entry = "Manual",
-         title = title,
-         author = personList(person(family="Larsen", 
-                                    given="Steffen Falgreen", 
-                                    email="falgreen@me.dk"),
-                             person(family="Bilgrau", 
-                                    given="Anders Ellern", 
-                                    email="abilgrau@math.aau.dk")),
-         url = "http://github.com/falgreen/hemaClass",
-         year = "2015",
-         textVersion = paste("Falgreen, Steffen; Bilgrau, Anders;",
-                             title,
-                             "(2015)",
-                             "http://github.com/oncoclass/hemaClass"))
+title.article <- 
+  paste("hemaClass.org: Online one-by-one normalization and classification",
+        "of hematological malignacies")
+
+authors <- 
+  personList(
+    person(family = "Falgreen", given = "Steffen", 
+           email = "falgreen@me.dk", role = c("cre", "aut", "cph")),
+    person(family = "Bilgrau", given = "Anders Ellern", 
+           email = "abilgrau@math.aau.dk", role = c("cre", "aut", "cph")),
+    person(family = "Jakobsen", given = "Lasse Hjort", role = c("ctb")),
+    person(family = "Have", given = "Jonas", role = c("aut", "ctb")),
+    person(family = "Nielsen", given = "Kasper Lindblad", role = c("ctb")),
+    person(family = "El-Galaly", given = "Tarec Christoffer", role = c("dtc")),
+    person(family = "Boedker", given = "Julie Stoeve", role = c("dtc")),
+    person(family = "Schmitz", given = "Alexander", role = c("dtc")),
+    person(family = "Johnsen", given = "Hans Erik", role = c("dtc")),
+    person(family = "Dybkaer", given = "Karen", role = c("dtc")),
+    person(family = "Boegsted", given = "Martin", 
+           email = "mboegsted@dcm.aau.dk", role = c("ths", "ctr", "dtc"))
+  )
+
+
+formatA <- function(x) {
+  format(x, include = c("given", "family"))
+}
+
+collapseA <- function(x) {
+  paste0(paste(head(x, -1), collapse = ", "), ", and ", tail(x, 1))
+}
+
+citEntry(
+  entry = "Article",
+  title = title.article,
+  author = authors,
+  url = "http://github.com/oncoclass/hemaClass-paper",
+  year = "2015",
+  journal = "Submitted to ...",
+  textVersion = 
+    paste0(collapseA(formatA(authors)), ". ",
+           title.article, " (2015) ", "Submitted to ...")
+)
+
+r.pkg.version <- paste("R package version", packageVersion("hemaClass"))
+aut <- authors[sapply(authors$role, function(x) any(c("aut", "ths") %in% x))]
+
+citEntry(
+  entry = "Manual",
+  title = title.manual,
+  author = aut,
+  url = "http://github.com/oncoclass/hemaClass",
+  year = "2015",
+  textVersion = 
+    paste0(collapseA(formatA(aut)), ". ", title.manual,
+          " (2015) ", r.pkg.version, ", ",
+          "URL: http://github.com/oncoclass/hemaClass")
+)
 
 
 citFooter("Suggestions for improvements, comments, and bug",
           "reports are very welcome at",
-          "http://github.com/oncoclass/hemaClass/issues")
+          "http://github.com/oncoclass/hemaClass/issues",
+          'For bibtex users, see toBibtex(citation("hemaClass"))')
  
