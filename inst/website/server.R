@@ -126,14 +126,17 @@ shinyServer(function(input, output, session) {
       if (!is.null(fileInfo$name)) {
         new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
         if (input$IPIcalc) {
+         
           old.data <- currentMetadataManual()
 
           cols <- c("CEL.files", "Age", "ECOG", "LDH", "N.Extra.Nodal", 
-                    "Stage", "IPI", input$Additionalcolumns)
+                    "Stage", "IPI")
+          
           if (!is.null(intersect(cols,input$Additionalcolumns))) {
-            cols <- suppressWarnings(cols[cols != intersect(cols, input$Additionalcolumns)])
+              cols <- cols[!cols %in% intersect(cols,input$Additionalcolumns)]
           }
           
+          cols <- c(cols,input$Additionalcolumns)
           data <- matrix(NaN, ncol =  length(cols), 
                          nrow = length(fileInfo$name), 
                          dimnames = list(new.names, cols))

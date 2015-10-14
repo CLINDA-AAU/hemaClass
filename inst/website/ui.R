@@ -161,6 +161,53 @@ shinyUI(
         navbarMenu( 
           'Metadata', 
           tabPanel(
+            'Input manually', 
+            sidebarLayout( 
+              sidebarPanel(
+                helpText("You may also calculate IPI from clinical features."),
+                checkboxInput(inputId = "IPIcalc",
+                              label = "Calculate IPI", value = FALSE),
+                
+                helpText("Additional columns"),
+                
+                select2Input("Additionalcolumns", 
+                             "Type in the names.",
+                             choices = c("Age","LDH"),
+                             selected = "IPI"),
+                
+                conditionalPanel(
+                  condition = "input.IPIcalc",
+                  helpText("You may change the settings for the IPI calculation."),
+                  numericInput(inputId = "AGE.cut", label = "Get point when age > x", 60),
+                  numericInput(inputId = "ECOG.cut", label = "Get point when ECOG > x", 1),
+                  numericInput(inputId = "LDH.cut", label = "Get point when LDH > x", 1),
+                  numericInput(inputId = "N.Extra.Nodal.cut", 
+                               label = "Get point when number of extra nodal sites > x", 1),
+                  numericInput(inputId = "Stage.cut", label = "Get point when Stage > x", 2)
+                  
+                ),
+                tags$hr(), 
+                downloadButton('downloadMetadataManual', 'Download metadata')
+              ), 
+              mainPanel(
+                
+                shinyalert("shinyalertInputMeta", click.hide = FALSE),
+                
+                conditionalPanel(
+                  condition = "input.IPIcalc",
+                  helpText("Input the clinical features for each patient below.",
+                           "The IPI values are calculated automatically.")
+                ),
+                conditionalPanel(
+                  condition = "!input.IPIcalc",
+                  helpText("Input the IPI scores for each patient below.")
+                ),
+                div(class = "well container-fluid",
+                    hotable("hotableMetadataManual"))
+              )
+            ) 
+          ), # End tabPanel "Input manually"
+          tabPanel(
             'Upload metadata', 
             sidebarPanel(
               h4("Upload file containing metadata"),
@@ -207,58 +254,11 @@ shinyUI(
                 
               )
             )                          
-          ), # End tabPanel "Upload metadata"
-          tabPanel(
-            'Input manually', 
-            sidebarLayout( 
-              sidebarPanel(
-                helpText("You may also calculate IPI from clinical features."),
-                checkboxInput(inputId = "IPIcalc",
-                              label = "Calculate IPI", value = FALSE),
-                
-                helpText("Additional columns"),
-                
-                select2Input("Additionalcolumns", 
-                             "Type in the names.",
-                             choices = c("Age","LDH"),
-                             selected = "IPI"),
-                
-                conditionalPanel(
-                  condition = "input.IPIcalc",
-                  helpText("You may change the settings for the IPI calculation."),
-                  numericInput(inputId = "AGE.cut", label = "Get point when age > x", 60),
-                  numericInput(inputId = "ECOG.cut", label = "Get point when ECOG > x", 1),
-                  numericInput(inputId = "LDH.cut", label = "Get point when LDH > x", 1),
-                  numericInput(inputId = "N.Extra.Nodal.cut", 
-                               label = "Get point when number of extra nodal sites > x", 1),
-                  numericInput(inputId = "Stage.cut", label = "Get point when Stage > x", 2)
-                  
-                ),
-                tags$hr(), 
-                downloadButton('downloadMetadataManual', 'Download metadata')
-              ), 
-              mainPanel(
-                
-                shinyalert("shinyalertInputMeta", click.hide = FALSE),
-                
-                conditionalPanel(
-                  condition = "input.IPIcalc",
-                  helpText("Input the clinical features for each patient below.",
-                           "The IPI values are calculated automatically.")
-                ),
-                conditionalPanel(
-                  condition = "!input.IPIcalc",
-                  helpText("Input the IPI scores for each patient below.")
-                ),
-                div(class = "well container-fluid",
-                    hotable("hotableMetadataManual"))
-              )
-            ) 
-          ) # End tabPanel "Input manually" 
+          ) # End tabPanel "Upload metadata"
         ), # End tabPanel "Metadata"
         
         tabPanel( 
-          'Build-in data', 
+          'Build-in test data', 
           sidebarLayout(        
             sidebarPanel(
               busyIndicator("Loading data", wait = 1000),
