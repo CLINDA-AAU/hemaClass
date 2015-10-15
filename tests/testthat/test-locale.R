@@ -6,7 +6,7 @@ files <- list.files(system.file("extdata/celfiles", package = "hemaClass"),
                     full.names = TRUE)
 
 # Create first under one locale
-affy.batch1     <- readCelfiles(filenames = files) 
+affy.batch1     <- readCelfiles(files) 
 rma.batch1      <- rmaPreprocessing(affy.batch1)
 rma.batch1.ref1 <- rmaReference(affy.batch1, rma.batch1)
 
@@ -41,7 +41,7 @@ test_that("Equivalent rma batches under different locales", {
   expect_equal(rma.batch1.ref1$exprs, 
                rma.batch2.ref2$exprs[rownames(rma.batch1.ref1$exprs), ])
   expect_equal(rma.batch1.ref1$exprs.sc, 
-               rma.batch2.ref1$exprs.sc[rownames(rma.batch2.ref1$exprs.sc), ])
+               rma.batch2.ref1$exprs.sc[rownames(rma.batch1.ref1$exprs.sc), ])
 })
 
 

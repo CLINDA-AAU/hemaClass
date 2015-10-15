@@ -72,15 +72,16 @@ rmaReference <- function(affy.batch, reference, test = FALSE) {
   }
 
   # Normalisation and summarisation according to reference
-  ans <- userRMA(ref.pm, 
+  ans <- hemaClass:::userRMA(ref.pm, 
                  probesets = probesets, 
                  colnames = colnames(ref.pm), 
                  quantile = reference$quantile,  
                  alpha = reference$alpha[rownames(ref.pm)])
   
   # Scale and center the RMA normalised data
-  ans$exprs.sc      <- (ans$exprs - reference$median)/reference$sd
-  ans$exprs.sc.mean <- (ans$exprs - reference$mean)/reference$sd
+  nms <- rownames(ans$exprs) # Nessesary for locale specific ordering
+  ans$exprs.sc      <- (ans$exprs - reference$median[nms])/reference$sd[nms]
+  ans$exprs.sc.mean <- (ans$exprs - reference$mean[nms])/reference$sd[nms]
   
   return(ans)
 }
