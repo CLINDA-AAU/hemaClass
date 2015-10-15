@@ -18,8 +18,7 @@ rma.batch2.ref1 <- rmaReference(affy.batch2, rma.batch1)
 rma.batch2.ref2 <- rmaReference(affy.batch2, rma.batch2)
 
 
-test_that("Equivalenet results under different locales", {
-  
+test_that("Equivalent rma batches under different locales", {
   # Reference objects
   expect_equal(rma.batch1$exprs, 
                rma.batch2$exprs[rownames(rma.batch1$exprs), ])
@@ -38,10 +37,11 @@ test_that("Equivalenet results under different locales", {
   expect_equal(rma.batch1$mean,
                rma.batch2$mean[names(rma.batch1$mean)])
   
+  # Reference normalized objects are equivalent
   expect_equal(rma.batch1.ref1$exprs, 
                rma.batch2.ref2$exprs[rownames(rma.batch1.ref1$exprs), ])
   expect_equal(rma.batch1.ref1$exprs.sc, 
-               rma.batch2.ref2$exprs.sc[rownames(rma.batch1.ref1$exprs.sc), ])
+               rma.batch2.ref1$exprs.sc[rownames(rma.batch2.ref1$exprs.sc), ])
 })
 
 
@@ -52,10 +52,3 @@ test_that("Identical classification results under different locales", {
   expect_equal(bags11, bags21)
   expect_equal(bags11, bags22) 
 })
-
-
-
-
-
-
-
