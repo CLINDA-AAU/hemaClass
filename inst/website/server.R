@@ -1682,12 +1682,18 @@ shinyServer(function(input, output, session) {
   output$mpContent <- renderUI({
     input$nlp
     if (!is.null(input$nlp)) {
+      pkg.version <- 
+        paste0("<p>The server is running ", 
+               '<a href = "https://github.com/oncoclass/hemaClass"',
+               "<strong>hemaClass</strong> v", packageVersion("hemaClass"),
+               "</p>")
+      about <- includeHTML("www/About.html")
       switch(input$nlp,
              "Welcome"      = includeHTML("www/hemaClass.html"),
              "News"         = includeHTML("www/News.html"),
              "Help"         = includeHTML("www/howto.html"),
              "Publications" = includeHTML("www/Papers.html"),
-             "About"        = includeHTML("www/About.html"),
+             "About"        = HTML(paste(about, pkg.version)),
              NULL)  # If not matched
     }
   })
