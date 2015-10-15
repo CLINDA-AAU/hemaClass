@@ -5,8 +5,8 @@ RMA_sum <- function(x2, probesets, order, colnames) {
     .Call('hemaClass_RMA_sum', PACKAGE = 'hemaClass', x2, probesets, order, colnames)
 }
 
-RMA_norm <- function(x2, quantile2, generateQuan) {
-    .Call('hemaClass_RMA_norm', PACKAGE = 'hemaClass', x2, quantile2, generateQuan)
+RMA_norm <- function(x_usr, quantile_usr, generateQuan) {
+    .Call('hemaClass_RMA_norm', PACKAGE = 'hemaClass', x_usr, quantile_usr, generateQuan)
 }
 
 userRMA <- function(x2, probesets, colnames, quantile, alpha) {
