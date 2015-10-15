@@ -97,13 +97,6 @@ Rcpp::List RMA_sum(arma::mat x2, Rcpp::List probesets, CharacterVector order, Ch
       alpha(x5(j)) =  rm(j);
     }
     
-    
-//    cdelta += tm;
-//    
-//    for (int j=0; j<m; j++) {
-//      xsum(l,j) = cdelta(j);
-//    } 
-    
     for (int j=0; j<m; j++) {
         x3(arma::span::all, j) -= rm; // Sweep the rows
     }
@@ -115,11 +108,11 @@ Rcpp::List RMA_sum(arma::mat x2, Rcpp::List probesets, CharacterVector order, Ch
     }  
     
   }
-  return Rcpp::List::create(
-        Rcpp::Named("alpha") = alpha,
-        Rcpp::Named("exprs") = xsum,
-        Rcpp::Named("cdelta") = cdelta
-   );       
-    
+  
+  return List::create(
+    Named("alpha") = alpha,
+    Named("exprs") = xsum,
+    Named("cdelta") = cdelta
+  );       
 }
 

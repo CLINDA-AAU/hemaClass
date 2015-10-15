@@ -86,11 +86,10 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL) {
   # log2 transform the data
   ref.pm.log <- log2(affy.batch$exprs)
   
-  # Sort the data according the probesets
-  #ref.pm.log <- ref.pm.log[paste(unlist(probesets)), ]
-  
   # Use the Rcpp based median polish to estimated expression levels 
-  ans <- RMA_sum(ref.pm.log, probesets, rownames(ref.pm.log), 
+  ans <- RMA_sum(ref.pm.log, 
+                 probesets, 
+                 rownames(ref.pm.log), 
                  colnames(ref.pm.log))
   
   # Estimate median, mean, and standard deviation for later centralisation
