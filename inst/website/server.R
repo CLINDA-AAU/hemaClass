@@ -1022,7 +1022,8 @@ shinyServer(function(input, output, session) {
         paste(WARNING, "You need to upload .CEL and normalize files first to 
               get patients summaries. You can do this 
               under the <strong>Load data</strong>", TO, "<strong>CEL 
-              files</strong> tab.")
+              files</strong> tab. Alternatively, you can use the build-in 
+              test data.")
       )
       showshinyalert(session, "shinyalertPatientSummaries", 
                      no.uploaded.celfiles.text2, 
@@ -1031,7 +1032,7 @@ shinyServer(function(input, output, session) {
 
     # Show info if no chosen patients
     if (is.null(input$patientSummarySelectW) && 
-        input$normalizeButton > 0) {
+        (input$normalizeButton > 0 || !is.null(input$choosebuildidDataset)))  {
       showshinyalert(session, "shinyalertPatientSummaries",  
                      HTML(paste(HANDLEFT, "Choose one or more patients to 
                                   summarize.")),
