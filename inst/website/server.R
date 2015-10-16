@@ -1188,7 +1188,7 @@ shinyServer(function(input, output, session) {
     select2Input(inputId = "patientSummarySelectW", 
                  label = strong("Select patients to summarize:"), 
                  choices = results$files, 
-                 selected = NULL) #results$files[1])
+                 selected = results$files[1])
   })
 
   # Prognosis fit for predicted survival curves
