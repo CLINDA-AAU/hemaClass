@@ -1,8 +1,7 @@
 Package: hemaClass
 Type: Package
 Title: One-by-one normalization and classification of hematological malignacies
-Version: 1.1
-Date: 2015-10-15
+Version: 1.1.0
 Author: Steffen Falgreen, Anders Ellern Bilgrau
 Maintainer: Steffen Falgreen <falgreen@me.com>
 URL: http://github.com/oncoclass/hemaClass
