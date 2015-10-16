@@ -1,8 +1,20 @@
 \name{NEWS}
 \title{News for Package \pkg{hemaClass}}
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
+\newcommand{\issue}{\href{https://github.com/oncoclass/hemaClass/issues/#1}{issue ##1}}
+
+\section{Changes in version 1.0.1 - Oct. 2015}{
+  Patch for version 1.0:
+  \itemize{
+    \item Fixed spurious warnings on website when using build-in data 
+          (\issue{32}).
+    \item Stress that IE9 and older are not supported. See \issue{33} and 
+          \issue{34}.
+  }
+}
 
 \section{Changes in version 1.0 - Oct. 2015}{
+  First version of \pkg{hemaClass} and \href{http://hemaclass.org}{hemaClass.org}!
   \itemize{
     \item Manuscript titled "hemaClass.org: Online one-by-one normalization and
           classification of haematological malignancies" by Falgreen, Bilgrau, 
