@@ -1,6 +1,7 @@
 # Shiny application instructions
 These are our internal instructions and reference on maintaining the **hemaClass** Shiny server.
 
+
 ## Log onto server as super user
 Start a terminal and log onto the server as a super user by running:
 ```sh
@@ -9,6 +10,26 @@ ssh -X <username>@oncoclass.hpc.aau.dk
 ```
 With the appropriate username.
 When prompted, enter your password.
+
+
+## Updating hemaClass.org
+First, make sure you have pushed the latest version to github and tagged it as a 
+[release](https://github.com/oncoclass/hemaClass/releases).
+Next. log into the server as above and install the release, say `v1.0.1`, you want by running:
+```sh
+sudo R -e 'devtools::install_github("oncoclass/hemaClass", ref = "v1.0.1")'
+```
+The `ref` argument can also be an arbitrary commit hash.
+Be sure to check that everything installs smoothly.
+You can check the installed version by `R -e "packageVersion('hemaClass')"`.
+
+Lastly, we need to copy the website from installed folder to the correct folder:
+```sh
+sudo cp -r /usr/local/lib/R/site-library/hemaClass/website/ /srv/shiny-server/hemaClass/
+```
+The [website](http://hemaclass.org) should now be updated to `v1.0.1`.
+
+
 
 ## Installing the latest version of R
 Start a terminal and start a super user session:
