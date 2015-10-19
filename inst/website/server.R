@@ -958,7 +958,7 @@ shinyServer(function(input, output, session) {
     Dex <- DexamethasoneClassifierR()
     results$"DexProb"  <<- Dex$probs
     results$"DexClass" <<- Dex$class
-    if ("Dexamethasone (P)" %in% input$getClassifications) {
+    if ("Dexamethasone" %in% input$getClassifications) {
       chosen.names <<- c(chosen.names, "DexProb", "DexClass")
     } else {
       chosen.names <<- setdiff(chosen.names, c("DexProb", "DexProb"))
@@ -1079,7 +1079,7 @@ shinyServer(function(input, output, session) {
       names(txt) <- 
         c("ABCGCB", "BAGS", "ABCGCB2", "Rituximab (R)", 
           "Cyclophosphamide (C)", "Doxorubicin (H)", "Vincristine (O)", 
-          "Dexamethasone (P)", "Combined (CHO)", "Melphalan")
+          "Dexamethasone", "Combined (CHO)", "Melphalan")
 
       # COO 
       txt["BAGS"] <- sprintf("The BAGS is %s with %s.",
@@ -1135,7 +1135,7 @@ shinyServer(function(input, output, session) {
       txt["Vincristine (O)"] <- sprintf("%s towards Vincristine (O) with %s.", 
                                         this.res$VinClass, 
                                         probToText(this.res$VinProb))
-      txt["Dexamethasone (P)"] <- sprintf("%s towards Dexamethasone (P) with %s.", 
+      txt["Dexamethasone"] <- sprintf("%s towards Dexamethasone with %s.", 
                                           this.res$DexClass, 
                                           probToText(this.res$DexProb))
       txt["Combined (CHO)"] <- sprintf("%s towards CHO combiend with %s.", 

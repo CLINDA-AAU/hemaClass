@@ -13,7 +13,7 @@ rtx.cond <- "input.getClassifications.indexOf('Rituximab (R)') != -1"
 cyc.cond <- "input.getClassifications.indexOf('Cyclophosphamide (C)') != -1"
 dox.cond <- "input.getClassifications.indexOf('Doxorubicin (H)') != -1"
 vin.cond <- "input.getClassifications.indexOf('Vincristine (O)') != -1"
-dex.cond <- "input.getClassifications.indexOf('Dexamethasone (P)') != -1"
+dex.cond <- "input.getClassifications.indexOf('Dexamethasone') != -1"
 cho.cond <- "input.getClassifications.indexOf('Combined (CHO)') != -1"
 
 shinyUI(
@@ -321,7 +321,7 @@ shinyUI(
                             "Cyclophosphamide (C)",
                             "Doxorubicin (H)", 
                             "Vincristine (O)",
-                            # "Dexamethasone (P)", 
+                            # "Dexamethasone", 
                             "Combined (CHO)",
                             "Melphalan" 
                 ),

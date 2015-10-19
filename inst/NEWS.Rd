@@ -3,6 +3,15 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 \newcommand{\issue}{\href{https://github.com/oncoclass/hemaClass/issues/#1}{issue ##1}}
 
+\section{Changes in version 1.0.2 - Oct. 2015}{
+  Patch for version 1.0.1:
+  \itemize{
+    \item Dexamethasone incorrectly abbreviated as P which is usually used for
+          prednisone. 
+
+  }
+}
+
 \section{Changes in version 1.0.1 - Oct. 2015}{
   Patch for version 1.0:
   \itemize{
@@ -39,7 +48,7 @@
    		\item Cyclophosphamide (C)
       \item Doxorubicin (H)
       \item Vincristine (O)
-      \item Dexamethasone (P) (Experimental!)
+      \item Dexamethasone (Experimental!)
       \item Melphalan (M) 
     }
     \item \pkg{hemaClass}.org website functionality polished with 
