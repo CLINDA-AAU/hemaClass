@@ -15,19 +15,19 @@ When prompted, enter your password.
 ## Updating hemaClass.org
 First, make sure you have pushed the latest version to github and tagged it as a 
 [release](https://github.com/oncoclass/hemaClass/releases).
-Next. log into the server as above and install the release, say `v1.0.1`, you want by running:
+Next, log into the server as above and install the release, say `v1.0.2`, you want by running:
 ```sh
-sudo R -e 'devtools::install_github("oncoclass/hemaClass", ref = "v1.0.1")'
+sudo R -e 'devtools::install_github("oncoclass/hemaClass", ref = "v1.0.2")'
 ```
 The `ref` argument can also be an arbitrary commit hash.
-Be sure to check that everything installs smoothly.
-You can check the installed version by `R -e "packageVersion('hemaClass')"`.
+Be sure to check that everything installs smoothly and that the packages dependencies have not changed.
+You can check the installed **hemaClass** version by `R -e "packageVersion('hemaClass')"`.
 
 Lastly, we need to copy the website from installed folder to the correct folder:
 ```sh
 sudo cp -r /usr/local/lib/R/site-library/hemaClass/website/ /srv/shiny-server/hemaClass/
 ```
-The [website](http://hemaclass.org) should now be updated to `v1.0.1`.
+The [website](http://hemaclass.org) should now be updated to `v1.0.2`.
 
 
 
