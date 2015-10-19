@@ -39,7 +39,7 @@
    		\item Cyclophosphamide (C)
       \item Doxorubicin (H)
       \item Vincristine (O)
-      \item Dexamethasone (P) (Experimental!)
+      \item Dexamethasone (Experimental!)
       \item Melphalan (M) 
     }
     \item \pkg{hemaClass}.org website functionality polished with 

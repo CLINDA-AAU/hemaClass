@@ -22,7 +22,7 @@ The classification schemes available are:
     * Vincristine (O)
     * Melphalan (M)
 
-In addition we also provide a resistance classifier for Dexamethasone (P). However, this classifier is still considered experimental and is not yet available through the website nor properly documented.
+In addition we also provide a resistance classifier for Dexamethasone. However, this classifier is still considered experimental and is not yet available through the website nor properly documented.
 
 
 # Using hemaClass.org
