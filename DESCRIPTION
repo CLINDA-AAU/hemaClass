@@ -4,7 +4,7 @@ Title: One-by-one normalization and classification of hematological malignacies
 Version: 1.1.0
 Author: Steffen Falgreen, Anders Ellern Bilgrau
 Maintainer: Steffen Falgreen <falgreen@me.com>
-URL: http://github.com/oncoclass/hemaClass
+URL: http://hemaclass.org, http://github.com/oncoclass/hemaClass
 BugReports: https://github.com/oncoclass/hemaClass/issues
 Description: DNA microarray based one-by-one RMA normalisation and 
   classification of hematological diseases with online interface.
