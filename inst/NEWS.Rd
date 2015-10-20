@@ -3,24 +3,27 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 \newcommand{\issue}{\href{https://github.com/oncoclass/hemaClass/issues/#1}{issue ##1}}
 
-\section{Changes in version 1.0.2 - Oct. 2015}{
-  Patch for version 1.0.1:
+\section{Changes in version 1.0.3 - Oct. 2015}{
   \itemize{
-    \item Dexamethasone incorrectly abbreviated as P which is usually used for
-          prednisone. 
-
+    \item Patch to v1.0.3:
+    \itemize{
+      \item Fixed error in \issue{37}.
+    }
+    \item Patch to v1.0.2:
+    \itemize{
+      \item Dexamethasone incorrectly abbreviated as P which is usually used for
+            prednisone. 
+    }
+    \item Patch to v1.0.1:
+    \itemize{
+      \item Fixed spurious warnings on website when using build-in data 
+            (\issue{32}).
+      \item Stress that IE9 and older are not supported. See \issue{33} and 
+            \issue{34}.
+    }
   }
 }
 
-\section{Changes in version 1.0.1 - Oct. 2015}{
-  Patch for version 1.0:
-  \itemize{
-    \item Fixed spurious warnings on website when using build-in data 
-          (\issue{32}).
-    \item Stress that IE9 and older are not supported. See \issue{33} and 
-          \issue{34}.
-  }
-}
 
 \section{Changes in version 1.0 - Oct. 2015}{
   First version of \pkg{hemaClass} and \href{http://hemaclass.org}{hemaClass.org}!
