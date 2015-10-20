@@ -126,14 +126,14 @@ shinyServer(function(input, output, session) {
       if (!is.null(fileInfo$name)) {
         new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
         if (input$IPIcalc) {
-         
+          
           old.data <- currentMetadataManual()
-
+          
           cols <- c("CEL.files", "Age", "ECOG", "LDH", "N.Extra.Nodal", 
                     "Stage", "IPI")
           
           if (!is.null(intersect(cols,input$Additionalcolumns))) {
-              cols <- cols[!cols %in% intersect(cols,input$Additionalcolumns)]
+            cols <- cols[!cols %in% intersect(cols,input$Additionalcolumns)]
           }
           
           cols <- c(cols,input$Additionalcolumns)
@@ -152,7 +152,7 @@ shinyServer(function(input, output, session) {
                 data[int.cels, name] <- old.data[int.cels, name]
               }
             }
-  
+            
             IPI <- IPIreactive()
             data[names(IPI), "IPI"] <- IPI
           }
@@ -162,7 +162,7 @@ shinyServer(function(input, output, session) {
         } else {    
           
           old.data <- currentMetadataManual()
-
+          
           cols <- c("CEL.files", input$Additionalcolumns)
           
           data <- matrix(NaN, ncol =  length(cols), 
@@ -174,21 +174,21 @@ shinyServer(function(input, output, session) {
           if (!is.null(old.data) && !any(is.na(old.data$CEL.files))) {
             int.names <- intersect(colnames(old.data), colnames(data))
             int.cels  <- intersect(rownames(old.data), rownames(data))
-          
+            
             if (length(int.names) && length(int.cels)) {
               for (name in int.names) {
                 data[int.cels, name] <- old.data[int.cels, name] 
               }
             }
           }
-          as.data.frame(data)
+          return(as.data.frame(data))
         }
       } else {
         cols <- c("CEL.files", "IPI", input$Additionalcolumns)
         
         data <- matrix(NaN, ncol =  length(cols), nrow = length(fileInfo$name), 
                        dimnames = list(fileInfo$name, cols))
-        as.data.frame(data)
+        return(as.data.frame(data))
       }
     }, readOnly = FALSE)
     
@@ -197,8 +197,7 @@ shinyServer(function(input, output, session) {
   currentMetadataManual <- reactive({ 
     if (verbose) cat("currentMetadataManual called.\n")
     old.data <- NULL
-
-    fileInfo <- (input$usrFiles) 
+    fileInfo <- input$usrFiles
     
     if (!is.null(fileInfo$name)) {
       old.data <- hot.to.df(input$hotableMetadataManual)  
@@ -210,15 +209,17 @@ shinyServer(function(input, output, session) {
           new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
           
           old.data$CEL.files[is.na(old.data$CEL.files)] <- 
-            paste("a", 1:sum(is.na(old.data$CEL.files)))
+            paste("a", seq_len(sum(is.na(old.data$CEL.files))))
           
           rownames(old.data) <- old.data$CEL.files
           old.data <- old.data[new.names, , drop = FALSE] 
         }
       } else {
-        cols <- c("CEL.files", "IPI", input$Additionalcolumns)
+        cols <- unique(c("CEL.files", "IPI", input$Additionalcolumns))
         new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
-        data <- matrix(NA, ncol =  length(cols), nrow = length(fileInfo$name), 
+        data <- matrix(NA, 
+                       ncol =  length(cols), 
+                       nrow = length(fileInfo$name), 
                        dimnames = list(new.names, cols))
         data <- as.data.frame(data)
         data$CEL.files <- new.names
@@ -230,7 +231,7 @@ shinyServer(function(input, output, session) {
         chosenDataset <<- "Manually input metadata"
       }   
     }
-    old.data 
+    return(old.data )
   })
   
   
@@ -1169,11 +1170,11 @@ shinyServer(function(input, output, session) {
 
   
   output$patientSummaryIPI <- renderUI({
-    if (verbose) cat("patientSummaryIPI updated.")
+    if (verbose) cat("patientSummaryIPI updated.\n")
     
     metadata.in.use <- MetaDataInUse()
     
-    select <- NULL
+    select <- "Choose"
     if (any(colnames(metadata.in.use) == "ipi")) {
       select <- "ipi"
     }
