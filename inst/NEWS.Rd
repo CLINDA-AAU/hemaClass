@@ -3,7 +3,7 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 \newcommand{\issue}{\href{https://github.com/oncoclass/hemaClass/issues/#1}{issue ##1}}
 
-\section{Changes in version 1.0.3 - Oct. 2015}{
+\section{Changes in version 1.0.4 - Oct. 2015}{
   \itemize{
     \item Patch to v1.0.4:
     \itemize{
