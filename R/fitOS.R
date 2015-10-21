@@ -1,17 +1,30 @@
-#' Fit overall survival
+#' Fit overall and progression free survival
 #' 
-#' Function to fit overall survival.
+#' Internal functions to fit overall survival and progression free survival 
+#' from IDRC, LLMPP, and MDFCI data.
+#'
 #' @rdname fitOS
-#' @return An object of type coxph
+#' @aliases fitOS fitPFS
+#' @return An object of class \code{coxph}, see \code{\link[survival]{coxph}}.
 #' @examples
 #' fitOS()
-#' @import survival
-#' @export
-
+#' @importFrom survival coxph
+#' @keywords internal
 fitOS <- function() {
-  path <- system.file("website/Database/Classification/", package = "hemaClass")
-  metadataCombined <- readRDS(paste0(path, "metadataCombined.rds"))
-  
+  file <- system.file("website/Database/Classification/metadataCombined.rds", 
+                      package = "hemaClass")
+  metadataCombined <- readRDS(file)
   fit <- coxph(formula = OS ~ IPI + ABCGCB2, data = metadataCombined)
+  return(fit)
+}
+
+#' @rdname fitOS
+#' @examples
+#' fitPFS()
+fitPFS <- function() {
+  file <- system.file("website/Database/Classification/metadataCombined.rds", 
+                      package = "hemaClass")
+  metadataCombined <- readRDS(file)
+  fit <- coxph(formula = PFS ~ IPI + ABCGCB2, data = metadataCombined)
   return(fit)
 }

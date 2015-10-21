@@ -1235,8 +1235,8 @@ shinyServer(function(input, output, session) {
         prog.surv <- list()
         pred.data <- as.data.frame(cbind(metadata.in.use, results))      
         
-        fit.OS  <<- fitOS()
-        fit.PFS <<- fitPFS()
+        fit.OS  <<- hemaClass:::fitOS()
+        fit.PFS <<- hemaClass:::fitPFS()
         metadataCombined <<- 
           readRDS("Database/Classification/metadataCombined.rds")
         

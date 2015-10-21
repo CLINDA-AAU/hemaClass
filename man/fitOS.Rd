@@ -2,17 +2,23 @@
 % Please edit documentation in R/fitOS.R
 \name{fitOS}
 \alias{fitOS}
-\title{Fit overall survival}
+\alias{fitPFS}
+\title{Fit overall and progression free survival}
 \usage{
 fitOS()
+
+fitPFS()
 }
 \value{
-An object of type coxph
+An object of class \code{coxph}, see \code{\link[survival]{coxph}}.
 }
 \description{
-Function to fit overall survival.
+Internal functions to fit overall survival and progression free survival
+from IDRC, LLMPP, and MDFCI data.
 }
 \examples{
 fitOS()
+fitPFS()
 }
+\keyword{internal}
 
