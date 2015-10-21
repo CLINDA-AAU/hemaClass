@@ -801,6 +801,27 @@ shinyServer(function(input, output, session) {
   ##
   ##############################################################################
   
+  observeEvent(input$resetButton, {
+    if ("ABCGCB" %in% input$getClassifications) {
+      updateSliderInput(session, "nc.range", value = c(0.1, 0.9))
+    }
+    if ("Rituximab (R)" %in% input$getClassifications) {
+      updateSliderInput(session, "Rituximab.range", value = c(0.38, 0.54))
+    }
+    if ("Cyclophosphamide (C)" %in% input$getClassifications) {
+      updateSliderInput(session, "Cyclophosphamide.range", 
+                        value = c(0.46,0.67))
+    }
+    if ("Doxorubicin (H)" %in% input$getClassifications) {
+      updateSliderInput(session, "Doxorubicin.range", value = c(0.1, 0.86))
+    }
+    if ("Vincristine (O)" %in% input$getClassifications) {
+      updateSliderInput(session, "Vincristine.range", value = c(0.38, 0.54))
+    }
+    if ("Combined (CHO)" %in% input$getClassifications) {
+      updateSliderInput(session, "Combined.range", value = c(0.07, 0.91))
+    }
+  })
   
   MelphalanClassifierR <- reactive({
     if (verbose) cat("MelphalanClassifierR called.\n")
@@ -1658,7 +1679,7 @@ shinyServer(function(input, output, session) {
   output$downloadData <- downloadHandler(
     filename = paste("HemaClass-Classifications", Sys.Date(), ".txt", sep = ""),
     content = function(file) {
-      write.table(results, file, sep = "\t", quote = FALSE)
+      write.table(results, file, sep = "\t", quote = FALSE, row.names = FALSE)
     }
   )
   
