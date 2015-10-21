@@ -397,8 +397,18 @@ shinyUI(
                             min = 0, max = 1, value = c(0.07, 0.91))
               ),
               
+              br(),
+              conditionalPanel(
+                condition = paste(abc.cond, rtx.cond, cyc.cond, dox.cond,
+                                  vin.cond, dex.cond, cho.cond, sep = "|"),
+                helpText("Click to reset ranges to default:"),
+                actionButton("resetButton",
+                             HTML(paste(icon("repeat", lib = "glyphicon"), 
+                                                      "Reset")))
+              ),
               
-              br(),br(),
+              br(),
+              tags$hr(), 
               downloadButton('downloadData', 'Download classification results')
             ), # End sidebarPanel
             mainPanel(
