@@ -76,12 +76,17 @@ def.cols <- c("#9199D1", "#D2786B", "#CED948", "#80DEBC", "#79D472", "#D4C990",
 # Debug
 verbose <- TRUE
 
+fit.OS  <- fitOS()
+fit.PFS <- fitPFS()
+metadataCombined <- 
+  readRDS("Database/Classification/metadataCombined.rds")
 
 #
 # Run the shiny server
 #
 
 shinyServer(function(input, output, session) {
+  
   if (verbose) cat("Shinyserver started.\n")
   
   addResourcePath('data', system.file("extdata/celfiles", package = "hemaClass"))
@@ -1234,11 +1239,6 @@ shinyServer(function(input, output, session) {
         
         prog.surv <- list()
         pred.data <- as.data.frame(cbind(metadata.in.use, results))      
-        
-        fit.OS  <<- readRDS("Database/Classification/fit.ABCGCB2.OS.rds")
-        fit.PFS <<- readRDS("Database/Classification/fit.ABCGCB2.PFS.rds")
-        metadataCombined <<- 
-          readRDS("Database/Classification/metadataCombined.rds")
         
         if (!is.null(input$patientSummaryIPIW) && 
             input$patientSummaryIPIW != "Choose") {
