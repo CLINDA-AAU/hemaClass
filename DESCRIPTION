@@ -5,7 +5,7 @@ Version: 1.1.0
 Author: Steffen Falgreen, Anders Ellern Bilgrau
 Maintainer: Steffen Falgreen <falgreen@me.com>
 URL: http://hemaclass.org, http://github.com/oncoclass/hemaClass
-BugReports: https://github.com/oncoclass/hemaClass/issues
+BugReports: https://github.com/oncoclass/hemaClass/issues/new
 Description: DNA microarray based one-by-one RMA normalisation and 
   classification of hematological diseases with online interface.
 License: file LICENSE

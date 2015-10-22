@@ -4,7 +4,7 @@ hemaClass: Classification tool for haematological diseases
 The package **hemaClass** for the programming language R is a set of tools used for classification of hematological cancers using DNA microarrays. The package features one-by-one and reference based RMA normalisation, a proposed alternatives to regular cohort based RMA normalization, and oncogenomic classification and prediction of drug resistance of Diffuse Large B-Cell Lymphomas (DLBCL) and Multiple Myeloma (MM).
 
 An easy-to-use **shiny** web application is incorporated into the package and available online at [hemaclass.org](http://hemaclass.org) or as a local instance via `runHemaClass()` in R. The **hemaClass** package can naturally also be used programatically as a regular R-package.
-Please do not hessitate to report bugs, suggestions, comments, and other issues for the **hemaClass** website or package [here](https://github.com/oncoclass/hemaclass/issues).
+Please do not hessitate to report bugs, suggestions, comments, and other issues for the **hemaClass** website or package via [`bug.report(package = "hemaClass")`](https://github.com/oncoclass/hemaclass/issues/new).
 
 The currently only featured platform is Affymetrix GeneChip HG-U133 Plus 2.0 (`"u133plus2"`) but more are planned.
 
