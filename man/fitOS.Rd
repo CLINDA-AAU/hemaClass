@@ -17,8 +17,8 @@ Internal functions to fit overall survival and progression free survival
 from IDRC, LLMPP, and MDFCI data.
 }
 \examples{
-fitOS()
-fitPFS()
+hemaClass:::fitOS()
+hemaClass:::fitPFS()
 }
 \keyword{internal}
 

@@ -7,7 +7,7 @@
 #' @aliases fitOS fitPFS
 #' @return An object of class \code{coxph}, see \code{\link[survival]{coxph}}.
 #' @examples
-#' fitOS()
+#' hemaClass:::fitOS()
 #' @importFrom survival coxph
 #' @keywords internal
 fitOS <- function() {
@@ -20,7 +20,7 @@ fitOS <- function() {
 
 #' @rdname fitOS
 #' @examples
-#' fitPFS()
+#' hemaClass:::fitPFS()
 fitPFS <- function() {
   file <- system.file("website/Database/Classification/metadataCombined.rds", 
                       package = "hemaClass")
