@@ -19,8 +19,9 @@ makeHowto(indir = "vignettes", outdir = "inst/website/www", ...)
 \item{makeCelfiles}{logical. Should \code{makeCelfiles()} be executed.
 Default \code{FALSE} is faster.}
 
-\item{indir,}{outdir The in and output directories to read and write the
-files from and to.}
+\item{indir}{The input directory to read the files from.}
+
+\item{outdir}{The output directory to write the files to.}
 
 \item{overwrite}{Overwrite existing files.}
 
