@@ -164,14 +164,11 @@ source("http://bioconductor.org/biocLite.R")
 biocLite(c("affy", "affyio", "preprocessCore"))
 
 # Then from CRAN
-install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo",
-                   "RcppEigen", "testthat", "WriteXLS"))
+install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", 
+                   "testthat", "WriteXLS", "RLumShiny", "gdata", "devtools"))
 
-# From GitHub
-install.packages("devtools")
+# From GitHub and finally the package:
 devtools::install_github("AnalytixWare/ShinySky")
-
-# Finally the package is installed.
 devtools::install_github("oncoclass/hemaClass", dependencies = TRUE,
                          build_vignettes = TRUE)
 ```

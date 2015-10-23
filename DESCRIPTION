@@ -14,20 +14,20 @@ Depends:
     affy
 Imports:
     Biobase,
+    preprocessCore,
+    affyio,
     shiny,
     shinysky,
     RLumShiny,
     matrixStats,
-    preprocessCore,
-    affyio,
     Rcpp (>= 0.10.6),
     RcppArmadillo,
     gdata,
+    survival,
     WriteXLS
-LinkingTo: Rcpp, RcppArmadillo, RcppEigen
+LinkingTo: Rcpp, RcppArmadillo
 Suggests:
     testthat (>= 0.3),
-    survival,
     knitr
 VignetteBuilder: 
     knitr

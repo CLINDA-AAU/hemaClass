@@ -79,28 +79,19 @@ sudo -i R
 ```
 Run the following R-script described in the root `README.md`.
 ```R
+# Install necessary packages
+# First from bioconductor
 source("http://bioconductor.org/biocLite.R")
-biocLite("affy")
-biocLite("affyio")
-biocLite("preprocessCore")
+biocLite(c("affy", "affyio", "preprocessCore"))
 
-# Then form CRAN
-install.packages("shiny")
-install.packages("matrixStats")
-install.packages("Rcpp")
-install.packages("RcppArmadillo")
-install.packages("RcppEigen")
-install.packages("testthat")
-install.packages("gdata")
-install.packages("survival")
-install.packages("WriteXLS")
+# Then from CRAN
+install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", 
+                   "testthat", "WriteXLS", "RLumShiny", "gdata", "devtools"))
 
-# Finally the package is installed.
-install.packages("devtools")  # Uncomment if devtools is not installed
-devtools::install_github("oncoclass/hemaClass", 
-                        dependencies = TRUE)
-
-devtools::install_github("analytixware/shinysky")
+# From GitHub and finally the package:
+devtools::install_github("AnalytixWare/ShinySky")
+devtools::install_github("oncoclass/hemaClass", dependencies = TRUE,
+                         build_vignettes = TRUE)
 
 # To gain support for reading xlsx files
 gdata::installXLSXsupport(perl = "perl", verbose = FALSE)

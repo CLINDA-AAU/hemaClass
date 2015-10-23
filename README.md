@@ -13,20 +13,17 @@ Installation
 If you wish to install the latest version of `hemaClass` directly from the master branch here at GitHub, run 
 
 ```r
-# Install necessary packages 
+# Install necessary packages
 # First from bioconductor
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("affy", "affyio", "preprocessCore"))
 
 # Then from CRAN
 install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", 
-                   "RcppEigen", "testthat", "WriteXLS", "RLumShiny", "gdata"))
+                   "testthat", "WriteXLS", "RLumShiny", "gdata", "devtools"))
 
-# From GitHub 
-install.packages("devtools")
+# From GitHub and finally the package:
 devtools::install_github("AnalytixWare/ShinySky")
-
-# Finally the package is installed.
 devtools::install_github("oncoclass/hemaClass", dependencies = TRUE,
                          build_vignettes = TRUE)
 ```

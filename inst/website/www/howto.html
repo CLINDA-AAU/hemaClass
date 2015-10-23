@@ -1,4 +1,4 @@
-<!-- Generated using hemaClass::makeHowto() from vignettes/howto.Rmd on 2015-10-14 -->
+<!-- Generated using hemaClass::makeHowto() from vignettes/howto.Rmd on 2015-10-23 -->
 <!-- Do not edit by hand! -->
 <!-- Edit vignettes/howto.Rmd instead. -->
 <!DOCTYPE html>
@@ -377,14 +377,11 @@ source(&quot;http://bioconductor.org/biocLite.R&quot;)
 biocLite(c(&quot;affy&quot;, &quot;affyio&quot;, &quot;preprocessCore&quot;))
 
 # Then from CRAN
-install.packages(c(&quot;shiny&quot;, &quot;matrixStats&quot;, &quot;Rcpp&quot;, &quot;RcppArmadillo&quot;,
-                   &quot;RcppEigen&quot;, &quot;testthat&quot;, &quot;WriteXLS&quot;))
+install.packages(c(&quot;shiny&quot;, &quot;matrixStats&quot;, &quot;Rcpp&quot;, &quot;RcppArmadillo&quot;, 
+                   &quot;testthat&quot;, &quot;WriteXLS&quot;, &quot;RLumShiny&quot;, &quot;gdata&quot;, &quot;devtools&quot;))
 
-# From GitHub
-install.packages(&quot;devtools&quot;)
+# From GitHub and finally the package:
 devtools::install_github(&quot;AnalytixWare/ShinySky&quot;)
-
-# Finally the package is installed.
 devtools::install_github(&quot;oncoclass/hemaClass&quot;, dependencies = TRUE,
                          build_vignettes = TRUE)
 </code></pre>
