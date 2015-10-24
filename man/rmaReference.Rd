@@ -40,13 +40,11 @@ ref.affy   <- rmaPreprocessing(affy.batch)
 ref.affy.2 <- rmaPreprocessing(affy.batch, quantile = ref.affy$quantile)
 all(ref.affy.2$exprs - ref.affy$exprs < 0.00000001)
 
-# Use build-in:
+# Or use build-in:
 ref.affy <- readCHEPRETROreference()
 
 # RMA one-by-one pre-process using the reference:
 user.affy  <- rmaReference(affy.batch, ref.affy)
-
-all(user.affy$exprs - ref.affy$exprs < 0.00000001)
 }
 \author{
 Steffen Falgreen <sfl (at) rn.dk> \cr

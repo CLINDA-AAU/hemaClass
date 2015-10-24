@@ -23,8 +23,6 @@ Default \code{FALSE} is faster.}
 
 \item{outdir}{The output directory to write the files to.}
 
-\item{overwrite}{Overwrite existing files.}
-
 \item{\dots}{Arguments passed to \code{knitr:knit2html}.}
 }
 \value{

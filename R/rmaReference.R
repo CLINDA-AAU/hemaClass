@@ -34,13 +34,11 @@
 #' ref.affy.2 <- rmaPreprocessing(affy.batch, quantile = ref.affy$quantile)
 #' all(ref.affy.2$exprs - ref.affy$exprs < 0.00000001)
 #'
-#' # Use build-in:
+#' # Or use build-in:
 #' ref.affy <- readCHEPRETROreference()
 #' 
 #' # RMA one-by-one pre-process using the reference:
 #' user.affy  <- rmaReference(affy.batch, ref.affy)
-#'
-#' all(user.affy$exprs - ref.affy$exprs < 0.00000001)
 #' @import preprocessCore
 #' @export
 rmaReference <- function(affy.batch, reference, test = FALSE) {
@@ -72,7 +70,7 @@ rmaReference <- function(affy.batch, reference, test = FALSE) {
   }
 
   # Normalisation and summarisation according to reference
-  ans <- hemaClass:::userRMA(ref.pm, 
+  ans <- userRMA(ref.pm, 
                  probesets = probesets, 
                  colnames = colnames(ref.pm), 
                  quantile = reference$quantile,  

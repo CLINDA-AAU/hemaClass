@@ -10,7 +10,6 @@
 #'   Default \code{FALSE} is faster.
 #' @param indir  The input directory to read the files from.
 #' @param outdir The output directory to write the files to.
-#' @param overwrite Overwrite existing files.
 #' @param \dots Arguments passed to \code{knitr:knit2html}.
 #' @return Writes to files in \code{outdir}. Invisibly returns the path to the 
 #'   written file.
