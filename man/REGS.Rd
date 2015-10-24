@@ -19,9 +19,9 @@
 \title{REGS for prediction of chemoresistance}
 \usage{
 ResistanceClassifier(new.data, drugs = c("Cyclophosphamide", "Doxorubicin",
-  "Vincristine", "Combined"), cut = list(Cyclophosphamide = c(0.455, 0.67),
-  Doxorubicin = c(0.1, 0.86), Vincristine = c(0.38, 0.54), Combined = c(0.067,
-  0.907)))
+  "Vincristine", "Combined"), cut = list(Cyclophosphamide = c(0.33, 0.545),
+  Doxorubicin = c(0.14, 0.9), Vincristine = c(0.46, 0.62), Combined = c(0.093,
+  0.933)))
 
 ResistancePredictor(new.data, drugs = c("Cyclophosphamide", "Doxorubicin",
   "Vincristine", "Combined"), cut = list(Cyclophosphamide = c(280, 340),
