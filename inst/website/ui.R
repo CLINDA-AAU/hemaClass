@@ -362,7 +362,7 @@ shinyUI(
                 sliderInput("Cyclophosphamide.range", 
                             "Cyclophosphamide, range of intermediate:", 
                             step = 0.01,
-                            min = 0, max = 1, value = c(0.46,0.67))
+                            min = 0, max = 1, value = c(0.33,0.55))
               ),
               
               conditionalPanel(
@@ -370,7 +370,7 @@ shinyUI(
                 sliderInput("Doxorubicin.range", 
                             "Doxorubicin, range of intermediate:", 
                             step = 0.01,
-                            min = 0, max = 1, value = c(0.1, 0.86))
+                            min = 0, max = 1, value = c(0.14, 0.9))
               ),
               
               conditionalPanel(
@@ -378,7 +378,7 @@ shinyUI(
                 sliderInput("Vincristine.range", 
                             "Vincristine, range of intermediate:",
                             step = 0.01,
-                            min = 0, max = 1, value =  c(0.38, 0.54))
+                            min = 0, max = 1, value =  c(0.46, 0.62))
               ),
               
               conditionalPanel(
@@ -394,7 +394,7 @@ shinyUI(
                 sliderInput("Combined.range", 
                             "Combined CHO, range of intermediate:", 
                             step = 0.01,
-                            min = 0, max = 1, value = c(0.07, 0.91))
+                            min = 0, max = 1, value = c(0.09, 0.93))
               ),
               
               br(),
