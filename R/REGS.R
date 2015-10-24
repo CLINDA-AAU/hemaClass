@@ -99,10 +99,10 @@
 ResistanceClassifier <- function(new.data, 
                                  drugs = c("Cyclophosphamide", "Doxorubicin", 
                                            "Vincristine", "Combined"),
-                                 cut = list(Cyclophosphamide = c(0.455, 0.67),
-                                            Doxorubicin      = c(0.1,   0.86),
-                                            Vincristine      = c(0.38,  0.54),
-                                            Combined         = c(0.067, 0.907))) {
+                                 cut = list(Cyclophosphamide = c(0.33, 0.545),
+                                            Doxorubicin      = c(0.14,   0.9),
+                                            Vincristine      = c(0.46,  0.62),
+                                            Combined         = c(0.093, 0.933))) {
   
   new.data[is.na(new.data)] <- 0
   train.mat <- ResistanceProbFun(new.data, setdiff(drugs, "Combined"))
@@ -122,9 +122,9 @@ ResistanceClassifier <- function(new.data,
   class[,] <- "Intermediate"
   
   class[train.mat < matrix(unlist(rep(data.frame(cut)[1,], each = nrow(train.mat))),
-                           nrow = nrow(train.mat), byrow = FALSE)] <- "Resistant"
-  class[train.mat > matrix(unlist(rep(data.frame(cut)[2,], each = nrow(train.mat))),
                            nrow = nrow(train.mat), byrow = FALSE)] <- "Sensitive"
+  class[train.mat > matrix(unlist(rep(data.frame(cut)[2,], each = nrow(train.mat))),
+                           nrow = nrow(train.mat), byrow = FALSE)] <- "Resistant"
   
   class <- as.data.frame(class)
   
@@ -190,8 +190,8 @@ CyclophosphamideClassifier <- function(new.data) {
   
   prob <- t(x) %*% as.matrix((coef))
   
-  prob <- 1 - exp(prob) / (exp(prob) + exp(-prob))
-  colnames(prob) <- "Sensitive"
+  prob <- exp(prob) / (exp(prob) + exp(-prob))
+  colnames(prob) <- "Resistant"
   return(prob)
 }
 
@@ -215,8 +215,8 @@ DoxorubicinClassifier <- function(new.data) {
   
   prob <- t(x) %*% as.matrix((coef))
   
-  prob <- 1 - exp(prob) / (exp(prob) + exp(-prob))
-  colnames(prob) <- "Sensitive"
+  prob <-  exp(prob) / (exp(prob) + exp(-prob))
+  colnames(prob) <- "Resistant"
   return(prob)
 }
 
@@ -240,8 +240,8 @@ VincristineClassifier <- function(new.data) {
   
   prob <- t(x) %*% as.matrix((coef)  )
   
-  prob <- 1 - exp(prob) / (exp(prob) + exp(-prob))
-  colnames(prob) <- "Sensitive"
+  prob <- exp(prob) / (exp(prob) + exp(-prob))
+  colnames(prob) <- "Resistant"
   return(prob)
 }
 
@@ -300,7 +300,9 @@ ResistanceProbFun <- function(newx,
   
   prob.mat <- t(x) %*% coef[, drugs, drop = FALSE]
   
-  return(exp(-prob.mat) / (exp(prob.mat) + exp(-prob.mat)))
+  prob.mat2 <- exp(prob.mat) / (exp(prob.mat) + exp(-prob.mat))
+  
+  return(prob.mat2)
 }
 
 
@@ -364,8 +366,8 @@ RituximabClassifier <- function(new.data,
     prob <- exp(prob) / (exp(prob) + exp(-prob))
     colnames(prob) <- "Resistant"
     
-    prob <- 1 - prob # to obtain probability of being sensitive
-    colnames(prob) <- "Sensitivity"
+   # prob <- 1 - prob # to obtain probability of being sensitive
+  #  colnames(prob) <- "Sensitivity"
     
     if (!is.null(calc.cut)) {
       cut <- quantile(prob, calc.cut)
@@ -457,8 +459,8 @@ DexamethasoneClassifier <- function(new.data){
   x <- rbind(1, new.data[names(coef)[-1], , drop = FALSE])
   
   prob <- t(x) %*% as.matrix(coef)
-  prob <- 1 - exp(prob)/(exp(prob) + exp(-prob))
-  colnames(prob) <- "Sensitive"
+  prob <- exp(prob)/(exp(prob) + exp(-prob))
+  colnames(prob) <- "Resistant"
   return(prob)
 }
 
