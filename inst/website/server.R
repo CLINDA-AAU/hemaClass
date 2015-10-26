@@ -1143,30 +1143,36 @@ shinyServer(function(input, output, session) {
                round(surv.years, 2),  " years (OS) with a ",
                round(pfs.prob[patient], 3)*100, 
                " % probability of no progression (PFS).")
-
+      
       # REGS
-      txt["Rituximab (R)"] <- sprintf("%s towards Rituximap (R) with %s.", 
-                                      this.res$RtxClass, 
-                                      probToText(this.res$RtxProb))
-      txt["Cyclophosphamide (C)"] <- sprintf("%s towards Cyclophosphamide (C) with %s.", 
-                                             this.res$CycClass, 
-                                             probToText(this.res$CycProb))
-      txt["Doxorubicin (H)"] <- sprintf("%s towards Doxorubicin (H) with %s.", 
-                                        this.res$DoxClass, 
-                                        probToText(this.res$DoxProb))
-      txt["Vincristine (O)"] <- sprintf("%s towards Vincristine (O) with %s.", 
-                                        this.res$VinClass, 
-                                        probToText(this.res$VinProb))
-      txt["Dexamethasone"] <- sprintf("%s towards Dexamethasone with %s.", 
-                                          this.res$DexClass, 
-                                          probToText(this.res$DexProb))
-      txt["Combined (CHO)"] <- sprintf("%s towards CHO combiend with %s.", 
-                                       this.res$CombClass,
-                                       probToText(this.res$CombProb))
-      txt["Melphalan"] <- sprintf("%s towards Melphalan (M) with %s.", 
-                                  this.res$MelClass, 
-                                  probToText(this.res$MelProb))
-    
+      regsText <- function(drug, class, prob) {
+        if (class == "Resistant") {
+          sprintf("%s towards %s with %s.", 
+                  class, drug, probToText(prob))
+        } else {
+          sprintf("%s towards %s with %s of being resistant.", 
+                  class, drug, probToText(prob))
+        }
+      }
+      
+      txt["Cyclophosphamide (C)"] <- 
+        with(this.res, regsText("Cyclophosphamide (C)", CycClass, CycProb))
+      txt["Doxorubicin (H)"] <- 
+        with(this.res, regsText("Doxorubicin (H)", DoxClass, DoxProb))
+      txt["Vincristine (O)"] <- 
+        with(this.res, regsText("Vincristine (O)", VinClass, VinProb))
+      txt["Combined (CHO)"] <-  
+        with(this.res, regsText("the CHO combination", CombClass, CombProb))
+      txt["Dexamethasone"] <- 
+        with(this.res, regsText("Dexamethasone", DexClass, DexProb))
+      
+      txt["Rituximab (R)"] <- 
+        with(this.res, sprintf("%s towards Rituximap (R) with %s.", 
+                               RtxClass, probToText(RtxProb, TRUE)))
+      txt["Melphalan"] <- 
+        with(this.res,  sprintf("%s towards Melphalan with %s.", 
+                                MelClass, probToText(MelProb, TRUE)))
+      
       get <- setdiff(input$getClassifications, names(txt)[1:3])
       regs.text <- paste0(if (length(get)) {"<strong>REGS:</strong> The patient 
                           is predicted to be: "},
