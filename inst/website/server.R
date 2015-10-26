@@ -436,15 +436,12 @@ shinyServer(function(input, output, session) {
   
   output$buildindataselector <- renderUI({
     data.list <- list()
-    
     for (data.iter in c("Choose", buildin.datasets)) {
       data.list[[data.iter]] <- data.iter
     }
-    
     selectInput(inputId = "choosebuildidDataset", 
                 label   = "Choose a dataset",
                 choices = data.list)
-    
   })
   
   
@@ -460,11 +457,12 @@ shinyServer(function(input, output, session) {
       return(buildin.data)
     }
     
-    # LoadAnnotation()
     
     if (dataset %in% buildin.datasets) {
-      if (!dataset %in% names(buildin.data)) {
+      if (!(dataset %in% names(buildin.data))) {
         hideshinyalert(session, "shinyalertResults")
+        
+        # Organize GEP
         GEP.file <- dir(file.path("Database/", dataset, "GEP"), 
                         full.names = TRUE, pattern = ".rds")
         GEP.data.temp <- readRDS(GEP.file)
@@ -478,10 +476,11 @@ shinyServer(function(input, output, session) {
                               ignore.case = TRUE)
         buildin.data[[dataset]][["GEP.mean"]] <<- GEP.mean
         
-        
+        # Organize metadata
         Meta.file <- dir(file.path("Database/", dataset, "Metadata"), 
                          full.names = TRUE, pattern = ".rds")
         meta <- readRDS(Meta.file)  
+        if (!is.null(meta$GEO.ID)) rownames(meta) <- meta$GEO.ID
         rownames(meta) <- gsub("\\.CEL$", "", rownames(meta),
                                ignore.case = TRUE)
         buildin.data[[dataset]][["metadata"]] <<- meta
@@ -492,7 +491,6 @@ shinyServer(function(input, output, session) {
   
   
   output$buildinMetaData <- renderDataTable({ 
-    #input$buildindataselector
     loadbuildinData()
     dataset <- input$choosebuildidDataset
     
@@ -566,7 +564,7 @@ shinyServer(function(input, output, session) {
     }
     data.list <- list()
     
-    for (data.iter in c( available.datasets)) {
+    for (data.iter in available.datasets) {
       data.list[[data.iter]] <- data.iter
     }
     
@@ -1233,9 +1231,10 @@ shinyServer(function(input, output, session) {
       
       rownames(results) <- results$files
       metadata.in.use <- MetaDataInUse()
-
+        
       prog.surv <- NULL
-      stopifnot(all(rownames(results) == rownames(metadata.in.use))) 
+
+      stopifnot(all(rownames(results) == rownames(metadata.in.use)))
       if (!is.null(input$patientSummarySelectW)) {
         
         prog.surv <- list()
