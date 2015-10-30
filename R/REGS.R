@@ -374,8 +374,8 @@ RituximabClassifier <- function(new.data,
     }
     class <- prob
     class[] <- "Intermediate"
-    class[prob < min(cut)] <- "Resistant"
-    class[prob > max(cut)] <- "Sensitive"
+    class[prob < min(cut)] <- "Sensitive"
+    class[prob > max(cut)] <- "Resistant"
     
     class <- as.data.frame(class)
     
