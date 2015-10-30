@@ -3,6 +3,14 @@
 \newcommand{\cpkg}{\href{http://CRAN.R-project.org/package=#1}{\pkg{#1}}}
 \newcommand{\issue}{\href{https://github.com/oncoclass/hemaClass/issues/#1}{issue ##1}}
 
+\section{Changes in version 1.1 - Oct. 2015}{
+  \itemize{
+  \item Changed the probabilities from sensitivity to resistance.
+  \item Added acknowledgements to the about page.
+  \item Updated documentation and article.
+  }
+}
+
 \section{Changes in version 1.0.4 - Oct. 2015}{
   \itemize{
     \item Patch to v1.0.4:
