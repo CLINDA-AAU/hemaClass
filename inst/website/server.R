@@ -124,7 +124,7 @@ shinyServer(function(input, output, session) {
       fileInfo <- input$usrFiles
       
       if (!is.null(fileInfo$name)) {
-        new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
+        new.names <-  gsub("\\.CEL(.gz)?$", "", fileInfo$name, ignore.case = TRUE)
         if (input$IPIcalc) {
           
           old.data <- currentMetadataManual()
@@ -206,7 +206,7 @@ shinyServer(function(input, output, session) {
           if (any(is.na(old.data$CEL.files))) {
             return(NULL)
           }
-          new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
+          new.names <-  gsub("\\.CEL(.gz)?$", "", fileInfo$name, ignore.case = TRUE)
           
           old.data$CEL.files[is.na(old.data$CEL.files)] <- 
             paste("a", seq_len(sum(is.na(old.data$CEL.files))))
@@ -216,7 +216,7 @@ shinyServer(function(input, output, session) {
         }
       } else {
         cols <- unique(c("CEL.files", "IPI", input$Additionalcolumns))
-        new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
+        new.names <-  gsub("\\.CEL(.gz)?$", "", fileInfo$name, ignore.case = TRUE)
         data <- matrix(NA, 
                        ncol =  length(cols), 
                        nrow = length(fileInfo$name), 
@@ -342,14 +342,14 @@ shinyServer(function(input, output, session) {
       
       fileInfo <- (input$usrFiles) 
       
-      new.names <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
+      new.names <-  gsub("\\.CEL(.gz)?$", "", fileInfo$name, ignore.case = TRUE)
       
       
       if (any(apply(metadata.upload, 2, FUN = function(x) 
-        any( gsub("\\.CEL$", "", x, ignore.case = TRUE) %in% new.names)))) {
+        any( gsub("\\.CEL(.gz)?$", "", x, ignore.case = TRUE) %in% new.names)))) {
         
         names <- apply(metadata.upload, 2, FUN = function(x) 
-          any( gsub("\\.CEL$", "", x, ignore.case = TRUE) %in% new.names))      
+          any( gsub("\\.CEL(.gz)?$", "", x, ignore.case = TRUE) %in% new.names))      
         
         selected <- names(names)[names][1]
       }
@@ -412,13 +412,13 @@ shinyServer(function(input, output, session) {
                        styleclass = "danger") 
       } else {
         new.names <- 
-          gsub("\\.CEL$", "", metadata.upload[, input$metadataUploadCelfiles], 
+          gsub("\\.CEL(.gz)?$", "", metadata.upload[, input$metadataUploadCelfiles], 
                ignore.case = TRUE)
         rownames(metadata.upload) <-  new.names
         isolate({
           fileInfo <- input$usrFiles
         })
-        new.names2 <-  gsub("\\.CEL$", "", fileInfo$name, ignore.case = TRUE)
+        new.names2 <-  gsub("\\.CEL(.gz)?$", "", fileInfo$name, ignore.case = TRUE)
         metadata.upload <- metadata.upload[new.names2, , drop = FALSE] 
         chosenDataset <<- "Uploaded metadata"
       }
@@ -467,12 +467,12 @@ shinyServer(function(input, output, session) {
                         full.names = TRUE, pattern = ".rds")
         GEP.data.temp <- readRDS(GEP.file)
         GEP <- microarrayScale(exprs(GEP.data.temp))
-        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP),
+        colnames(GEP) <- gsub("\\.CEL(.gz)?$", "", colnames(GEP),
                               ignore.case = TRUE)
         buildin.data[[dataset]][["GEP"]] <<- GEP
         
         GEP.mean <- microarrayScale(exprs(GEP.data.temp), center = "mean")
-        colnames(GEP) <- gsub("\\.CEL$", "", colnames(GEP.mean), 
+        colnames(GEP) <- gsub("\\.CEL(.gz)?$", "", colnames(GEP.mean), 
                               ignore.case = TRUE)
         buildin.data[[dataset]][["GEP.mean"]] <<- GEP.mean
         
@@ -481,7 +481,7 @@ shinyServer(function(input, output, session) {
                          full.names = TRUE, pattern = ".rds")
         meta <- readRDS(Meta.file)  
         if (!is.null(meta$GEO.ID)) rownames(meta) <- meta$GEO.ID
-        rownames(meta) <- gsub("\\.CEL$", "", rownames(meta),
+        rownames(meta) <- gsub("\\.CEL(.gz)?$", "", rownames(meta),
                                ignore.case = TRUE)
         buildin.data[[dataset]][["metadata"]] <<- meta
       }
@@ -668,7 +668,7 @@ shinyServer(function(input, output, session) {
     isolate({
       if (!is.null(input$refFiles)) {
         fileInfo <- input$refFiles
-        if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
+        if (!all(grepl("\\.CEL(.gz)?$", fileInfo$name, ignore.case = TRUE))) {
           
           showshinyalert(session, "shinyalertSelectReference",  
                          non.cel.files.uploaded.text,
@@ -715,7 +715,7 @@ shinyServer(function(input, output, session) {
     input$normalizeButton
     isolate({
       fileInfo <- input$usrFiles
-      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
+      if (!all(grepl("\\.CEL(.gz)?$", fileInfo$name, ignore.case = TRUE))) {
         stop("Not all chosen files are .CEL files.")
       }
       
@@ -750,7 +750,7 @@ shinyServer(function(input, output, session) {
     # Use isolate() to avoid dependency on input$usrFiles
     isolate({
       fileInfo <- input$usrFiles
-      
+		
       if (!is.null(user.affy)) {
         # LoadAnnotation()
         if (input$ChooseMethod == "standardReference") {       
@@ -775,9 +775,9 @@ shinyServer(function(input, output, session) {
         }
         
         colnames(normalized.data.RMA$exprs) <<- 
-          gsub("\\.CEL$", "", input$usrFiles$name, ignore.case = TRUE)
+          gsub("\\.CEL(.gz)?$", "", input$usrFiles$name, ignore.case = TRUE)
         colnames(normalized.data.RMA$exprs.sc) <<-
-          gsub("\\.CEL$", "", input$usrFiles$name, ignore.case = TRUE)
+          gsub("\\.CEL(.gz)?$", "", input$usrFiles$name, ignore.case = TRUE)
         
         normalized.data <<- normalized.data.RMA$exprs.sc
         attr(normalized.data, "files") <<- input$usrFiles$name
@@ -975,14 +975,14 @@ shinyServer(function(input, output, session) {
       chosen.names <<- setdiff(chosen.names, c("VinProb", "VinClass")) 
     }
     
-    Dex <- DexamethasoneClassifierR()
-    results$"DexProb"  <<- Dex$probs
-    results$"DexClass" <<- Dex$class
-    if ("Dexamethasone" %in% input$getClassifications) {
-      chosen.names <<- c(chosen.names, "DexProb", "DexClass")
-    } else {
-      chosen.names <<- setdiff(chosen.names, c("DexProb", "DexProb"))
-    }
+   # Dex <- DexamethasoneClassifierR()
+   # results$"DexProb"  <<- Dex$probs
+   # results$"DexClass" <<- Dex$class
+   # if ("Dexamethasone" %in% input$getClassifications) {
+   #   chosen.names <<- c(chosen.names, "DexProb", "DexClass")
+   # } else {
+   #   chosen.names <<- setdiff(chosen.names, c("DexProb", "DexProb"))
+   # }
     
     results$CombProb  <<- CHO.single$prob[,"Combined"]
     results$CombClass <<- CHO.single$class[,"Combined"]
@@ -1361,7 +1361,7 @@ shinyServer(function(input, output, session) {
       return(0)
     } else {
       fileInfo <- input$usrFiles
-      if (!all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
+      if (!all(grepl("\\.CEL(.gz)?$", fileInfo$name, ignore.case = TRUE))) {
         showshinyalert(session, "shinyalertUploadCel",  
                        non.cel.files.uploaded.text,
                        styleclass = "danger")
@@ -1419,7 +1419,7 @@ shinyServer(function(input, output, session) {
     input$usrFiles
     if (!is.null(input$usrFiles)) {
       fileInfo <- input$usrFiles
-      if (all(grepl("\\.CEL$", fileInfo$name, ignore.case = TRUE))) {
+      if (all(grepl("\\.CEL(.gz)?$", fileInfo$name, ignore.case = TRUE))) {
         if (input$ChooseMethod == "blah") {
           info.text <- HTML(
             paste(HANDLEFT, "Please select the RMA pre-processing method.")
@@ -1441,7 +1441,7 @@ shinyServer(function(input, output, session) {
                              styleclass = "info")
               return(0)
             } else {
-              if (!all(grepl("\\.CEL$", input$refFiles$name, 
+              if (!all(grepl("\\.CEL(.gz)?$", input$refFiles$name, 
                              ignore.case = TRUE))) {
                 showshinyalert(session, "shinyalertSelectReference",  
                                non.cel.files.uploaded.text,
@@ -1685,6 +1685,7 @@ shinyServer(function(input, output, session) {
     filename = paste("HemaClass-Classifications", Sys.Date(), ".txt", sep = ""),
     content = function(file) {
       write.table(results, file, sep = "\t", quote = FALSE, row.names = FALSE)
+	  #write.table(results[, c("files", chosen.names)], file, sep = "\t", quote = FALSE, row.names = FALSE)
     }
   )
   

@@ -6,7 +6,6 @@ These are our internal instructions and reference on maintaining the **hemaClass
 Start a terminal and log onto the server as a super user by running:
 ```sh
 ssh -X <username>@oncoclass.hpc.aau.dk
-#ssh -X sfl@oncoclass.hpc.aau.dk
 ```
 With the appropriate username.
 When prompted, enter your password.
@@ -105,16 +104,10 @@ gdata::installXLSXsupport(perl = "perl", verbose = FALSE)
 In a local terminal, and run one of the following command to copy the current website to your user folder on the server.
 ```sh
 scp -r /hemaClass/inst/website/ <username>@oncoclass.hpc.aau.dk:~/
-#scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/website/ sfl@oncoclass.hpc.aau.dk:~/
-#scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/website/ m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/
-#scp -r /Users/anders/Documents/hemaClass/inst/website/ abilgrau@math.aau.dk@oncoclass.hpc.aau.dk:~/
 ```
 Remember to use the correct paths. Log onto the server as a sudo user:
 ```sh
 ssh -X <username>@oncoclass.hpc.aau.dk
-#ssh -X sfl@oncoclass.hpc.aau.dk
-#ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
-#ssh -X abilgrau@math.aau.dk@oncoclass.hpc.aau.dk
 ```
 After you have logged in you can copy the file into the shiny server folder:
 ```sh
@@ -130,14 +123,8 @@ to save precious server space.
 In order to only submit changes made to the website only and not the database (i.e. `server.R` and `ui.R`) use
 ```sh
 scp /hemaClass/inst/website/*.R <username>@oncoclass.hpc.aau.dk:~/website/
-#scp -r /Users/Falgreen/Documents/R-packages/hemaClass/inst/website/*.R sfl@oncoclass.hpc.aau.dk:~/website/
-#scp -r /Users/mboegsted/Documents/R-packages/hemaClass/inst/website/*.R m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk:~/website/
-#scp /Users/anders/Documents/hemaClass/inst/website/*.R abilgrau@math.aau.dk@oncoclass.hpc.aau.dk:~/website/
 
 ssh -X <username>@oncoclass.hpc.aau.dk
-#ssh -X sfl@oncoclass.hpc.aau.dk
-#ssh -X m_boegsted@dcm.aau.dk@oncoclass.hpc.aau.dk
-#ssh -X abilgrau@math.aau.dk@oncoclass.hpc.aau.dk
 
 sudo cp -r  ~/website/*.R /srv/shiny-server/hemaClass/website
 ```
