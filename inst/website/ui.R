@@ -128,7 +128,11 @@ shinyUI(
                          reference:"),
                 actionButton("normalizeButton", 
                              HTML(paste(icon("cog", lib = "glyphicon"), 
-                                        "Normalize files")))
+                                        "Normalize files"))),
+				sliderInput("rle.iqr.threshold",
+                            "Keep samples with RLE IQR less than:",
+                            step = 0.01,
+                            min = 0, max = 1.5, value = 0.6)
               )
               
               
@@ -144,7 +148,7 @@ shinyUI(
                          auto.close.after = 10),
               shinyalert("shinyalertNormalizationSuccess", 
                          click.hide = FALSE, auto.close.after = 10),
-              dataTableOutput("normalizedData"),
+              dataTableOutput("rle.stats"),
               conditionalPanel(
                 condition = "output.showErrorprints!=0",
                 verbatimTextOutput("start"), 

@@ -88,6 +88,8 @@ shinyServer(function(input, output, session) {
   
   # Initialzing the local objects to be filled
   normalized.data <- NULL
+  normalized.data.rle.stats <- NULL
+  rle.stats <- NULL
   normalized.data.mean <- NULL
   normalized.data.RMA <- NULL
   user.reference  <- NULL
@@ -625,8 +627,10 @@ shinyServer(function(input, output, session) {
     }
     
     createData() 
-    if (!is.null(normalized.data)) {
-      GEP.in.use <- normalized.data
+	includeSamples=normalized.data.rle.stats[,3] < input$rle.iqr.threshold
+	
+    if (!is.null(normalized.data) & sum(includeSamples)>0) {
+	  GEP.in.use <- normalized.data[,includeSamples, drop=FALSE]
       return(GEP.in.use)
     }   
     return(GEP.in.use)
@@ -647,13 +651,16 @@ shinyServer(function(input, output, session) {
     }
     
     createData() 
-    if (!is.null(normalized.data.mean)) {
-      GEP.in.use <- normalized.data.mean
+	includeSamples=normalized.data.rle.stats[,3] < input$rle.iqr.threshold
+	
+    if (!is.null(normalized.data.mean) & sum(includeSamples)>0) {
+	  GEP.in.use <- normalized.data.mean[,includeSamples, drop=FALSE]
       return(GEP.in.use)
     }   
     
     return(GEP.in.use)
   })
+  
   
   ##############################################################################
   ##
@@ -778,13 +785,18 @@ shinyServer(function(input, output, session) {
           gsub("\\.CEL(.gz)?$", "", input$usrFiles$name, ignore.case = TRUE)
         colnames(normalized.data.RMA$exprs.sc) <<-
           gsub("\\.CEL(.gz)?$", "", input$usrFiles$name, ignore.case = TRUE)
+		rownames(normalized.data.RMA$RLE.stats) <<-
+          gsub("\\.CEL(.gz)?$", "", input$usrFiles$name, ignore.case = TRUE)
         
         normalized.data <<- normalized.data.RMA$exprs.sc
         attr(normalized.data, "files") <<- input$usrFiles$name
         
         normalized.data.mean <<- normalized.data.RMA$exprs.sc.mean
         attr(normalized.data.mean, "files") <<- input$usrFiles$name
-        
+		
+		normalized.data.rle.stats <<- normalized.data.RMA$RLE.stats
+        attr(normalized.data.rle.stats, "files") <<- input$usrFiles$name
+		       			
         hideshinyalert(session, "shinyalertResults")
         showshinyalert(session, "shinyalertNormalizationSuccess",  
                        HTML(paste(SUCCES, "The normalization was successful!")),
@@ -793,6 +805,7 @@ shinyServer(function(input, output, session) {
     })
   })
   
+		  
   ##############################################################################
   ##
   ## The classification
@@ -1664,6 +1677,18 @@ shinyServer(function(input, output, session) {
     
     data.frame(Probeset = row.names(normalized.data), 
                normalized.data)[1:100, , drop = FALSE]
+  })
+  
+  output$rle.stats <- renderDataTable({ 
+    createData()
+	
+    if (is.null(normalized.data.rle.stats))
+      return(NULL)
+	data.frame(
+		round(normalized.data.rle.stats,3),
+		"Include"=as.character(normalized.data.rle.stats[,3] < input$rle.iqr.threshold),
+		check.names=FALSE)
+		#"Include"=factor(normalized.data.rle.stats[,3] < input$rle.iqr.threshold, labels=c("No","Yes")),
   })
   
   # Render table of uploaded files
