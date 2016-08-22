@@ -1685,6 +1685,7 @@ shinyServer(function(input, output, session) {
     if (is.null(normalized.data.rle.stats))
       return(NULL)
 	data.frame(
+		"Files"=row.names(normalized.data.rle.stats),
 		round(normalized.data.rle.stats,3),
 		"Include"=as.character(normalized.data.rle.stats[,3] < input$rle.iqr.threshold),
 		check.names=FALSE)
