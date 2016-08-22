@@ -81,6 +81,21 @@ rmaReference <- function(affy.batch, reference, test = FALSE) {
   ans$exprs.sc      <- (ans$exprs - reference$median[nms])/reference$sd[nms]
   ans$exprs.sc.mean <- (ans$exprs - reference$mean[nms])/reference$sd[nms]
   
+  # Calculate RLE
+  ans$RLE       <- (ans$exprs - reference$median[nms])
+  ans$RLE.stats <- rleSTATS(ans$RLE)
+  
   return(ans)
 }
 
+rleSTATS=function(rle){
+  rle_mean=colMeans(rle)
+  rle_median=matrixStats::colMedians(rle)
+  rle_iqr=apply(rle,2,matrixStats::iqr)
+  rle_lower=apply(rle,2,function(x){quantile(x, probs=0.025)})
+  rle_upper=apply(rle,2,function(x){quantile(x, probs=0.975)})
+  
+  results=cbind(rle_mean,rle_median,rle_iqr,rle_lower,rle_upper)
+  colnames(results)=c("RLE mean","RLE Median","RLE IQR","RLE 2.5%","RLE 97.5%")
+  return(results)
+}

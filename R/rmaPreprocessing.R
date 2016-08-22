@@ -102,6 +102,10 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL) {
   exprs.sc      <- (ans$exprs - ref.median)/ref.sd
   exprs.sc.mean <- (ans$exprs - ref.mean)/ref.sd
   
+  # Calculate RLE
+  ans$RLE       <- ans$exprs - ref.median
+  ans$RLE.stats <- rleSTATS(ans$RLE)
+  
   return(list(exprs = ans$exprs, 
               exprs.sc = exprs.sc, 
               exprs.sc.mean = exprs.sc.mean, 
@@ -110,6 +114,8 @@ rmaPreprocessing <- function(affy.batch, test = FALSE, quantile = NULL) {
               sd = ref.sd, 
               median = ref.median, 
               mean = ref.mean,
-              bad = bad))
+              bad = bad,
+			  RLE=ans$RLE,
+			  RLE.stats=ans$RLE.stats))
 }
 
