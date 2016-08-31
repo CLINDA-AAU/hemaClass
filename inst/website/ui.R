@@ -129,9 +129,6 @@ shinyUI(
                 actionButton("normalizeButton", 
                              HTML(paste(icon("cog", lib = "glyphicon"), 
                                         "Normalize files"))),
-				tags$br(),
-				tags$hr(),
-								
 				sliderInput("rle.iqr.threshold",
                             "Keep samples with RLE IQR less than:",
                             step = 0.01,
@@ -165,104 +162,104 @@ shinyUI(
           )
         ), # End tabPanel "CEL files" 
         
-        navbarMenu( 
-          'Metadata', 
-          tabPanel(
-            'Input manually', 
-            sidebarLayout( 
-              sidebarPanel(
-                helpText("You may also calculate IPI from clinical features."),
-                checkboxInput(inputId = "IPIcalc",
-                              label = "Calculate IPI", value = FALSE),
+        # navbarMenu( 
+          # 'Metadata', 
+          # tabPanel(
+            # 'Input manually', 
+            # sidebarLayout( 
+              # sidebarPanel(
+                # helpText("You may also calculate IPI from clinical features."),
+                # checkboxInput(inputId = "IPIcalc",
+                              # label = "Calculate IPI", value = FALSE),
                 
-                helpText("Additional columns"),
+                # helpText("Additional columns"),
                 
-                select2Input("Additionalcolumns", 
-                             "Type in the names.",
-                             choices = c("Age","LDH"),
-                             selected = "IPI"),
+                # select2Input("Additionalcolumns", 
+                             # "Type in the names.",
+                             # choices = c("Age","LDH"),
+                             # selected = "IPI"),
                 
-                conditionalPanel(
-                  condition = "input.IPIcalc",
-                  helpText("You may change the settings for the IPI calculation."),
-                  numericInput(inputId = "AGE.cut", label = "Get point when age > x", 60),
-                  numericInput(inputId = "ECOG.cut", label = "Get point when ECOG > x", 1),
-                  numericInput(inputId = "LDH.cut", label = "Get point when LDH > x", 1),
-                  numericInput(inputId = "N.Extra.Nodal.cut", 
-                               label = "Get point when number of extra nodal sites > x", 1),
-                  numericInput(inputId = "Stage.cut", label = "Get point when Stage > x", 2)
+                # conditionalPanel(
+                  # condition = "input.IPIcalc",
+                  # helpText("You may change the settings for the IPI calculation."),
+                  # numericInput(inputId = "AGE.cut", label = "Get point when age > x", 60),
+                  # numericInput(inputId = "ECOG.cut", label = "Get point when ECOG > x", 1),
+                  # numericInput(inputId = "LDH.cut", label = "Get point when LDH > x", 1),
+                  # numericInput(inputId = "N.Extra.Nodal.cut", 
+                               # label = "Get point when number of extra nodal sites > x", 1),
+                  # numericInput(inputId = "Stage.cut", label = "Get point when Stage > x", 2)
                   
-                ),
-                tags$hr(), 
-                downloadButton('downloadMetadataManual', 'Download metadata')
-              ), 
-              mainPanel(
+                # ),
+                # tags$hr(), 
+                # downloadButton('downloadMetadataManual', 'Download metadata')
+              # ), 
+              # mainPanel(
                 
-                shinyalert("shinyalertInputMeta", click.hide = FALSE),
+                # shinyalert("shinyalertInputMeta", click.hide = FALSE),
                 
-                conditionalPanel(
-                  condition = "input.IPIcalc",
-                  helpText("Input the clinical features for each patient below.",
-                           "The IPI values are calculated automatically.")
-                ),
-                conditionalPanel(
-                  condition = "!input.IPIcalc",
-                  helpText("Input the IPI scores for each patient below.")
-                ),
-                div(class = "well container-fluid",
-                    hotable("hotableMetadataManual"))
-              )
-            ) 
-          ), # End tabPanel "Input manually"
-          tabPanel(
-            'Upload metadata', 
-            sidebarPanel(
-              h4("Upload file containing metadata"),
-              busyIndicator("Processing the metadata", wait = 1000),
-              fileInput("usrMeta", 
-                        "Please upload the file storing the metadata", 
-                        accept = "", multiple = FALSE),
+                # conditionalPanel(
+                  # condition = "input.IPIcalc",
+                  # helpText("Input the clinical features for each patient below.",
+                           # "The IPI values are calculated automatically.")
+                # ),
+                # conditionalPanel(
+                  # condition = "!input.IPIcalc",
+                  # helpText("Input the IPI scores for each patient below.")
+                # ),
+                # div(class = "well container-fluid",
+                    # hotable("hotableMetadataManual"))
+              # )
+            # ) 
+          # ), # End tabPanel "Input manually"
+          # tabPanel(
+            # 'Upload metadata', 
+            # sidebarPanel(
+              # h4("Upload file containing metadata"),
+              # busyIndicator("Processing the metadata", wait = 1000),
+              # fileInput("usrMeta", 
+                        # "Please upload the file storing the metadata", 
+                        # accept = "", multiple = FALSE),
               
-              conditionalPanel(
-                condition = "output.showReadMetaMethods=='txt'",
+              # conditionalPanel(
+                # condition = "output.showReadMetaMethods=='txt'",
                 
-                helpText("Does the file contain a header"),
-                checkboxInput("ExttxtHeader", label = "header", 
-                              value = TRUE),
-                selectInput(
-                  "ExttxtSep", "Choose separater",
-                  list("Tabulate" = "\t", "Semicolon" = ";",  
-                       "comma" = ",", "Other" = "Other")),
-                conditionalPanel(
-                  condition = "input.ExttxtSep=='Other'", 
-                  textInput(inputId = "ExttxtSepOther", 
-                            "Type in the separator", value = ";"))
-              ),
+                # helpText("Does the file contain a header"),
+                # checkboxInput("ExttxtHeader", label = "header", 
+                              # value = TRUE),
+                # selectInput(
+                  # "ExttxtSep", "Choose separater",
+                  # list("Tabulate" = "\t", "Semicolon" = ";",  
+                       # "comma" = ",", "Other" = "Other")),
+                # conditionalPanel(
+                  # condition = "input.ExttxtSep=='Other'", 
+                  # textInput(inputId = "ExttxtSepOther", 
+                            # "Type in the separator", value = ";"))
+              # ),
               
-              conditionalPanel(
-                condition = "output.showReadMetaMethods=='xls'|| output.showReadMetaMethods=='xlsx'",
-                textInput(inputId = "ExtXLSsheet", 
-                          "The sheet you want to read", 1)
+              # conditionalPanel(
+                # condition = "output.showReadMetaMethods=='xls'|| output.showReadMetaMethods=='xlsx'",
+                # textInput(inputId = "ExtXLSsheet", 
+                          # "The sheet you want to read", 1)
                 
-              ),
+              # ),
               
-              uiOutput("MetaUploadCelFileNames")
-            ), # End sidebarPanel "Upload file containing metadata"
+              # uiOutput("MetaUploadCelFileNames")
+            # ), # End sidebarPanel "Upload file containing metadata"
             
-            mainPanel(
-              shinyalert("shinyalertUploadMeta", click.hide = FALSE),
-              shinyalert("shinyalertUploadMetaData", click.hide = FALSE),
-              helpText("The Output below shows how the data is read."),
-              dataTableOutput("uploadMetaData"),
-              conditionalPanel(
-                condition = "output.showReadMetaPrint!=0",
-                verbatimTextOutput("showReadMetaPrint"), 
-                verbatimTextOutput("showReadMetaMethods") 
+            # mainPanel(
+              # shinyalert("shinyalertUploadMeta", click.hide = FALSE),
+              # shinyalert("shinyalertUploadMetaData", click.hide = FALSE),
+              # helpText("The Output below shows how the data is read."),
+              # dataTableOutput("uploadMetaData"),
+              # conditionalPanel(
+                # condition = "output.showReadMetaPrint!=0",
+                # verbatimTextOutput("showReadMetaPrint"), 
+                # verbatimTextOutput("showReadMetaMethods") 
                 
-              )
-            )                          
-          ) # End tabPanel "Upload metadata"
-        ), # End tabPanel "Metadata"
+              # )
+            # )                          
+          # ) # End tabPanel "Upload metadata"
+        # ), # End tabPanel "Metadata"
         
         tabPanel( 
           'Build-in test data', 
@@ -289,21 +286,21 @@ shinyUI(
               )
             )
           )
-        ), # End tabPanel "Build-in data"
+        ) # End tabPanel "Build-in data"
         
-        tabPanel( 
-          'Metadata in use', 
-          sidebarLayout(        
-            sidebarPanel(
-              helpText("Select the dataset you want to use"),
-              uiOutput("metadataselector")
-            ),
+        # tabPanel( 
+          # 'Metadata in use', 
+          # sidebarLayout(        
+            # sidebarPanel(
+              # helpText("Select the dataset you want to use"),
+              # uiOutput("metadataselector")
+            # ),
             
-            mainPanel(
-              dataTableOutput("MetaDataInUseOut")
-            )
-          )
-        ) # End tabPanel "Metadata in use"
+            # mainPanel(
+              # dataTableOutput("MetaDataInUseOut")
+            # )
+          # )
+        # ) # End tabPanel "Metadata in use"
       )  # End navbarPage "Type of data"/"Load data"
     ), # End tabPanel "Load data"
     
@@ -423,41 +420,41 @@ shinyUI(
               dataTableOutput("results")
             )   # End mainPanel 
           )   # End sidebarLayout
-        ),  # End Estimated probabilites tabPanel
+        )#,  # End Estimated probabilites tabPanel
         
-        tabPanel( 
-          'Patient summaries', 
-          sidebarLayout( 
-            sidebarPanel( 
-              uiOutput("patientSummaryIPI"),
-              uiOutput("patientSummarySelect"),
-              hr(),
-              jscolorInput("jscolorInputPS",
-                           label = 
-                             strong("Select colours used for the summaries:"),
-                           value = "#9199D1"),
-              br(),
-              br(),
-              actionButton(inputId = "SelectColourPS", 
-                           HTML(paste(icon("chevron-down", lib = "glyphicon"), 
-                                      "Add colour"))),
-              br(),
-              uiOutput("SelectedColoursPS"),
-              hr(),
-              sliderInput("surv.read", 
-                          label = "Survival at (years)",
-                          step = 3/12, min = 0, max = 7, value =  3)
-            ),
-            mainPanel(
-              shinyalert("shinyalertPatientSummaries", click.hide = FALSE),
-              uiOutput("patientSummaries"),
-              plotOutput("patientSummaryPlot"),
-              uiOutput("patientSummariesExplanation")
-            )
-          )
-        )
-      )
-    ), # End tabPanel "Results"
+        # tabPanel( 
+          # 'Patient summaries', 
+          # sidebarLayout( 
+            # sidebarPanel( 
+              # uiOutput("patientSummaryIPI"),
+              # uiOutput("patientSummarySelect"),
+              # hr(),
+              # jscolorInput("jscolorInputPS",
+                           # label = 
+                             # strong("Select colours used for the summaries:"),
+                           # value = "#9199D1"),
+              # br(),
+              # br(),
+              # actionButton(inputId = "SelectColourPS", 
+                           # HTML(paste(icon("chevron-down", lib = "glyphicon"), 
+                                      # "Add colour"))),
+              # br(),
+              # uiOutput("SelectedColoursPS"),
+              # hr(),
+              # sliderInput("surv.read", 
+                          # label = "Survival at (years)",
+                          # step = 3/12, min = 0, max = 7, value =  3)
+            # ),
+            # mainPanel(
+              # shinyalert("shinyalertPatientSummaries", click.hide = FALSE),
+              # uiOutput("patientSummaries"),
+              # plotOutput("patientSummaryPlot"),
+              # uiOutput("patientSummariesExplanation")
+            # )
+          # )
+        # )
+       )
+     ), # End tabPanel "Results"
     id = "navbarPanels",
     windowTitle = "hemaClass.org",
     inverse = TRUE,

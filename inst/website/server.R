@@ -614,17 +614,18 @@ shinyServer(function(input, output, session) {
   GEPInUse <- reactive({ 
     if (verbose) cat("GEPInUse called.\n")
     
-    input$chooseMetaDataset
-    MetaDataInUse()
+    #input$chooseMetaDataset
+    #MetaDataInUse()
     GEP.in.use <- NULL    
     
-    if (!is.null(input$chooseMetaDataset)) {
-      if (input$chooseMetaDataset == "Build-in dataset") {
+    #if (!is.null(input$chooseMetaDataset)) {
+      #if (input$chooseMetaDataset == "Build-in dataset") {
+	  if( length(buildin.data) > 0){
         dataset <- input$choosebuildidDataset
         GEP.in.use <- as.data.frame(buildin.data[[dataset]][["GEP"]])
         return(GEP.in.use)
       }
-    }
+    #}
     
     createData() 
 	includeSamples=normalized.data.rle.stats[,3] < input$rle.iqr.threshold
@@ -639,16 +640,17 @@ shinyServer(function(input, output, session) {
   GEPInUse2 <- reactive({ 
     if (verbose) cat("GEPInUse2 called.\n")
     
-    MetaDataInUse()
+    #MetaDataInUse()
     GEP.in.use <- NULL    
     
-    if (!is.null(input$chooseMetaDataset)) {
-      if (input$chooseMetaDataset == "Build-in dataset") {
+    #if (!is.null(input$chooseMetaDataset)) {
+      #if (input$chooseMetaDataset == "Build-in dataset") {
+	  if( length(buildin.data) > 0){
         dataset <- input$choosebuildidDataset
         GEP.in.use <- as.data.frame(buildin.data[[dataset]][["GEP.mean"]])
         return(GEP.in.use)
       }
-    }
+    #}
     
     createData() 
 	includeSamples=normalized.data.rle.stats[,3] < input$rle.iqr.threshold
@@ -748,7 +750,9 @@ shinyServer(function(input, output, session) {
   
   createData <- reactive({
     if (verbose) cat("createData called.\n")
-    
+	# Reset Build in data if previously used
+	buildin.data <<- NULL
+	    
     # Take a dependency on input$normalizeButton by calling it
     #  input$normalizeButton
     hideshinyalert(session, "shinyalertSelectReference") 
