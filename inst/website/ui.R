@@ -50,7 +50,7 @@ shinyUI(
           sidebarLayout(
             sidebarPanel(
               h3("Upload .CEL files"),
-              busyIndicator("Pre-processing .CEL files", wait = 1000),
+              busyIndicator("Pre-processing .CEL files", wait = 2000),
               fileInput("usrFiles",
                         "Please choose your .CEL files to classify:",
                         accept = "", multiple = TRUE),
