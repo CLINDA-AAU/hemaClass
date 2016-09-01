@@ -50,7 +50,7 @@ shinyUI(
           sidebarLayout(
             sidebarPanel(
               h3("Upload .CEL files"),
-              busyIndicator("Pre-processing .CEL files", wait = 2000),
+              busyIndicator("Pre-processing .CEL files", wait = 1000),
               fileInput("usrFiles",
                         "Please choose your .CEL files to classify:",
                         accept = "", multiple = TRUE),
@@ -129,6 +129,8 @@ shinyUI(
                 actionButton("normalizeButton", 
                              HTML(paste(icon("cog", lib = "glyphicon"), 
                                         "Normalize files"))),
+								tags$br(),
+								tags$hr(),
 				sliderInput("rle.iqr.threshold",
                             "Keep samples with RLE IQR less than:",
                             step = 0.01,
