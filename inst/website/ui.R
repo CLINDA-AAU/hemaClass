@@ -129,6 +129,8 @@ shinyUI(
                 actionButton("normalizeButton", 
                              HTML(paste(icon("cog", lib = "glyphicon"), 
                                         "Normalize files"))),
+								tags$br(),
+								tags$hr(),
 				sliderInput("rle.iqr.threshold",
                             "Keep samples with RLE IQR less than:",
                             step = 0.01,
