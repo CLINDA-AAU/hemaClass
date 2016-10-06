@@ -45,8 +45,7 @@ References
 
 1. Steffen Falgreen, Anders Ellern Bilgrau, Jonas Have; **"hemaClass: Online classification of gene expression profiles in hematological cancers."** (2014) http://github.com/falgreen/hemaClass
 
-2. Steffen Falgreen, Anders Ellern Bilgrau, Lasse Hjort Jakobsen, Jonas Have, Kasper Lindblad Nielsen, Tarec Christoffer El-Galaly, Julie Støve Bøker, Alexander Schmitz, Hans Erik Johnsen, Karen Dybkær, and Martin Bøgsted; hemaClass.org: An online based diffuse large B-cell lymphoma classification tool. (2015) In preperation for BMC genomics.
-
+2. Steffen Falgreen, Anders Ellern Bilgrau, Rasmus Froberg Brøndum, Lasse Hjort Jakobsen, Jonas Have, Kasper Lindblad Nielsen, Tarec Christoffer El-Galaly, Julie Støve Bøker, Alexander Schmitz, Hans Erik Johnsen, Karen Dybkær, and Martin Bøgsted; hemaClass.org: Online One-By-One Microarray Normalization and Classification of Hematological Cancers for Precision Medicine. PLoS ONE Vol. 11, Issue 10 (2016)
 3. Dybkær K, Bøgsted M, Falgreen S, Bødker JS et al. *"Diffuse Large B-cell Lymphoma Classification System That Associates  Normal B-cell Subset Phenotypes with Prognosis."* Journal of Clinical Oncology 33, no. 12 (2015): 1379-1388. (GSE56315)
        
 4. Falgreen S, Dybkær K, Young KH, Xu-Monette ZY et al. *"Predicting response to multidrug regimens in cancer patients using cell line experiments and regularised regression models."* BMC cancer 15, no. 1 (2015): 235.
