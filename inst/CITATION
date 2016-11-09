@@ -1,14 +1,13 @@
 citHeader("Thanks for using the hemaClass package!",
           "We have invested a lot of time and effort this package,",
-          "so please cite it if you are using it. Thanks!")
+          "so please cite it if you are using it. Thanks!",
+		  'For bibtex users, see toBibtex(citation("hemaClass"))')
 
 title.manual <- 
   paste("hemaClass: Online one-by-one classification of gene",
-        "expression profiles in hematological cancers.")
+        "expression profiles in hematological cancers")
                        
-title.article <- 
-  paste("hemaClass.org: Online one-by-one normalization and classification",
-        "of hematological malignacies")
+title.article <- "hemaClass.org: Online One-By-One Microarray Normalization and Classification of Hematological Cancers for Precision Medicine"
 
 authors <- 
   personList(
@@ -16,6 +15,7 @@ authors <-
            email = "falgreen@me.dk", role = c("cre", "aut", "cph")),
     person(family = "Bilgrau", given = "Anders Ellern", 
            email = "abilgrau@math.aau.dk", role = c("cre", "aut", "cph")),
+	person(family = "Broendum", given = "Rasmus Froberg", role= c("aut","ctb")),	   
     person(family = "Jakobsen", given = "Lasse Hjort", role = c("ctb")),
     person(family = "Have", given = "Jonas", role = c("aut", "ctb")),
     person(family = "Nielsen", given = "Kasper Lindblad", role = c("ctb")),
@@ -42,11 +42,13 @@ citEntry(
   title = title.article,
   author = authors,
   url = "http://github.com/oncoclass/hemaClass-paper",
-  year = "2015",
-  journal = "Submitted to ...",
+  year = "2016",
+  journal = "Plos One",
+  number = "10",
+  volume = "11",
   textVersion = 
-    paste0(collapseA(formatA(authors)), ". ",
-           title.article, " (2015) ", "Submitted to ...")
+    paste0(collapseA(formatA(authors)), ". 2016. ",
+           title.article, ". Plos One, 11(10)")
 )
 
 r.pkg.version <- paste("R package version", packageVersion("hemaClass"))
@@ -57,16 +59,15 @@ citEntry(
   title = title.manual,
   author = aut,
   url = "http://github.com/oncoclass/hemaClass",
-  year = "2015",
+  year = "2016",
   textVersion = 
     paste0(collapseA(formatA(aut)), ". ", title.manual,
-          " (2015) ", r.pkg.version, ", ",
+          ". 2016. ", r.pkg.version, ", ",
           "URL: http://github.com/oncoclass/hemaClass")
 )
 
 
 citFooter("Suggestions for improvements, comments, and bug",
           "reports are very welcome at",
-          "http://github.com/oncoclass/hemaClass/issues",
-          'For bibtex users, see toBibtex(citation("hemaClass"))')
+          "http://github.com/oncoclass/hemaClass/issues")
  
