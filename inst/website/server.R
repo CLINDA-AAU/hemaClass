@@ -70,6 +70,23 @@ verbose <- TRUE
 
 shinyServer(function(input, output, session) {
   if (verbose) cat("Shinyserver started.\n")
+  showModal(modalDialog("DISCLAIMER: The predictive model and all information available on and presented
+                                   on this webpage was developed for and is intended for research purposes
+                                   only. The predictive model and all information available on this webpage
+                                   must under no circumstances be used, wholly or partly, for any clinical
+                                   decision making and in any other way than for research purposes.
+                                   The predictive model and all information available on and presented on this
+                                   webpage is intended for use for health care professionals (researchers) only
+                                   and should under no circumstances be used by any non-health care professional.
+                                   If you are a patient or a relative, we strongly advice against using the
+                                   predictive model and all information available on and presented on this webpage.
+                                   Instead you should consult your attending physician for prognostic information.
+                                   We, the authors of the hemaClass package and it's related papers,
+                                   are not liable in any form or way for any damages, direct or indirect,
+                                   arising out of or in connection to the use of the predictive model or any
+                                   information available on and presented on this webpage.",
+    easyClose = TRUE
+  ))
   
   addResourcePath('data', system.file("extdata/celfiles", package = "hemaClass"))
   
