@@ -16,7 +16,7 @@ First, make sure you have pushed the latest version to github and tagged it as a
 [release](https://github.com/oncoclass/hemaClass/releases).
 Next, log into the server as above and install the release, say `v1.0.2`, you want by running:
 ```sh
-sudo R -e 'devtools::install_github("oncoclass/hemaClass", ref = "v1.0.2")'
+sudo R -e 'devtools::install_github("HaemAalborg/hemaClass", ref = "v1.3.2")'
 ```
 The `ref` argument can also be an arbitrary commit hash.
 Be sure to check that everything installs smoothly and that the packages dependencies have not changed.
