@@ -89,7 +89,7 @@ install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo",
 
 # From GitHub and finally the package:
 devtools::install_github("AnalytixWare/ShinySky")
-devtools::install_github("oncoclass/hemaClass", dependencies = TRUE,
+devtools::install_github("HaemAalborg/hemaClass", dependencies = TRUE,
                          build_vignettes = TRUE)
 
 # To gain support for reading xlsx files
@@ -136,7 +136,7 @@ sudo -i R
 ```
 In R, run:
 ```R
-devtools::install_github("oncoclass/hemaClass", dependencies = TRUE)
+devtools::install_github("HaemAalborg/hemaClass", dependencies = TRUE)
 ```
 
 # Misc. apache stuff
