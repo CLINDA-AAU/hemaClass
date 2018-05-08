@@ -19,7 +19,7 @@ source("http://bioconductor.org/biocLite.R")
 biocLite(c("affy", "affyio", "preprocessCore"))
 
 # Then from CRAN
-install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", 
+install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", "stringi",
                    "testthat", "WriteXLS", "RLumShiny", "gdata", "devtools"))
 
 # From GitHub and finally the package:
