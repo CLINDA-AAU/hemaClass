@@ -24,8 +24,7 @@ install.packages(c("shiny", "matrixStats", "Rcpp", "RcppArmadillo", "stringi",
 
 # From GitHub and finally the package:
 devtools::install_github("AnalytixWare/ShinySky")
-devtools::install_github("HaemAalborg/hemaClass", dependencies = TRUE,
-                         build_vignettes = TRUE)
+devtools::install_github("HaemAalborg/hemaClass", build = TRUE, build_opts = c("--no-resave-data", "--no-manual"))
 ```
 
 `hemaClass` is still under development and should be considered unstable. Be sure that you have the [package development prerequisites](http://www.rstudio.com/ide/docs/packages/prerequisites) if you wish to install the package from the source.
