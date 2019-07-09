@@ -28,7 +28,6 @@
 #' normal B-cell subset phenotypes with prognosis." 
 #' Journal of Clinical Oncology 33, no. 12 (2015): 1379-1388. 
 #'
-#' [Add hemaclass.org reference]
 #' @author 
 #'   Steffen Falgreen <sfl (at) rn.dk> \cr 
 #'   Anders Ellern Bilgrau <abilgrau (at) math.aau.dk>
@@ -48,7 +47,7 @@
 #' # This scaling can also be achieved using the function microarrayScale.
 #' affyRMA.sc <- microarrayScale(affyRMA$exprs, center = "median")
 #' 
-#' # We may now use the ABCGCB classifier
+#' # We may now use the BAGS classifier
 #' BAGS(affyRMA.sc)
 #' }                                                                                                                  
 #' @export
