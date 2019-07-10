@@ -41,6 +41,7 @@
 #' @examples
 #' \donttest{
 #' # Nanostring files may be read and normalized using the NanoStringNorm package
+#' library(NanoStringNorm)
 #' data.nano.raw <- read.markup.RCC("path to files")
 #'
 #' data.nano.norm <- NanoStringNorm(data.nano.raw, 
@@ -49,7 +50,7 @@
 #'                                  return.matrix.of.endogenous.probes = FALSE)
 #' 
 #' # Data should be log2 transformed and scaled
-#' data.nano.sc <- microarrayScale(log2(as.matrix(data.nano.norm$normalized.data[,-c(1,2,3)]) + 1))) 
+#' data.nano.sc <- microarrayScale(log2(as.matrix(data.nano.norm$normalized.data[,-c(1,2,3)]) + 1))
 #'  
 #' # We may now use the BAGS classifier
 #' BAGS2Clinic(data.nano.sc)
