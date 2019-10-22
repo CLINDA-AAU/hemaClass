@@ -3,8 +3,8 @@ hemaClass: Classification tool for haematological diseases
 
 The package **hemaClass** for the programming language R is a set of tools used for classification of hematological cancers using DNA microarrays. The package features one-by-one and reference based RMA normalisation, a proposed alternatives to regular cohort based RMA normalization, and oncogenomic classification and prediction of drug resistance of Diffuse Large B-Cell Lymphomas (DLBCL) and Multiple Myeloma (MM).
 
-An easy-to-use **shiny** web application is incorporated into the package and available online at [hemaclass.org](http://hemaclass.org) or as a local instance via `runHemaClass()` in R. The **hemaClass** package can naturally also be used programatically as a regular R-package.
-Please do not hessitate to report bugs, suggestions, comments, and other issues for the **hemaClass** website or package via [`bug.report(package = "hemaClass")`](https://github.com/oncoclass/hemaclass/issues/new).
+An easy-to-use **shiny** web application is incorporated into the package and available online at [hemaclass.aau.dk](http://hemaclass.aau.dk/) or as a local instance via `runHemaClass()` in R. The **hemaClass** package can naturally also be used programatically as a regular R-package.
+Please do not hessitate to report bugs, suggestions, comments, and other issues for the **hemaClass** website or package via [`bug.report(package = "hemaClass")`](https://github.com/HaemAalborg/hemaclass/issues/new).
 
 The standard BAGS and REGS implemented in the shiny GUI only supports Affymetrix GeneChip HG-U133 Plus 2.0 (`"u133plus2"`). Prediction of BAGS classes uses nanostring data is supported in the R terminal with the BAGS2clinic() function.
 
@@ -36,8 +36,8 @@ modifications!
 
 Using hemaClass
 ---------------
-Please confer the vignette to **hemaClass** which can be found via `vignette("howto")` or on the help page at [hemaclass.org](http://hemaclass.org).
-It can also be directly read at [github.](https://github.com/oncoclass/hemaClass/blob/master/vignettes/howto.Rmd)
+Please confer the vignette to **hemaClass** which can be found via `vignette("howto")` or on the help page at [hemaclass.aau.dk](http://hemaclass.aau.dk/).
+It can also be directly read at [github.](https://github.com/HaemAalborg/hemaClass/blob/master/vignettes/howto.Rmd)
 
 
 References
